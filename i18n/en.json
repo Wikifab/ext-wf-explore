@@ -1,0 +1,35 @@
+{
+    "@metadata": {
+        "authors": [
+            "Pierre Boutet"
+        ]
+    },
+    "wfexplore-title": "Wikifab Search",
+    "wfexplore-desc": "Page to search a tutorial",
+    "wfexplore-summary": "Search a tutorial",
+    "wfexplore-newTutorial": "Create a tutorial",
+    "wfexplore-noResultMessage": "Oops, your search yielded no results... Consider enlarging the criteria to find more results.",
+	"wfexplore-category": "Category",
+	"wfexplore-difficulty": "Difficulty",
+	"wfexplore-cost": "Cost",
+	"wfexplore-type": "Type",
+	"wfexplore-load-more-tutorials": "Load more tutorials",
+	"wfexplore-category-name-art": "Art",
+	"wfexplore-category-name-clothing-accessories": "Clothing & Accessories",
+	"wfexplore-category-name-decoration": "Decoration",
+	"wfexplore-category-name-energy": "Energy",
+	"wfexplore-category-name-electronics": "Electronics",
+	"wfexplore-category-name-food-agriculture": "Food & Agriculture",
+	"wfexplore-category-name-furniture": "Furniture",	
+	"wfexplore-category-name-health-wellbeing": "Health & Wellbeing",
+	"wfexplore-category-name-music-sound": "Music & Sound",
+	"wfexplore-category-name-play-outside": "Play & Outside",
+	"wfexplore-category-name-robotics": "Robotics",
+	"wfexplore-category-name-science-biology": "Science & Biology",
+	"wfexplore-category-name-transport-mobility": "Transport & Mobility",
+	"wfexplore-category-name-very-easy": "Very easy",
+	"wfexplore-category-name-easy": "Easy",
+	"wfexplore-category-name-medium": "Medium",
+	"wfexplore-category-name-hard": "Hard",
+	"wfexplore-category-name-very-hard": "Very hard"
+}

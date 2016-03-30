@@ -1,0 +1,45 @@
+{
+    "@metadata": {
+        "authors": [
+            "Pierre Boutet"
+        ]
+    },
+    "wfexplore-title": "Recherche Wikifab",
+    "wfexplore-desc": "Page de recherche pour tutoriels",
+    "wfexplore-summary": "Recherchez votre tutoriel",
+    "wfexplore-newTutorial": "Créer un tutoriel",
+    "wfexplore-noResultMessage": "Oups, il n'y a pas de résultats. Modifiez vos critères pour une recherche plus large",
+	"wfexplore-category": "Catégorie",
+	"wfexplore-difficulty": "Difficulté",
+	"wfexplore-cost": "Coût",
+	"wfexplore-type": "Type",
+	"wfexplore-load-more-tutorials": "Charger plus de tutoriels",
+	"wfexplore-category-name-art": "Art",
+	"wfexplore-category-name-clothing-accessories": "Vêtement & Accessoire",
+	"wfexplore-category-name-decoration": "Décoration",
+	"wfexplore-category-name-energy": "Énergie",
+	"wfexplore-category-name-electronics": "Électronique",
+	"wfexplore-category-name-food-agriculture": "Alimentation & Agriculture",
+	"wfexplore-category-name-furniture": "Mobilier",	
+	"wfexplore-category-name-health-wellbeing": "Bien-être & Santé",
+	"wfexplore-category-name-music-sound": "Musique & Sons",
+	"wfexplore-category-name-play-outside": "Sport & Extérieur",
+	"wfexplore-category-name-robotics": "Robotique",
+	"wfexplore-category-name-science-biology": "Science & Biologie",
+	"wfexplore-category-name-transport-mobility": "Transport",
+	"wfexplore-category-name-very-easy": "Très facile",
+	"wfexplore-category-name-easy": "Facile",
+	"wfexplore-category-name-medium": "Moyen",
+	"wfexplore-category-name-hard": "Difficile",
+	"wfexplore-category-name-very-hard": "Très difficile"
+}
+
+
+
+ 
+
+
+
+
+
+

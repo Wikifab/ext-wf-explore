@@ -1,0 +1,8 @@
+{
+    "@metadata": [],
+    "wfexplore-title": "title of explore page",
+    "wfexplore-desc": "description of explore page",
+    "wfexplore-summary": "summary of explore page",
+    "wfexplore-newTutorial": "text of button to create new tutorial",
+    "wfexplore-noResultMessage": "Message which appear when ther is no result for the search"
+}

@@ -1,0 +1,6 @@
+{
+    "name": "wikifab/explore",
+    "type": "mediawiki-extension",
+    "require": {
+    }
+}
