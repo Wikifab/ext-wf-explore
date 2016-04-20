@@ -50,8 +50,8 @@ class WfExploreCore {
 		//var_dump($property);
 
 		$type = array(
-			'Creation' => 'Creation',
-			'Technique' => 'Technique',
+			wfMessage( 'wfexplore-category-name-creation' )->text() => wfMessage( 'wfexplore-category-name-creation' )->text(),
+			wfMessage( 'wfexplore-category-name-technique' )->text() => wfMessage( 'wfexplore-category-name-technique' )->text(),
 		);
 		$categories = array(
 			wfMessage( 'wfexplore-category-name-art' )->text() => wfMessage( 'wfexplore-category-name-art' )->text(),

@@ -5,6 +5,8 @@
         ]
     },
     "wfexplore-title": "Wikifab Search",
+	"wfexplore-category-name-technique": "Technique",
+	"wfexplore-category-name-creation": "Creation",
     "wfexplore-desc": "Page to search a tutorial",
     "wfexplore-summary": "Search a tutorial",
     "wfexplore-newTutorial": "Create a tutorial",

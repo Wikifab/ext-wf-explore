@@ -5,6 +5,8 @@
         ]
     },
     "wfexplore-title": "Recherche Wikifab",
+	"wfexplore-category-name-technique": "Technique",
+	"wfexplore-category-name-creation": "Création",
     "wfexplore-desc": "Page de recherche pour tutoriels",
     "wfexplore-summary": "Recherchez votre tutoriel",
     "wfexplore-newTutorial": "Créer un tutoriel",
