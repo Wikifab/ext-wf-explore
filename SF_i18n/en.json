@@ -127,7 +127,7 @@
 	"sf_formstart_docu": "Enter the name of a page here, to be edited with the form \"$1\".\nIf this page already exists, you will be sent to the form for editing that page.\nOtherwise, you will be sent to the form for adding the page.",
 	"sf_formstart_noform_docu": "Enter the name of a page here, and select the form to edit it with.\nIf this page already exists, you will be sent to the form for editing that page.\nOtherwise, you will be sent to the form for adding the page.",
 	"sf_formstart_createoredit": "Create or edit",
-	"formedit": "Edit with form",
+	"formedit": "Edit",
 	"sf-formedit-selectform": "Select a form to create this page:",
 	"sf-formedit-donotuseform": "Create page without a form.",
 	"sf_formedit_createtitle": "Create $1: $2",
