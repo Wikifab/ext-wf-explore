@@ -131,17 +131,21 @@ class WfExploreCore {
 
 	private function addHiddenFields($filters) {
 
-		$fieldComplete = array(
-				'id' => 'Complete',
-				'name' => 'Complete',
-				'values' => array(
-						'1' => array(
-						'id' => 1,
-						'name' => 'Complete',
+		global $wgWfExploreCompleteField;
+
+		if(isset($wgWfExploreCompleteField) && $wgWfExploreCompleteField) {
+			$fieldComplete = array(
+					'id' => 'complete',
+					'name' => 'Complete',
+					'values' => array(
+							'1' => array(
+							'id' => 1,
+							'name' => 'Complete',
+						)
 					)
-				)
-		);
-		$filters['Complete'] = $fieldComplete;
+			);
+			$filters['complete'] = $fieldComplete;
+		}
 		return $filters;
 	}
 
