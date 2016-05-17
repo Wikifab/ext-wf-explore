@@ -12,7 +12,7 @@
 	          <?php echo $categoryDetails['name'] ?>
 	          <span class="caret"></span>
 	        </a>
-			<?php 
+			<?php
 
 			$nbcolone = ceil(count($categoryDetails['values']) / 7.0);
 			$nbPerColone = ceil(count($categoryDetails['values']) / $nbcolone);
@@ -20,6 +20,8 @@
 			$colCount = 0;
 			?>
 			<ul class="dropdown-menu mega-dropdown-menu dropdown-menu-<?php echo $nbcolone ?>cols">
+
+			<input type="hidden" id="wf-expl-complete-1" name="wf-expl-complete-1" value='1'/>
 
 			<div class="row">
 				<?php
@@ -38,8 +40,8 @@
 					<div class="col-sm-<?php echo $nbBootstrap; ?> col-xs-12">
 						<div class="btn-group" data-toggle="buttons">
 						  <label id='Label<?php echo $inputId; ?>' class="btn btn-primary <?php echo isset($selectedOptions[$category][$value['id']]) ? 'active' : ''; ?>">
-						    <input id='<?php echo $inputId; ?>' name="<?php echo $inputName; ?>" 
-						    		type="checkbox" 
+						    <input id='<?php echo $inputId; ?>' name="<?php echo $inputName; ?>"
+						    		type="checkbox"
 						    		<?php echo isset($selectedOptions[$category][$value['id']]) ? 'checked="checked"' : ''; ?>
 						    		autocomplete="off">
 						     <?php echo $value['name'] ?>
@@ -63,13 +65,16 @@
 <div class="search-filters-section wfexplore-selectedLabels">
 <div class="container">
 	<?php foreach ($selectedOptions as $category => $values) {
+		if (! isset($filtersData[$category])) {
+			continue;
+		}
 		echo ' <span class="category-filter-title">' . $filtersData[$category]['name'] . ' : </span>';
 		foreach ($values as $id => $value) {
 			$inputId = "wf-expl-$category-" . $id;
 			$pattern = '/[^0-9a-zA-Z\-_]/i';
 			$replacement = '-';
 			$inputId = preg_replace($pattern, $replacement, $inputId);
-			echo ' <span class="tag label label-default">' 
+			echo ' <span class="tag label label-default">'
 				. $value['valueName']
 				. ' <span class="remove" data-role="remove" data-inputId="' . $inputId . '"> '
 				. 'x</span></span> ';
@@ -78,4 +83,3 @@
 <span></span>
 </div>
 </div>
-	

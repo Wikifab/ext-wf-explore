@@ -1,10 +1,14 @@
 <?php
 
 class WfExploreCore {
-	
+
 	private $request;
 
 	private $pageResultsLimit = 8;
+
+	private $specialsFields = array(
+			'Complete' => array('query' => '[[Complete::!none]]')
+	);
 
 	public function setRequest($request) {
 		$this->request = $request;
@@ -101,7 +105,8 @@ class WfExploreCore {
 			'Type' => wfMessage( 'wfexplore-type' )->text() ,
 			'area' =>  wfMessage( 'wfexplore-category' )->text(),
 			'Difficulty' => wfMessage( 'wfexplore-difficulty' )->text() ,
-			'Cost' => wfMessage( 'wfexplore-cost' )->text()
+			'Cost' => wfMessage( 'wfexplore-cost' )->text() ,
+			'Complete' => 'Complete',
 		);
 
 
@@ -124,17 +129,34 @@ class WfExploreCore {
 		return $result;
 	}
 
+	private function addHiddenFields($filters) {
+
+		$fieldComplete = array(
+				'id' => 'Complete',
+				'name' => 'Complete',
+				'values' => array(
+						'1' => array(
+						'id' => 1,
+						'name' => 'Complete',
+					)
+				)
+		);
+		$filters['Complete'] = $fieldComplete;
+		return $filters;
+	}
+
 	/**
 	* return selected Options
 	*/
 	private function getSelectedAdvancedSearchOptions($request) {
 		$filtersData = $this->getFiltersData();
+		$filtersData = $this->addHiddenFields($filtersData);
 
 		if( !$request) {
 			return array();
 		}
 
-		$results =array();
+		$results = array();
 
 		foreach ($filtersData as $category => $values) {
 
@@ -225,6 +247,14 @@ class WfExploreCore {
 		$offset = ($page - 1 ) * $this->pageResultsLimit;
 
 		$query = '';
+
+		foreach ($this->specialsFields as $key => $specialField) {
+			if (isset($selectedOptions[$key])) {
+				unset($selectedOptions[$key]);
+				$query .= $specialField['query'];
+			}
+		}
+
 		foreach ($selectedOptions as $category => $values) {
 			$valuesIds  = array();
 			foreach ($values as $value) {
@@ -307,7 +337,7 @@ class WfExploreCore {
 		if(count($this->results) >= $this->pageResultsLimit) {
 			$out .= '<div class="load-more">'.wfMessage( 'wfexplore-load-more-tutorials' )->text(). '</div>';
 		}
-		
+
 		$out .= "</div>\n" ;
 
 		return $out;
