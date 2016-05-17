@@ -12,8 +12,8 @@ class WfExploreTag {
 
 
 
-	public static function addSampleParser( $input, $type = 'top', $number = 4 ) {
-		
+	public static function addSampleParser( $input, $type = 'top', $number = 4 , $status = 'complete') {
+
 		$input->getOutput ()->addModuleStyles( array(
 			'mediawiki.special', 'mediawiki.special.search', 'mediawiki.ui', 'mediawiki.ui.button',
 			'mediawiki.ui.input',
@@ -22,7 +22,7 @@ class WfExploreTag {
 
 		$WfExploreCore = new WfExploreCore();
 
-		$WfExploreCore->executeSearch( $request = null );
+		$WfExploreCore->executeSearch( $request = null , $params = ['complete' => $status]);
 
 		$out = "";
 

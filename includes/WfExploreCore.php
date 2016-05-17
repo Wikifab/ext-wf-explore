@@ -152,11 +152,11 @@ class WfExploreCore {
 	/**
 	* return selected Options
 	*/
-	private function getSelectedAdvancedSearchOptions($request) {
+	private function getSelectedAdvancedSearchOptions($request, $params = []) {
 		$filtersData = $this->getFiltersData();
 		$filtersData = $this->addHiddenFields($filtersData);
 
-		if( !$request) {
+		if( !$request && ! $params) {
 			return array();
 		}
 
@@ -167,7 +167,7 @@ class WfExploreCore {
 			foreach ($values['values'] as $key => $value) {
 				$fieldName = "wf-expl-$category-" . $value['id'];
 				$fieldName = str_replace(' ', '_', $fieldName);
-				if ( $request->getCheck( $fieldName ) ) {
+				if ( ($request && $request->getCheck( $fieldName )) || isset($params[$category])) {
 					if( ! isset($results[$category])) {
 						$results[$category] = array();
 					}
@@ -234,11 +234,9 @@ class WfExploreCore {
 		return $out;
 	}
 
-	public  function executeSearch($request) {
+	public  function executeSearch($request, $params) {
 		$this->setRequest( $request );
-
-		$selectedOptions = $this->getSelectedAdvancedSearchOptions($request);
-
+		$selectedOptions = $this->getSelectedAdvancedSearchOptions($request, $params);
 		$offset = 0;
 
 		if($request) {
