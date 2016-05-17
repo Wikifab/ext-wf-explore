@@ -234,7 +234,7 @@ class WfExploreCore {
 		return $out;
 	}
 
-	public  function executeSearch($request, $params) {
+	public  function executeSearch($request, $params = []) {
 		$this->setRequest( $request );
 		$selectedOptions = $this->getSelectedAdvancedSearchOptions($request, $params);
 		$offset = 0;
