@@ -282,13 +282,22 @@ class WfExploreCore {
 	 * @param $rawQueryString string - the query string like [[Category:Trees]][[age::>1000]]
 	 * @return array of SMWDIWikiPage objects representing the result
 	 */
-	private function processSemanticQuery($rawQuery, $limit = 20, $offset = 0) {
+	private function processSemanticQuery($rawQuery, $limit = 20, $offset = 0, $sort = null) {
+		global $wfeSortField;
+
 		$rawQueryArray = array( trim($rawQuery) );
 		if($limit) {
 			$rawQueryArray['limit'] = $limit;
 		}
 		if($offset) {
 			$rawQueryArray['offset'] = $offset;
+		}
+		if($sort) {
+			$rawQueryArray['sort'] = $sort;
+			$rawQueryArray['order'] = 'desc';
+		} else if (isset($wfeSortField)  && $wfeSortField) {
+			$rawQueryArray['sort'] = $wfeSortField;
+			$rawQueryArray['order'] = 'desc';
 		}
 		SMWQueryProcessor::processFunctionParams( $rawQueryArray, $queryString, $processedParams, $printouts );
 		SMWQueryProcessor::addThisPrintout( $printouts, $processedParams );
