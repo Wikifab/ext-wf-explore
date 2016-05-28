@@ -1,7 +1,7 @@
 <?php
 
 class WikifabExploreResultFormatter {
-	
+
 
 	private $out;
 
@@ -12,11 +12,11 @@ class WikifabExploreResultFormatter {
 			$this->template = $GLOBALS['egChameleonLayoutFileSearchResult'];
 		}
 		return $this->template;
-	} 
+	}
 
 	public function setTemplate($template) {
 		$this->template = $template;
-	} 
+	}
 
 	public function setResults(&$results) {
 		$this->results = $results;
@@ -30,7 +30,7 @@ class WikifabExploreResultFormatter {
 			$this->out .= $this->showMatches( $this->results );
 			$this->closeResultsContainer();
 		}
-		
+
 
 		if ( count($this->results) === 0 ) {
 			$this->displayNoResultMessage();
@@ -133,6 +133,9 @@ class WikifabExploreResultFormatter {
 		$data['creatorAvatar'] = $avatar->getAvatarURL();
 
 		$data['creator'] = $creator->getRealName();
+		if( ! $data['creator']) {
+			$data['creator'] = $creator->getName();
+		}
 		$data['url'] = $mTitle->getLinkURL();
 
 		return $this->formatResult($data);
@@ -143,7 +146,7 @@ class WikifabExploreResultFormatter {
 		$wgScriptPath = $GLOBALS['wgScriptPath'];
 		$out = file_get_contents($this->getTemplate());
 		$content['ROOT_URL'] = $wgScriptPath . '/';
-		
+
 		foreach ($content as $key => $value) {
 
 			if($key == 'Main_Picture') {
