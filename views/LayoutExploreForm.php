@@ -21,7 +21,9 @@
 			?>
 			<ul class="dropdown-menu mega-dropdown-menu dropdown-menu-<?php echo $nbcolone ?>cols">
 
-			<input type="hidden" id="wf-expl-complete-1" name="wf-expl-complete-1" value='1'/>
+			<?php if (isset($params['complete']) && $params['complete']):?>
+				<input type="hidden" id="wf-expl-complete-1" name="wf-expl-complete-1" value='1'/>
+			<?php endif; ?>
 
 			<div class="row">
 				<?php

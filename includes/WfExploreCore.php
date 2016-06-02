@@ -3,6 +3,7 @@
 class WfExploreCore {
 
 	private $request;
+	private $params;
 
 	private $pageResultsLimit = 8;
 
@@ -10,8 +11,9 @@ class WfExploreCore {
 			'Complete' => array('query' => '[[Complete::!none]]')
 	);
 
-	public function setRequest($request) {
+	public function setRequest($request, $params = []) {
 		$this->request = $request;
+		$this->params = $params;
 	}
 
 
@@ -219,12 +221,13 @@ class WfExploreCore {
 	* return html code for draw form
 	*
 	*/
-	private function getSearchForm($request) {
+	private function getSearchForm($request, $params = []) {
 
 		// get form options :
 		$filtersData = $this->getFiltersData();
 		// get selected Options
 		$selectedOptions = $this->getSelectedAdvancedSearchOptions($request);
+		$params = $this->params;
 
 		ob_start();
 		include ($GLOBALS['egWfExploreLayoutForm']);
@@ -235,7 +238,7 @@ class WfExploreCore {
 	}
 
 	public  function executeSearch($request, $params = []) {
-		$this->setRequest( $request );
+		$this->setRequest( $request, $params);
 		$selectedOptions = $this->getSelectedAdvancedSearchOptions($request, $params);
 		$offset = 0;
 
