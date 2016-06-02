@@ -12,7 +12,9 @@ class WfExploreTag {
 
 
 
-	public static function addSampleParser( $input, $type = 'top', $number = 4 , $status = 'complete') {
+	public static function addSampleParser( $input, $filters = 'completeonly') {
+
+		$filters = explode(',', $filters);
 
 		$input->getOutput ()->addModuleStyles( array(
 			'mediawiki.special', 'mediawiki.special.search', 'mediawiki.ui', 'mediawiki.ui.button',
@@ -22,7 +24,13 @@ class WfExploreTag {
 
 		$WfExploreCore = new WfExploreCore();
 
-		$WfExploreCore->executeSearch( $request = null , $params = ['complete' => $status]);
+		$params = [];
+
+		if (false !== array_search('completeonly', $filters)) {
+			$params['complete'] = 'complete';
+		}
+
+		$WfExploreCore->executeSearch( $request = null , $params);
 
 		$out = "";
 
