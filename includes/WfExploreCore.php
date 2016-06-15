@@ -55,6 +55,10 @@ class WfExploreCore {
 		//$property =new SMWDIProperty('Type');
 		//var_dump($property);
 
+		if (isset($GLOBALS['wfexploreCategories'])) {
+			return $GLOBALS['wfexploreCategories'];
+		}
+
 		$type = array(
 			wfMessage( 'wfexplore-category-name-creation' )->text() => wfMessage( 'wfexplore-category-name-creation' )->text(),
 			wfMessage( 'wfexplore-category-name-technique' )->text() => wfMessage( 'wfexplore-category-name-technique' )->text(),
