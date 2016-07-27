@@ -147,7 +147,11 @@ class WikifabExploreResultFormatter {
 		$out = file_get_contents($this->getTemplate());
 		$content['ROOT_URL'] = $wgScriptPath . '/';
 
-		foreach ($content as $key => $value) {
+		$defaultFields = $GLOBALS['wgExploreDefaultsFieldsDisplayValues'];
+
+		$content2 = array_merge($defaultFields, $content);
+
+		foreach ($content2 as $key => $value) {
 
 			if($key == 'Main_Picture') {
 				// image
