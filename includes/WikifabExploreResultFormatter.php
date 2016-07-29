@@ -106,7 +106,7 @@ class WikifabExploreResultFormatter {
 
 		$page = WikiPage::factory( $mTitle );
 
-		$preloadContent = $page->getRawText();
+		$preloadContent = $page->getContent()->getWikitextForTransclusion();
 		$text = $page->getText();
 		$creator = $page->getCreator();
 
