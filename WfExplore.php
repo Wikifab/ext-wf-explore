@@ -37,7 +37,7 @@ $wgExploreDefaultsFieldsDisplayValues = [
 $wgResourceModules['ext.wikifab.wfExplore.js'] = array(
 	'scripts' => 'wf-explore.js',
 	'localBasePath' => __DIR__,
-	'remoteExtPath' => 'WfExplore/WfExplore',
+	'remoteExtPath' => 'Explore',
 );
 
 
