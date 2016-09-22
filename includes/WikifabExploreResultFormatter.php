@@ -106,7 +106,11 @@ class WikifabExploreResultFormatter {
 
 		$page = WikiPage::factory( $mTitle );
 
-		$preloadContent = $page->getContent()->getWikitextForTransclusion();
+		if($page->getContent()) {
+			$preloadContent = $page->getContent()->getWikitextForTransclusion();
+		} else {
+			$preloadContent = '';
+		}
 		$text = $page->getText();
 		$creator = $page->getCreator();
 
