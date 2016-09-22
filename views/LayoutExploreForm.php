@@ -4,8 +4,29 @@
 <div class="col-md-1 col-sm-0 col-xs-0"></div>
 <div class="col-md-10 col-sm-12 col-xs-12">
 
+<?php
+
+switch(count($filtersData)) {
+	case 1 :
+		$bootstrapClass = "col-md-12 col-sm-12 col-xs-12";
+		break;
+	case 2 :
+		$bootstrapClass = "col-md-6 col-sm-6 col-xs-6";
+		break;
+	case 3 :
+		$bootstrapClass = "col-md-4 col-sm-4 col-xs-6";
+		break;
+	case 4 :
+		$bootstrapClass = "col-md-3 col-sm-3 col-xs-6";
+		break;
+	case 5 :
+	default :
+		$bootstrapClass = "col-md-2 col-sm-3 col-xs-6";
+		break;
+}
+?>
 	<?php foreach ($filtersData as $category => $categoryDetails) : ?>
-		<div class="col-md-3 col-sm-3 col-xs-6">
+		<div class="<?php echo $bootstrapClass ?>">
 	    <ul class="nav nav-pills" role="tablist">
 	      <li class="dropdown mega-dropdown" id="myForm">
 	        <a id="drop5" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
