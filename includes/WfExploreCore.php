@@ -7,13 +7,58 @@ class WfExploreCore {
 
 	private $pageResultsLimit = 8;
 
+	private $namespaces = false;
+
+	private $formatter = null;
+	private $searchPageTitle = null;
+	private $filters = null;
+
+	private $message = array(
+			'load-more' => 'wfexplore-load-more-tutorials'
+	);
+
 	private $specialsFields = array(
 			'Complete' => array('query' => '[[Complete::!none]]')
 	);
 
+	public function setFormatter($formatter) {
+		$this->formatter = $formatter;
+	}
+
+	public function getFormatter() {
+		if ( ! $this->formatter) {
+			$this->formatter = new WikifabExploreResultFormatter();
+		}
+		return $this->formatter;
+	}
+	public function setMessageKey($message, $key) {
+		$this->message[$message] = $key;
+	}
+	public function setSearchPageTitle(\Title $page) {
+		$this->searchPageTitle = $page;
+	}
+	public function getSearchPageTitle() {
+		if ( ! $this->searchPageTitle) {
+			$this->searchPageTitle = SpecialPage::getTitleFor( 'WfExplore' );
+		}
+		return $this->searchPageTitle;
+	}
+
+	public function setPageResultsLimit($nb) {
+		$this->pageResultsLimit = $nb;
+	}
+
 	public function setRequest($request, $params = []) {
 		$this->request = $request;
 		$this->params = $params;
+	}
+
+	/**
+	 * set namespace where to look
+	 * @param string[] $namespaces
+	 */
+	public function setNamespace($namespaces) {
+		$this->namespaces = $namespaces ;
 	}
 
 
@@ -50,10 +95,18 @@ class WfExploreCore {
 		}
 	}
 
+	public function setFilters($filters) {
+		$this->filters = $filters;
+	}
+
 	private function getFilters() {
 
 		//$property =new SMWDIProperty('Type');
 		//var_dump($property);
+
+		if ($this->filters !== null) {
+			return $this->filters;
+		}
 
 		if (isset($GLOBALS['wfexploreCategories'])) {
 			return $GLOBALS['wfexploreCategories'];
@@ -193,7 +246,7 @@ class WfExploreCore {
 
 
 	public function getHtmlForm() {
-		$page = SpecialPage::getTitleFor( 'WfExplore' );
+		$page = $this->getSearchPageTitle();
 		$url = $page->getLinkURL();
 
 		// start rendering the page
@@ -214,7 +267,6 @@ class WfExploreCore {
 		$out .= Xml::openElement( 'div', array( 'class' => 'mw-search-formheader' ) );
 		$out .= Xml::element( 'div', array( 'style' => 'clear:both' ), '', false );
 		$out .= Xml::closeElement( 'div' );
-
 
 		$out .= $this->getSearchForm($this->request);
 
@@ -275,6 +327,12 @@ class WfExploreCore {
 			$query .= ' ' . $this->getQueryParam($category, $valuesIds);
 			//$query .= ' [[' . $category . '::' . implode('||', $valuesIds) . ']]';
 		}
+
+		if ($this->namespaces) {
+			$query .= '[[' . implode(':+||',$this->namespaces) . ':+]]';
+			//$query .= '[[group-type::*]]';
+			//$query .= '[[Group:*]]';
+		}
 		if( ! $query ) {
 			$query = '[[Area::*]]';
 		}
@@ -330,33 +388,17 @@ class WfExploreCore {
 	public function getSearchResultsHtml() {
 
 		$out = "<div class='searchresults'>\n";
-		//$out = "<div class='searchresults'>\n";
-
-		// prev/next links
-		/*$prevnext = null;
-		if ( $num || $this->offset ) {
-			// Show the create link ahead
-			if ( $totalRes > $this->limit || $this->offset ) {
-				$prevnext = $this->getLanguage()->viewPrevNext(
-					$this->getPageTitle(),
-					$this->offset,
-					$this->limit,
-					$this->advancedSearchOptions() + array( 'wfsearch' => $term ),
-					$this->limit + $this->offset >= $totalRes
-				);
-			}
-		}*/
 
 
-		$this->wikifabExploreResultFormatter = new WikifabExploreResultFormatter();
+		$wikifabExploreResultFormatter = $this->getFormatter();
 
-		$this->wikifabExploreResultFormatter->setResults($this->results);
+		$wikifabExploreResultFormatter->setResults($this->results);
 
-		$out .= $this->wikifabExploreResultFormatter->render();
+		$out .= $wikifabExploreResultFormatter->render();
 
 		// load More button
 		if(count($this->results) >= $this->pageResultsLimit) {
-			$out .= '<div class="load-more">'.wfMessage( 'wfexplore-load-more-tutorials' )->text(). '</div>';
+			$out .= '<div class="load-more">'.wfMessage( $this->message['load-more'] )->text(). '</div>';
 		}
 
 		$out .= "</div>\n" ;

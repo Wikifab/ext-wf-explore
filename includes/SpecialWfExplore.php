@@ -73,10 +73,12 @@ class SpecialWfExplore extends SpecialPage {
 
 	const NAMESPACES_CURRENT = 'sense';
 
-	public function __construct() {
-		parent::__construct( 'WfExplore' );
+	public function __construct($name = 'WfExplore' , $namespaces = array()) {
+		parent::__construct( $name );
 
 		$this->WfExploreCore = new WfExploreCore();
+
+		$this->namespaces = $namespaces;
 	}
 
 	/**
@@ -85,6 +87,7 @@ class SpecialWfExplore extends SpecialPage {
 	 * @param string $par
 	 */
 	public function execute( $par ) {
+
 		$this->setHeaders();
 		$this->outputHeader();
 		$out = $this->getOutput();
@@ -120,6 +123,7 @@ class SpecialWfExplore extends SpecialPage {
 
 		$user = $this->getUser();
 
+
 		$this->didYouMeanHtml = ''; # html of did you mean... link
 		$this->fulltext = $request->getVal( 'fulltext' );
 	}
@@ -136,7 +140,7 @@ class SpecialWfExplore extends SpecialPage {
 		$this->setupPage();
 
 		$out = $this->getOutput();
-		
+
 		$out->addHtml($this->WfExploreCore->getHtmlForm());
 
 		$out->addHtml(  $this->WfExploreCore->getSearchResultsHtml());
@@ -226,6 +230,6 @@ class SpecialWfExplore extends SpecialPage {
 	}
 
 	/** added function for wikifab needs */
-	
+
 
 }

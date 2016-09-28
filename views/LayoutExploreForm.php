@@ -1,3 +1,4 @@
+<?php if (count($filtersData) > 0):?>
 <div class="search-section">
 <div class="container">
 <div class="WFfilter">
@@ -85,6 +86,7 @@ switch(count($filtersData)) {
 </div>
 </div>
 </div>
+<?php endif;?>
 <div class="search-filters-section wfexplore-selectedLabels">
 <div class="container">
 	<?php foreach ($selectedOptions as $category => $values) {
