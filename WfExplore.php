@@ -30,7 +30,8 @@ $egWfExploreLayoutForm= __DIR__ . '/views/LayoutExploreForm.php';
 //$GLOBALS['egChameleonLayoutFileSearchResult'];
 
 $wgExploreDefaultsFieldsDisplayValues = [
-		'Main_Picture' => 'No-image-yet.jpg'
+		'Main_Picture' => 'No-image-yet.jpg',
+		'group-logo' => 'no-logo-group.gif'
 ];
 
 

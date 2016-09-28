@@ -167,9 +167,16 @@ class WikifabExploreResultFormatter {
 				if (strpos(strtolower($key), $imageKeyword)) {
 					$file = wfFindFile( $value );
 					if($file) {
-						//$fileUrl = $file->getUrl();
-						$fileUrl = $file->getThumbUrl();
+						if ( isset($GLOBALS['wgExploreUseThumbs']) &&  $GLOBALS['wgExploreUseThumbs']) {
+
+							//$thumbs = $file->getThumbnails();
+							$fileUrl = $file->getThumbUrl();
+						} else {
+							$fileUrl = $file->getUrl();
+						}
 						$out = str_replace("{{" . $key . "::url}}", $fileUrl, $out);
+						$thumbUrl = $file->getThumbUrl();
+						$out = str_replace("{{" . $key . "::thumburl}}", $fileUrl, $out);
 					}
 				}
 			}
