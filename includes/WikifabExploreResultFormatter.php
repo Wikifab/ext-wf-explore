@@ -157,12 +157,20 @@ class WikifabExploreResultFormatter {
 
 		foreach ($content2 as $key => $value) {
 
-			if($key == 'Main_Picture') {
-				// image
-				$file = wfFindFile( $value );
-				if($file) {
-					$fileUrl = $file->getUrl();
-					$out = str_replace("{{" . $key . "::url}}", $fileUrl, $out);
+			$imageKeywords = array(
+					'picture',
+					'image',
+					'img',
+					'logo'
+			);
+			foreach ($imageKeywords as $imageKeyword) {
+				if (strpos(strtolower($key), $imageKeyword)) {
+					$file = wfFindFile( $value );
+					if($file) {
+						//$fileUrl = $file->getUrl();
+						$fileUrl = $file->getThumbUrl();
+						$out = str_replace("{{" . $key . "::url}}", $fileUrl, $out);
+					}
 				}
 			}
 			$out = str_replace("{{" . $key . "}}", $value, $out);
