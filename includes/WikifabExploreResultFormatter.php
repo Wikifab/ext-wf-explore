@@ -167,16 +167,18 @@ class WikifabExploreResultFormatter {
 				if (strpos(strtolower($key), $imageKeyword)) {
 					$file = wfFindFile( $value );
 					if($file) {
+						$fileUrl = $file->getUrl();
 						if ( isset($GLOBALS['wgExploreUseThumbs']) &&  $GLOBALS['wgExploreUseThumbs']) {
+							// if possible, we use thumbnail
+							$params = ['width' => 400];
 
-							//$thumbs = $file->getThumbnails();
-							$fileUrl = $file->getThumbUrl();
-						} else {
-							$fileUrl = $file->getUrl();
+							$mto = $file->transform( $params );
+							if ( $mto && !$mto->isError() ) {
+								// thumb Ok, change the URL to point to a thumbnail.
+								$fileUrl = wfExpandUrl( $mto->getUrl(), PROTO_RELATIVE );
+							}
 						}
 						$out = str_replace("{{" . $key . "::url}}", $fileUrl, $out);
-						$thumbUrl = $file->getThumbUrl();
-						$out = str_replace("{{" . $key . "::thumburl}}", $fileUrl, $out);
 					}
 				}
 			}
