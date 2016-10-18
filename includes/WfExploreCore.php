@@ -289,6 +289,8 @@ class WfExploreCore {
 		$selectedOptions = $this->getSelectedAdvancedSearchOptions($request, $params);
 		$params = $this->params;
 
+		$tags = array('CNC', 'Jeux', 'Impression 3D');
+
 		ob_start();
 		include ($GLOBALS['egWfExploreLayoutForm']);
 		$out = ob_get_contents();
