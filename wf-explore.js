@@ -91,6 +91,7 @@ $( document ).ready(function () {
 
                 // get .searchresults div content from result
 				var wfExplore = $data.find('.searchresults').contents();
+				alert("" + wfExplore);
 				// remove old button
 				$('.load-more').remove();
 				// append to .searchresults div content in dom
@@ -105,6 +106,8 @@ $( document ).ready(function () {
 				setHandlerOnRemoveTags();
         		$('.loader').hide();
         		$('.load-more').on('click', exploreLoadMore);
+        		
+        		window.location.hash = '#explore-page1';
 
             }
         });

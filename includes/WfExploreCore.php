@@ -389,6 +389,9 @@ class WfExploreCore {
 
 		$out = "<div class='searchresults'>\n";
 
+		$out = '<a name="explore-page1">*</a>';
+
+
 
 		$wikifabExploreResultFormatter = $this->getFormatter();
 
