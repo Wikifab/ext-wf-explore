@@ -398,7 +398,7 @@ class WfExploreCore {
 
 
 		// load More button
-		if($this->page > 1 && isset($param['showPreviousButton']) && $param['showPreviousButton']) {
+		if($this->page > 1 ) {
 			$out .= '<div class="load-more-previous">'.wfMessage( $this->message['load-more-previous'] )->text(). '</div>';
 		}
 

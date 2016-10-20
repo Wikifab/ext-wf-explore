@@ -186,12 +186,13 @@ $( document ).ready(function () {
 					$('.load-more').first().remove();
 					// add load-more previous :
 					if(pagenumber > 1) {
-						$('.searchresults').prepend('<div class="load-more-previous">' + mw.msg( 'wfexplore-load-more-tutorials-previous' ) + '</div>');
+						//$('.searchresults').prepend('<div class="load-more-previous">' + mw.msg( 'wfexplore-load-more-tutorials-previous' ) + '</div>');
 						
 						//$('.searchresults').prepend(loadMorePreviousButton);
 						$('.load-more-previous').on('click', loadPreviousClick);
 					}
 				} else {
+					$('.load-more-previous').last().remove();
 					$('.load-more').on('click', loadMoreClick);
 				}
 
