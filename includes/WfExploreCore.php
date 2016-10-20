@@ -14,7 +14,8 @@ class WfExploreCore {
 	private $filters = null;
 
 	private $message = array(
-			'load-more' => 'wfexplore-load-more-tutorials'
+			'load-more' => 'wfexplore-load-more-tutorials',
+			'load-more-previous' => 'wfexplore-load-more-tutorials-previous'
 	);
 
 	private $specialsFields = array(
@@ -229,7 +230,7 @@ class WfExploreCore {
 			foreach ($values['values'] as $key => $value) {
 				$fieldName = "wf-expl-$category-" . $value['id'];
 				$fieldName = str_replace(' ', '_', $fieldName);
-				if ( ($request && $request->getCheck( $fieldName )) || isset($params[$category])) {
+				if ( ($request && $request->getCheck( $fieldName )) || isset($params[$category]) || isset($params[$fieldName])) {
 					if( ! isset($results[$category])) {
 						$results[$category] = array();
 					}
@@ -245,7 +246,7 @@ class WfExploreCore {
 	}
 
 
-	public function getHtmlForm() {
+	public function getHtmlForm($params = []) {
 		$page = $this->getSearchPageTitle();
 		$url = $page->getLinkURL();
 
@@ -268,7 +269,7 @@ class WfExploreCore {
 		$out .= Xml::element( 'div', array( 'style' => 'clear:both' ), '', false );
 		$out .= Xml::closeElement( 'div' );
 
-		$out .= $this->getSearchForm($this->request);
+		$out .= $this->getSearchForm($this->request, $params);
 
 		$out .= Xml::closeElement( 'form' )	;
 
@@ -285,7 +286,7 @@ class WfExploreCore {
 		// get form options :
 		$filtersData = $this->getFiltersData();
 		// get selected Options
-		$selectedOptions = $this->getSelectedAdvancedSearchOptions($request);
+		$selectedOptions = $this->getSelectedAdvancedSearchOptions($request, $params);
 		$params = $this->params;
 
 		ob_start();
@@ -306,7 +307,11 @@ class WfExploreCore {
 		} else {
 			$page = 1;
 		}
+		if (isset($params['page'])) {
+			$page = $params['page'];
+		}
 
+		$this->page = $page;
 
 		$offset = ($page - 1 ) * $this->pageResultsLimit;
 
@@ -385,13 +390,17 @@ class WfExploreCore {
 		return $pages;
 	}
 
-	public function getSearchResultsHtml() {
+	public function getSearchResultsHtml($param = []) {
 
 		$out = "<div class='searchresults'>\n";
 
-		$out = '<a name="explore-page1">*</a>';
+		$out .= '<a id="explore-page'.$this->page . '" name="page'.$this->page . '"></a>';
 
 
+		// load More button
+		if($this->page > 1 && isset($param['showPreviousButton']) && $param['showPreviousButton']) {
+			$out .= '<div class="load-more-previous">'.wfMessage( $this->message['load-more-previous'] )->text(). '</div>';
+		}
 
 		$wikifabExploreResultFormatter = $this->getFormatter();
 

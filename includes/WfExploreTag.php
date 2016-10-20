@@ -24,7 +24,7 @@ class WfExploreTag {
 
 		$WfExploreCore = new WfExploreCore();
 
-		$params = [];
+		$params = $_GET;
 
 		if (false !== array_search('completeonly', $filters)) {
 			$params['complete'] = 'complete';
@@ -34,9 +34,10 @@ class WfExploreTag {
 
 		$out = "";
 
-		$out .= $WfExploreCore->getHtmlForm();
+		$out .= $WfExploreCore->getHtmlForm($params);
 
-		$out .= $WfExploreCore->getSearchResultsHtml();
+		$paramsOutput = ['showPreviousButton' => true];
+		$out .= $WfExploreCore->getSearchResultsHtml($paramsOutput);
 
 		return array( $out, 'noparse' => true, 'isHTML' => true );
 	}

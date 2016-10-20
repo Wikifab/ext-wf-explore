@@ -39,6 +39,9 @@ $wgResourceModules['ext.wikifab.wfExplore.js'] = array(
 	'scripts' => 'wf-explore.js',
 	'localBasePath' => __DIR__,
 	'remoteExtPath' => 'Explore',
+	'messages' => array(
+			'wfexplore-load-more-tutorials-previous'
+	)
 );
 
 
