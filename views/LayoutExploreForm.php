@@ -98,8 +98,10 @@ switch(count($filtersData)) {
 				. $tag
 				. ' </span> </a>';
 	}?>
+	<!--
 	Tag : <input id='wf-expl-TagsInput' name="wf-expl-TagsInput" />
 	<button id="wf-expl-addTagButton" name="addTag" type="button">+</button>
+	-->
 <span></span>
 </div>
 </div>

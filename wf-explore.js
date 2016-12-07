@@ -90,24 +90,28 @@ $( document ).ready(function () {
 		$("#wfExplore").submit();
 	}
 
-	$(".proposedTag").click(function () {
-		// add tag value in field
-		addTag($(this).attr('data-value'));
-    });
+	function proposedTagsBind() {
+		$(".proposedTag").click(function () {
+			// add tag value in field
+			addTag($(this).attr('data-value'));
+	    });
+		
+		$("#wf-expl-addTagButton").click(function () {
+			// add tag value in field
+			addTag($("#wf-expl-TagsInput").val());
+			$("#wf-expl-TagsInput").val('');
+	    });
+		
+		$('#wf-expl-TagsInput').keypress(function (e) {
+			 var key = e.which;
+			 if(key == 13) { // the enter key code
+			    $('#wf-expl-addTagButton').click();
+			    return false;  
+			 }
+		});
+	}
 	
-	$("#wf-expl-addTagButton").click(function () {
-		// add tag value in field
-		addTag($("#wf-expl-TagsInput").val());
-		$("#wf-expl-TagsInput").val('');
-    });
-	
-	$('#wf-expl-TagsInput').keypress(function (e) {
-		 var key = e.which;
-		 if(key == 13) { // the enter key code
-		    $('#wf-expl-addTagButton').click();
-		    return false;  
-		 }
-	});
+	proposedTagsBind();
 	
 
 	/* soumission du formulaire en ajax */
@@ -140,6 +144,13 @@ $( document ).ready(function () {
 				// replace .wfexplore-selectedLabels div content in dom
 				$('.wfexplore-selectedLabels').empty();  
 				$('.wfexplore-selectedLabels').append(wfExplore);
+				
+				// refresh tags proposals
+				proposedTags = $data.find('.wfexplore-proposedTags').contents();
+				$('.wfexplore-proposedTags').empty();  
+				$('.wfexplore-proposedTags').append(proposedTags);
+				proposedTagsBind();
+				
 
 				setHandlerOnRemoveTags();
         		$('.loader').hide();

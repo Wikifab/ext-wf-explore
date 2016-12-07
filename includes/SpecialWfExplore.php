@@ -108,6 +108,8 @@ class SpecialWfExplore extends SpecialPage {
 
 		$this->results = $this->WfExploreCore->executeSearch( $request );
 
+		$this->WfExploreCore->extractTags($request);
+
 		$this->showResults();
 	}
 

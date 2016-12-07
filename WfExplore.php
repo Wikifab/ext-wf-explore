@@ -43,7 +43,7 @@ $wgResourceModules['ext.wikifab.wfExplore.js'] = array(
 			'wfexplore-load-more-tutorials-previous'
 	)
 );
-
+$wfexploreExtractTags = true;
 
 $wgHooks['ParserFirstCallInit'][] = 'WfExploreParserFunctions';
 

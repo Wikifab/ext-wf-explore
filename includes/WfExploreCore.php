@@ -13,6 +13,9 @@ class WfExploreCore {
 	private $searchPageTitle = null;
 	private $filters = null;
 
+	private $extractTags = null;
+	private $extractedTags = null;
+
 	private $message = array(
 			'load-more' => 'wfexplore-load-more-tutorials',
 			'load-more-previous' => 'wfexplore-load-more-tutorials-previous'
@@ -21,6 +24,12 @@ class WfExploreCore {
 	private $specialsFields = array(
 			'Complete' => array('query' => '[[Complete::!none]]')
 	);
+
+	public function __construct() {
+		if (isset($GLOBALS['wfexploreExtractTags'])) {
+			$this->extractTags = $GLOBALS['wfexploreExtractTags'];
+		}
+	}
 
 	public function setFormatter($formatter) {
 		$this->formatter = $formatter;
@@ -316,7 +325,8 @@ class WfExploreCore {
 		$selectedOptions = $this->getSelectedAdvancedSearchOptions($request, $params);
 		$params = $this->params;
 
-		$tags = array('CNC', 'Jeux', 'Impression 3D');
+		//$tags = array('CNC', 'Jeux', 'Impression 3D');
+		$tags = $this->getTags();
 
 		ob_start();
 		include ($GLOBALS['egWfExploreLayoutForm']);
@@ -352,7 +362,7 @@ class WfExploreCore {
 		return $this->getQueryParam($category, $valuesIds, $andCondition);
 	}
 
-	public  function executeSearch($request, $params = []) {
+	public  function executeSearch($request, $params = [], $save = true) {
 		$this->setRequest( $request, $params);
 		$selectedOptions = $this->getSelectedAdvancedSearchOptions($request, $params);
 		$offset = 0;
@@ -366,9 +376,16 @@ class WfExploreCore {
 			$page = $params['page'];
 		}
 
-		$this->page = $page;
+		$limit = $this->pageResultsLimit;
+		if (isset($params['limit'])) {
+			$limit = $params['limit'];
+		}
 
-		$offset = ($page - 1 ) * $this->pageResultsLimit;
+		if($save) {
+			$this->page = $page;
+		}
+
+		$offset = ($page - 1 ) * $limit;
 
 		$query = '';
 
@@ -392,13 +409,94 @@ class WfExploreCore {
 		if( ! $query ) {
 			$query = '[[Area::*]]';
 		}
-		$this->results = $this->processSemanticQuery($query, $this->pageResultsLimit, $offset);
-
-		return $this->results;
+		$results = $this->processSemanticQuery($query, $limit, $offset);
+		if($save) {
+			$this->results = $results;
+		}
+		return $results;
 	}
+
 
 	public function getNbResults() {
 		return $this->queryCount;
+	}
+
+	/**
+	 * return tags :
+	 * - get all possible tags according to search results,
+	 * - remove tags already selected,
+	 * - return 10 of them,
+	 */
+	public function getTags() {
+		if( ! $this->extractedTags) {
+			return [];
+		}
+		if( isset($this->extractedTagsSelection)) {
+			return $this->extractedTagsSelection;
+		}
+		$selectedOptions = $this->getSelectedAdvancedSearchOptions($this->request);
+		$selectedTags = isset($selectedOptions['Tags']['value']) ?
+				explode(',', $selectedOptions['Tags']['value']) : [];
+		$selectedTags = array_flip($selectedTags);
+
+		$extractedTags = $this->extractedTags;
+
+		//remove tags already selected,
+		$tagsCounters = array_diff_key($extractedTags, $selectedTags);
+
+		// sort to get most populars first
+		arsort($tagsCounters);
+
+		$tags = array_keys($tagsCounters);
+		// get only 10 of them
+		$tags = array_slice ( $tags, 0, 10 );
+
+		$this->extractedTagsSelection = $tags;
+		return $tags;
+	}
+
+	public function extractTags($request) {
+		$tags = [];
+
+		if ($this->extractTags == false) {
+			return [];
+		}
+		if(isset($this->extractedTags)) {
+			return array_keys($this->extractedTags);
+		}
+
+		$results = $this->executeSearch($request, ['limit' => 200, 'page'=> 1], false);
+
+
+		foreach ($results as $result){
+			$page = WikiPage::factory( $result->getTitle() );
+
+			if($page->getContent()) {
+				$preloadContent = $page->getContent()->getWikitextForTransclusion();
+			} else {
+				$preloadContent = '';
+			}
+			// remplace template :
+			$preloadContent  = str_replace('{{Tuto Details', '{{Tuto SearchResult', $preloadContent);
+
+			$data = WfTutorialUtils::getArticleData( $preloadContent);
+			if (isset($data['Tags']) && $data['Tags'] ) {
+				$pageTags = explode(',',$data['Tags']);
+				foreach ($pageTags as $tag) {
+					$tag = trim($tag);
+					if (!$tag) {
+						continue;
+					}
+					if(isset($tags[$tag])) {
+						$tags[$tag] ++;
+					} else {
+						$tags[$tag] = 1;
+					}
+				}
+			}
+		}
+		$this->extractedTags = $tags;
+		return array_keys($tags);
 	}
 
 	/**
