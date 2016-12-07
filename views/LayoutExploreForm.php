@@ -87,6 +87,10 @@ switch(count($filtersData)) {
 </div>
 </div>
 <?php endif;?>
+<input id='wf-expl-Tags' name="wf-expl-Tags"
+    		type="hidden"
+    		value="<?php echo isset($selectedOptions['Tags']) ? $selectedOptions['Tags']['value'] : ''; ?>"
+    		>
 <div class="search-filters-section wfexplore-proposedTags">
 <div class="container">
 	<?php foreach ($tags as $tag) {
@@ -94,6 +98,8 @@ switch(count($filtersData)) {
 				. $tag
 				. ' </span> </a>';
 	}?>
+	Tag : <input id='wf-expl-TagsInput' name="wf-expl-TagsInput" />
+	<button id="wf-expl-addTagButton" name="addTag" type="button">+</button>
 <span></span>
 </div>
 </div>
@@ -101,7 +107,23 @@ switch(count($filtersData)) {
 <div class="search-filters-section wfexplore-selectedLabels">
 <div class="container">
 	<?php foreach ($selectedOptions as $category => $values) {
-		if (! isset($filtersData[$category])) {
+		if (! isset($filtersData[$category]) ) {
+
+			if(isset($values['type']) && $values['type'] =='text' && $values['value']) {
+				// case of text values
+				echo ' <span class="category-filter-title">' . $category . ' : </span>';
+				$textValues = explode(',',$values['value']);
+				foreach ($textValues as $textValue) {
+					$inputId = "wf-expl-$category";
+					$pattern = '/[^0-9a-zA-Z\-_]/i';
+					$replacement = '-';
+					$inputId = preg_replace($pattern, $replacement, $inputId);
+					echo ' <span class="tag label label-default">'
+							. $textValue
+							. ' <span class="remove tagRemove" data-role="textRemove" data-textValue="'.$textValue.'" data-inputId="' . $inputId . '"> '
+									. 'x</span></span> ';
+				}
+			}
 			continue;
 		}
 		echo ' <span class="category-filter-title">' . $filtersData[$category]['name'] . ' : </span>';

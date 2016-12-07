@@ -64,7 +64,7 @@ class WfExploreCore {
 
 
 
-	public function getQueryParam ($category, $valuesIds) {
+	public function getQueryParam ($category, $valuesIds, $andCondition) {
 		if ($category == 'Cost') {
 			$fourchetteCout = [
 				'0-10' => ['min' => 0, 'max' => 10],
@@ -92,7 +92,15 @@ class WfExploreCore {
 			return $result;
 
 		} else {
-			return '[[' . $category . '::' . implode('||', $valuesIds) . ']]';
+			if($andCondition) {
+				$result = '';
+				foreach ($valuesIds as $valueId) {
+					$result .= '[[' . $category . '::' .  $valueId . ']]';
+				}
+				return $result;
+			} else {
+				return '[[' . $category . '::' . implode('||', $valuesIds) . ']]';
+			}
 		}
 	}
 
@@ -225,6 +233,7 @@ class WfExploreCore {
 
 		$results = array();
 
+		// manage checkbox filters :
 		foreach ($filtersData as $category => $values) {
 
 			foreach ($values['values'] as $key => $value) {
@@ -242,6 +251,24 @@ class WfExploreCore {
 				}
 			}
 		}
+
+		// manage full text filters :
+		$fullTextFields = array('Tags');
+		foreach ($fullTextFields as $field) {
+			$fieldName = "wf-expl-" . $field;
+			if ($request && $request->getValues( $fieldName ) || isset($params[$fieldName])) {
+				$value = isset($params[$fieldName]) ? isset($params[$fieldName]) : $request->getValues( $fieldName )[$fieldName];
+				//var_dump($value);
+				if($value) {
+					$results[$field] = array(
+							'value' => $value,
+							'type' => 'text'
+					);
+				}
+			}
+		}
+
+
 		return $results;
 	}
 
@@ -299,6 +326,32 @@ class WfExploreCore {
 		return $out;
 	}
 
+	private function getQueryParamsWithType($category, $values) {
+
+		$type = isset($values['type']) ? $values['type'] : 'checkbox';
+		$andCondition = false;
+
+		switch ($type) {
+			case 'text' :
+				$valuesIds = explode(',',$values['value']);
+				foreach ($valuesIds as $key => $val) {
+					$valuesIds[$key] = "~" . $val;
+				}
+				$andCondition = true;
+				break;
+			case 'checkbox' :
+			default :
+				$valuesIds  = array();
+				foreach ($values as $value) {
+					$valuesIds[] = $value['valueId'];
+				}
+				break;
+		}
+		//var_dump($values);
+
+		return $this->getQueryParam($category, $valuesIds, $andCondition);
+	}
+
 	public  function executeSearch($request, $params = []) {
 		$this->setRequest( $request, $params);
 		$selectedOptions = $this->getSelectedAdvancedSearchOptions($request, $params);
@@ -327,11 +380,7 @@ class WfExploreCore {
 		}
 
 		foreach ($selectedOptions as $category => $values) {
-			$valuesIds  = array();
-			foreach ($values as $value) {
-				$valuesIds[] = $value['valueId'];
-			}
-			$query .= ' ' . $this->getQueryParam($category, $valuesIds);
+			$query .= ' ' . $this->getQueryParamsWithType($category, $values);
 			//$query .= ' [[' . $category . '::' . implode('||', $valuesIds) . ']]';
 		}
 

@@ -31,17 +31,34 @@ $( document ).ready(function () {
 		$( ".wfexplore-selectedLabels .tag .remove" ).click(function (item) {
 			
 
+			var dataRole =  $( this ) . attr('data-role');
 			inputID = $( this ) . attr('data-inputId');
-
-			$('#Label' + inputID).button('toggle');
+			
+			switch(dataRole) {
+				case 'remove':
+					$('#Label' + inputID).button('toggle');
+					break;
+				case 'textRemove':
+					var valueToRemove = $( this ) . attr('data-textValue');
+					var values = $('#' + inputID).val().split(',');
+					index = values.indexOf(valueToRemove);
+					if (index > -1) {
+						values.splice(index, 1);
+					}
+					values = values.join();
+					$('#' + inputID).val(values);
+					break;
+			}
+			
 			$( this ).parent().hide();
 
 			$("#wfExplore").submit();
 
 		});
 	}
+	
 
-	/* soumission du formulaire à chaque changement de filtre */
+	/* submit form on each change on filters */
 	$("#wfExplore input[type=checkbox]").change(function () {
 
 		$("#wfExplore").submit();
@@ -51,6 +68,47 @@ $( document ).ready(function () {
         var uri = window.location.pathname + "?" + form.serialize();
 		window.history.pushState(null, null, uri );
 	}
+	
+	/* manage tags buttons */
+
+	/* function added to add tag with input */
+	function addTag(value) {
+		value = value.trim();
+		console.log(value);
+		if( ! value) {
+			return;
+		}
+		// add tag value in field
+		var fieldValue = $("#wf-expl-Tags").val();
+		if(fieldValue) {
+			fieldValue += "," + value;
+		} else {
+			fieldValue = value;
+		}
+		$("#wf-expl-Tags").val(fieldValue);
+		// subit form to apply filters
+		$("#wfExplore").submit();
+	}
+
+	$(".proposedTag").click(function () {
+		// add tag value in field
+		addTag($(this).attr('data-value'));
+    });
+	
+	$("#wf-expl-addTagButton").click(function () {
+		// add tag value in field
+		addTag($("#wf-expl-TagsInput").val());
+		$("#wf-expl-TagsInput").val('');
+    });
+	
+	$('#wf-expl-TagsInput').keypress(function (e) {
+		 var key = e.which;
+		 if(key == 13) { // the enter key code
+		    $('#wf-expl-addTagButton').click();
+		    return false;  
+		 }
+	});
+	
 
 	/* soumission du formulaire en ajax */
     $('#wfExplore').on('submit', function(e) {
