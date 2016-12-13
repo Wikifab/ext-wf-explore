@@ -87,10 +87,7 @@ switch(count($filtersData)) {
 </div>
 </div>
 <?php endif;?>
-<input id='wf-expl-Tags' name="wf-expl-Tags"
-    		type="hidden"
-    		value="<?php echo isset($selectedOptions['Tags']) ? $selectedOptions['Tags']['value'] : ''; ?>"
-    		>
+<input id='wf-expl-Tags' name='wf-expl-Tags' type='hidden' value="<?php echo isset($selectedOptions['Tags']) ? $selectedOptions['Tags']['value'] : ''; ?>">
 <div class="search-filters-section wfexplore-proposedTags">
 <div class="container">
 	<?php foreach ($tags as $tag) {
