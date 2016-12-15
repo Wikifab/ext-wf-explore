@@ -527,13 +527,13 @@ class WfExploreCore {
 		$queryCount = SMWQueryProcessor::createQuery( $queryString,
 			$processedParams,
 			SMWQueryProcessor::SPECIAL_PAGE, 'count', $printouts );
-		$this->queryCount = SFUtils::getSMWStore()->getQueryResult( $queryCount );
+		$this->queryCount = PFUtils::getSMWStore()->getQueryResult( $queryCount );
 
 		$queryObj = SMWQueryProcessor::createQuery( $queryString,
 			$processedParams,
 			SMWQueryProcessor::SPECIAL_PAGE, '', $printouts );
 		$queryObj->setLimit($limit);
-		$res = SFUtils::getSMWStore()->getQueryResult( $queryObj );
+		$res = PFUtils::getSMWStore()->getQueryResult( $queryObj );
 		$pages = $res->getResults();
 
 		return $pages;
