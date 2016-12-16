@@ -266,7 +266,7 @@ class WfExploreCore {
 		foreach ($fullTextFields as $field) {
 			$fieldName = "wf-expl-" . $field;
 			if ($request && $request->getValues( $fieldName ) || isset($params[$fieldName])) {
-				$value = isset($params[$fieldName]) ? isset($params[$fieldName]) : $request->getValues( $fieldName )[$fieldName];
+				$value = isset($params[$fieldName]) ? $params[$fieldName] : $request->getValues( $fieldName )[$fieldName];
 				//var_dump($value);
 				if($value) {
 					$results[$field] = array(
@@ -276,8 +276,6 @@ class WfExploreCore {
 				}
 			}
 		}
-
-
 		return $results;
 	}
 
