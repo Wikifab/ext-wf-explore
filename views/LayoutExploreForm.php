@@ -91,7 +91,7 @@ switch(count($filtersData)) {
 <div class="search-filters-section wfexplore-proposedTags">
 <div class="container">
 	<?php foreach ($tags as $tag) {
-		echo ' <a href="#" class="proposedTag" data-value="' . $tag . '" ><span class="tag label label-default">'
+		echo ' <a class="proposedTag" data-value="' . $tag . '" ><span class="tag label label-default">'
 				. $tag
 				. ' </span> </a>';
 	}?>

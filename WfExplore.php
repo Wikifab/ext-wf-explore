@@ -18,8 +18,7 @@ $wgAutoloadClasses['WfExploreCore'] = __DIR__ . "/includes/WfExploreCore.php";
 $wgAutoloadClasses['WikifabExploreResultFormatter'] = __DIR__ . '/includes/WikifabExploreResultFormatter.php'; # Location of the WikifabSearchResultFormatter class
 //$wgAutoloadClasses['WfTutorialUtils'] = __DIR__ . '/includes/WfTutorialUtils.php'; # tools for using tutorial forms pages
 
-//surcharge ofall trad from semantic form :
-$GLOBALS['wgMessagesDirs']['SemanticForms'] = __DIR__ . '/SF_i18n';
+
 $wgMessagesDirs['WfExplore'] = __DIR__ . "/i18n"; # Location of localisation files (Tell MediaWiki to load them)
 //$wgExtensionMessagesFiles['WfExploreAlias'] = __DIR__ . '/WfExplore.alias.php'; # Location of an aliases file
 

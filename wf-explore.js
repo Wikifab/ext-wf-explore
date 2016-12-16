@@ -94,6 +94,7 @@ $( document ).ready(function () {
 		$(".proposedTag").click(function () {
 			// add tag value in field
 			addTag($(this).attr('data-value'));
+			event.preventDefault();
 	    });
 		
 		$("#wf-expl-addTagButton").click(function () {
