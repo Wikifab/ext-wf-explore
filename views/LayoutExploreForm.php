@@ -91,7 +91,11 @@ switch(count($filtersData)) {
 <div class="search-filters-section wfexplore-proposedTags">
 <div class="container">
 	<?php foreach ($tags as $tag) {
-		echo ' <a class="proposedTag" data-value="' . $tag . '" ><span class="tag label label-default">'
+
+		// add a pseudo random class to enable style customisations :
+		$class =  'tagpattern-' . (hexdec(substr(md5(strtolower($tag)), 0, 6)) % 30);
+
+		echo ' <a class="proposedTag '.$class.'" data-value="' . $tag . '" ><span class="tag label label-default">'
 				. $tag
 				. ' </span> </a>';
 	}?>
