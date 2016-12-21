@@ -93,7 +93,7 @@ switch(count($filtersData)) {
 	<?php foreach ($tags as $tag) {
 
 		// add a pseudo random class to enable style customisations :
-		$class =  'tagpattern-' . (hexdec(substr(md5(strtolower($tag)), 0, 6)) % 30);
+		$class =  'tagpattern-' . (hexdec(substr(md5(strtolower($tag)), 0, 6)) % 33);
 
 		echo ' <a class="proposedTag '.$class.'" data-value="' . $tag . '" ><span class="tag label label-default">'
 				. $tag
