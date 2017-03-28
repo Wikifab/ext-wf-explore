@@ -22,7 +22,8 @@ class WfExploreCore {
 	);
 
 	private $specialsFields = array(
-			'Complete' => array('query' => '[[Complete::!none]]')
+			'Complete' => array('query' => '[[Complete::!none]]'),
+			'complete' => array('query' => '[[Complete::!none]]')
 	);
 
 	public function __construct() {
@@ -387,7 +388,6 @@ class WfExploreCore {
 		$offset = ($page - 1 ) * $limit;
 
 		$query = '';
-
 		foreach ($this->specialsFields as $key => $specialField) {
 			if (isset($selectedOptions[$key])) {
 				unset($selectedOptions[$key]);
@@ -406,7 +406,7 @@ class WfExploreCore {
 			//$query .= '[[Group:*]]';
 		}
 		if( ! $query ) {
-			$query = '[[Area::*]]';
+			$query = '[[area::!none]]';
 		}
 		$results = $this->processSemanticQuery($query, $limit, $offset);
 		if($save) {
