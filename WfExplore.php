@@ -13,6 +13,7 @@ $wgExtensionCredits['specialpage'][] = array(
 	'version' => '0.1.0',
 );
 $wgAutoloadClasses['SpecialWfExplore'] = __DIR__ . '/includes/SpecialWfExplore.php'; # Location of the SpecialWfSearch class (Tell MediaWiki to load this file)
+$wgAutoloadClasses['WfExploreQueryParser'] = __DIR__ . "/includes/WfExploreQueryParser.php";
 $wgAutoloadClasses['WfExploreTag'] = __DIR__ . "/includes/WfExploreTag.php";
 $wgAutoloadClasses['WfExploreCore'] = __DIR__ . "/includes/WfExploreCore.php";
 $wgAutoloadClasses['WikifabExploreResultFormatter'] = __DIR__ . '/includes/WikifabExploreResultFormatter.php'; # Location of the WikifabSearchResultFormatter class
@@ -49,6 +50,7 @@ $wgHooks['ParserFirstCallInit'][] = 'WfExploreParserFunctions';
 # Parser function to insert a link changing a tab.
 function WfExploreParserFunctions( $parser ) {
 	$parser->setFunctionHook( 'displayExplore', array('WfExploreTag', 'addSampleParser' ));
+	$parser->setFunctionHook( 'exploreQuery', array('WfExploreQueryParser', 'addSampleParser' ));
 	//$parser->setFunctionTagHook('displayTutorialsList', array('WfSampleDisplay', 'addSampleParser' ), array());
 	return true;
 }

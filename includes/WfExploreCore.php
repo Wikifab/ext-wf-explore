@@ -388,6 +388,10 @@ class WfExploreCore {
 		$offset = ($page - 1 ) * $limit;
 
 		$query = '';
+
+		if (isset($params['query'])) {
+			$query = $params['query'];
+		}
 		foreach ($this->specialsFields as $key => $specialField) {
 			if (isset($selectedOptions[$key])) {
 				unset($selectedOptions[$key]);
@@ -540,7 +544,14 @@ class WfExploreCore {
 
 	public function getSearchResultsHtml($param = []) {
 
-		$out = "<div class='searchresults'>\n";
+		$defaultParams = [
+				'noLoadMoreButton' => false,
+				'replaceClass' => 'searchresults'
+		];
+
+
+		$param = array_merge($defaultParams, $param);
+		$out = "<div class='".$param['replaceClass']."'>\n";
 
 		$out .= '<a id="explore-page'.$this->page . '" name="page'.$this->page . '"></a>';
 
@@ -557,7 +568,7 @@ class WfExploreCore {
 		$out .= $wikifabExploreResultFormatter->render();
 
 		// load More button
-		if(count($this->results) >= $this->pageResultsLimit) {
+		if(count($this->results) >= $this->pageResultsLimit && ! $param['noLoadMoreButton']) {
 			$out .= '<div class="load-more">'.wfMessage( $this->message['load-more'] )->text(). '</div>';
 		}
 
