@@ -36,7 +36,8 @@ class WfExploreQueryParser {
 		$paramsOutput = [
 				'showPreviousButton' => true,
 				'noLoadMoreButton' => true,
-				'replaceClass' => 'exploreQueryResult'
+				'replaceClass' => 'exploreQueryResult',
+				'isEmbed' => true
 		];
 		$out .= $WfExploreCore->getSearchResultsHtml($paramsOutput);
 

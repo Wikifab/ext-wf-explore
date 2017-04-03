@@ -22,8 +22,10 @@ class WikifabExploreResultFormatter {
 		$this->results = $results;
 	}
 
-	public function render() {
+	public function render($params = []) {
 		$this->out = '';
+
+		$this->params = $params;
 
 		if (count($this->results) > 0) {
 			$this->openResultsContainer();
@@ -50,10 +52,16 @@ class WikifabExploreResultFormatter {
 
 	private function openResultsContainer() {
 		//$this->out .=  "\n <!-- Begin of Results container-->\n";
-		$this->out .=  '<div class="container"><div class="row">';
+		if ( ! isset($this->params['isEmbed']) || $this->params['isEmbed'] == false) {
+			$this->out .=  '<div class="container">';
+		}
+		$this->out .=  '<div class="row">';
 	}
 	private function closeResultsContainer() {
-		$this->out .=  '</div></div>';
+		if ( ! isset($this->params['isEmbed']) || $this->params['isEmbed'] == false) {
+			$this->out .=  '</div>';
+		}
+		$this->out .=  '</div>';
 		//$this->out .=  "\n <!-- End of Results container-->\n";
 	}
 

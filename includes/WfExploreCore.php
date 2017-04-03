@@ -542,11 +542,23 @@ class WfExploreCore {
 		return $pages;
 	}
 
+	/**
+	 * get result in HTML
+	 *
+	 * available params :
+	 * - noLoadMoreButton : if set to true, do not display the 'load more' button
+	 * - replaceClass : set a classname on container div (default : 'searchresults')
+	 * - isEmbed : by default, set to display full width, if set to true, do not insert div class 'container'
+	 *
+	 * @param array $param
+	 * @return string
+	 */
 	public function getSearchResultsHtml($param = []) {
 
 		$defaultParams = [
 				'noLoadMoreButton' => false,
-				'replaceClass' => 'searchresults'
+				'replaceClass' => 'searchresults',
+				'isEmbed' => false
 		];
 
 
@@ -565,7 +577,11 @@ class WfExploreCore {
 
 		$wikifabExploreResultFormatter->setResults($this->results);
 
-		$out .= $wikifabExploreResultFormatter->render();
+		$renderParams = [];
+		if( $param['isEmbed']) {
+			$renderParams['isEmbed'] = true;
+		}
+		$out .= $wikifabExploreResultFormatter->render($renderParams);
 
 		// load More button
 		if(count($this->results) >= $this->pageResultsLimit && ! $param['noLoadMoreButton']) {
