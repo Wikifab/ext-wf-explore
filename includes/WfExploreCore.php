@@ -310,6 +310,7 @@ class WfExploreCore {
 		$out .= Xml::closeElement( 'form' )	;
 
 		$out .= '<div class="loader_container"><div class="loader" style="display:none"><i class="fa fa-spinner fa-pulse"></i></div></div>';
+
 		return $out;
 	}
 
