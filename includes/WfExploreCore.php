@@ -561,7 +561,9 @@ class WfExploreCore {
 				'replaceClass' => 'searchresults',
 				'isEmbed' => false
 		];
-
+		if( ! isset($this->page)) {
+			$this->page = 1;
+		}
 
 		$param = array_merge($defaultParams, $param);
 		$out = "<div class='".$param['replaceClass']."'>\n";
