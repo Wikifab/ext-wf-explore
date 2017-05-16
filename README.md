@@ -10,3 +10,24 @@
 
 Ex : 
   {{#exploreQuery:  [[area::Électronique]] | 8}}
+  
+## configuration :
+
+2 vars enable to configure filters params :
+
+
+  $wfexploreCategories = [ 
+  		$categoriesName => [
+  			CategorisValueName => CategorieValueLabel,
+  			...
+  		],
+  		...
+  ]
+
+  $wfexploreCategoriesNames = [
+  		'Type' => wfMessage( 'wfexplore-type' )->text() ,
+  		'area' =>  wfMessage( 'wfexplore-category' )->text(),
+  		'Difficulty' => wfMessage( 'wfexplore-difficulty' )->text() ,
+  		'Cost' => wfMessage( 'wfexplore-cost' )->text() ,
+  		'Complete' => 'Complete',
+  ]
