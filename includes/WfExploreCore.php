@@ -191,6 +191,10 @@ class WfExploreCore {
 			'Complete' => 'Complete',
 		);
 
+		if (isset($GLOBALS['wfexploreCategoriesNames'])) {
+			$categoriesNames = $GLOBALS['wfexploreCategoriesNames'];
+		}
+
 
 		$filters = $this->getFilters();
 		$result = array();
