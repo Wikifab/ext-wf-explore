@@ -119,7 +119,7 @@ class WikifabExploreResultFormatter {
 		} else {
 			$preloadContent = '';
 		}
-		$text = $page->getText();
+		$text = $page->getContent();
 		$creator = $page->getCreator();
 
 
