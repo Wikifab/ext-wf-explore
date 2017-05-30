@@ -141,8 +141,11 @@ class WikifabExploreResultFormatter {
 		$data['creatorUrl'] = $creator->getUserPage()->getLinkURL();
 		$data['creatorName'] = $creator->getName();
 
-		$avatar = new wAvatar( $data['creatorId'], 'm' );
-		$data['creatorAvatar'] = $avatar->getAvatarURL();
+
+		if (class_exists('wAvatar')) {
+			$avatar = new wAvatar( $data['creatorId'], 'm' );
+			$data['creatorAvatar'] = $avatar->getAvatarURL();
+		}
 
 		$data['creator'] = $creator->getRealName();
 		if( ! $data['creator']) {
