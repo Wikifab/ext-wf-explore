@@ -131,6 +131,55 @@ class WfExploreCore {
 		return $result;
 	}
 
+	/**
+	 * deprecated : for compatibility with previous versions
+	 */
+	private function getStaticFilters () {
+
+		$type = array(
+				wfMessage( 'wfexplore-category-name-creation' )->text() => wfMessage( 'wfexplore-category-name-creation' )->text(),
+				wfMessage( 'wfexplore-category-name-technique' )->text() => wfMessage( 'wfexplore-category-name-technique' )->text(),
+		);
+		$categories = array(
+				wfMessage( 'wfexplore-category-name-art' )->text() => wfMessage( 'wfexplore-category-name-art' )->text(),
+				wfMessage( 'wfexplore-category-name-clothing-accessories' )->text() => wfMessage( 'wfexplore-category-name-clothing-accessories' )->text(),
+				wfMessage( 'wfexplore-category-name-decoration' )->text() => wfMessage( 'wfexplore-category-name-decoration' )->text(),
+				wfMessage( 'wfexplore-category-name-electronics' )->text() => wfMessage( 'wfexplore-category-name-electronics' )->text(),
+				wfMessage( 'wfexplore-category-name-energy' )->text() => wfMessage( 'wfexplore-category-name-energy' )->text(),
+				wfMessage( 'wfexplore-category-name-food-agriculture' )->text() => wfMessage( 'wfexplore-category-name-food-agriculture' )->text(),
+				wfMessage( 'wfexplore-category-name-furniture' )->text() => wfMessage( 'wfexplore-category-name-furniture' )->text(),
+				wfMessage( 'wfexplore-category-name-health-wellbeing' )->text() => wfMessage( 'wfexplore-category-name-health-wellbeing' )->text(),
+				wfMessage( 'wfexplore-category-name-play-recreation' )->text() => wfMessage( 'wfexplore-category-name-play-recreation' )->text(),
+				wfMessage( 'wfexplore-category-name-house' )->text() => wfMessage( 'wfexplore-category-name-house' )->text(),
+				wfMessage( 'wfexplore-category-name-machines-tools' )->text() => wfMessage( 'wfexplore-category-name-machines-tools' )->text(),
+				wfMessage( 'wfexplore-category-name-music-sound' )->text() => wfMessage( 'wfexplore-category-name-music-sound' )->text(),
+				wfMessage( 'wfexplore-category-name-play-outside' )->text() => wfMessage( 'wfexplore-category-name-play-outside' )->text(),
+				wfMessage( 'wfexplore-category-name-recycling-upcycling' )->text() => wfMessage( 'wfexplore-category-name-recycling-upcycling' )->text(),
+				wfMessage( 'wfexplore-category-name-robotics' )->text() => wfMessage( 'wfexplore-category-name-robotics' )->text(),
+				wfMessage( 'wfexplore-category-name-science-biology' )->text() => wfMessage( 'wfexplore-category-name-science-biology' )->text(),
+				wfMessage( 'wfexplore-category-name-transport-mobility' )->text() => wfMessage( 'wfexplore-category-name-transport-mobility' )->text(),
+		);
+		$diff = array(
+				wfMessage( 'wfexplore-category-name-very-easy' )->text() => wfMessage( 'wfexplore-category-name-very-easy' )->text(),
+				wfMessage( 'wfexplore-category-name-easy' )->text() => wfMessage( 'wfexplore-category-name-easy' )->text(),
+				wfMessage( 'wfexplore-category-name-medium' )->text() => wfMessage( 'wfexplore-category-name-medium' )->text(),
+				wfMessage( 'wfexplore-category-name-hard' )->text() => wfMessage( 'wfexplore-category-name-hard' )->text(),
+				wfMessage( 'wfexplore-category-name-very-hard' )->text() => wfMessage( 'wfexplore-category-name-very-hard' )->text(),
+		);
+		$fourchetteCout = array(
+				'0-10' => '0 - 10',
+				'10-50' => '10 - 50',
+				'50-100' => '50 - 100',
+				'100-inf' => '100 - ∞'
+		);
+		return array (
+				'Type' => $type,
+				'area' => $categories,
+				'Difficulty' => $diff,
+				'Cost' => $fourchetteCout
+		);
+	}
+
 	private function getFilters() {
 
 		//$property =new SMWDIProperty('Type');
@@ -144,48 +193,15 @@ class WfExploreCore {
 			return $GLOBALS['wfexploreCategories'];
 		}
 
-
+		// for compatibility with old versions
+		if ( ! isset($GLOBALS['wgMessagesDirs']['WikifabPages'])) {
+			return $this->getStaticFilters();
+		}
 
 		$type = $this->getValuesForProperty('Type', "wf-propertyvalue-type-");
 		$categories = $this->getValuesForProperty('Area', "wf-propertyvalue-area-");
 		$diff = $this->getValuesForProperty('Difficulty', "wf-propertyvalue-difficulty-");
 
-
-		$typeOld = array(
-			wfMessage( 'wfexplore-category-name-creation' )->text() => wfMessage( 'wfexplore-category-name-creation' )->text(),
-			wfMessage( 'wfexplore-category-name-technique' )->text() => wfMessage( 'wfexplore-category-name-technique' )->text(),
-		);
-		$categoriesOld = array(
-			wfMessage( 'wfexplore-category-name-art' )->text() => wfMessage( 'wfexplore-category-name-art' )->text(),
-			wfMessage( 'wfexplore-category-name-clothing-accessories' )->text() => wfMessage( 'wfexplore-category-name-clothing-accessories' )->text(),
-			wfMessage( 'wfexplore-category-name-decoration' )->text() => wfMessage( 'wfexplore-category-name-decoration' )->text(),
-			wfMessage( 'wfexplore-category-name-electronics' )->text() => wfMessage( 'wfexplore-category-name-electronics' )->text(),
-			wfMessage( 'wfexplore-category-name-energy' )->text() => wfMessage( 'wfexplore-category-name-energy' )->text(),
-			wfMessage( 'wfexplore-category-name-food-agriculture' )->text() => wfMessage( 'wfexplore-category-name-food-agriculture' )->text(),
-			wfMessage( 'wfexplore-category-name-furniture' )->text() => wfMessage( 'wfexplore-category-name-furniture' )->text(),
-			wfMessage( 'wfexplore-category-name-health-wellbeing' )->text() => wfMessage( 'wfexplore-category-name-health-wellbeing' )->text(),
-			wfMessage( 'wfexplore-category-name-play-recreation' )->text() => wfMessage( 'wfexplore-category-name-play-recreation' )->text(),
-			wfMessage( 'wfexplore-category-name-house' )->text() => wfMessage( 'wfexplore-category-name-house' )->text(),
-			wfMessage( 'wfexplore-category-name-machines-tools' )->text() => wfMessage( 'wfexplore-category-name-machines-tools' )->text(),
-			wfMessage( 'wfexplore-category-name-music-sound' )->text() => wfMessage( 'wfexplore-category-name-music-sound' )->text(),
-			wfMessage( 'wfexplore-category-name-play-outside' )->text() => wfMessage( 'wfexplore-category-name-play-outside' )->text(),
-			wfMessage( 'wfexplore-category-name-recycling-upcycling' )->text() => wfMessage( 'wfexplore-category-name-recycling-upcycling' )->text(),
-			wfMessage( 'wfexplore-category-name-robotics' )->text() => wfMessage( 'wfexplore-category-name-robotics' )->text(),
-			wfMessage( 'wfexplore-category-name-science-biology' )->text() => wfMessage( 'wfexplore-category-name-science-biology' )->text(),
-			wfMessage( 'wfexplore-category-name-transport-mobility' )->text() => wfMessage( 'wfexplore-category-name-transport-mobility' )->text(),
-		);
-		$diffOld = array(
-			wfMessage( 'wfexplore-category-name-very-easy' )->text() => wfMessage( 'wfexplore-category-name-very-easy' )->text(),
-			wfMessage( 'wfexplore-category-name-easy' )->text() => wfMessage( 'wfexplore-category-name-easy' )->text(),
-			wfMessage( 'wfexplore-category-name-medium' )->text() => wfMessage( 'wfexplore-category-name-medium' )->text(),
-			wfMessage( 'wfexplore-category-name-hard' )->text() => wfMessage( 'wfexplore-category-name-hard' )->text(),
-			wfMessage( 'wfexplore-category-name-very-hard' )->text() => wfMessage( 'wfexplore-category-name-very-hard' )->text(),
-		);
-		$cout = array(
-			'1' => '€',
-			'2' => '€€',
-			'3' => '€€€'
-		);
 		$fourchetteCout = array(
 			'0-10' => '0 - 10',
 			'10-50' => '10 - 50',
@@ -196,7 +212,6 @@ class WfExploreCore {
 			'Type' => $type,
 			'area' => $categories,
 			'Difficulty' => $diff,
-			//'Cost' => $cout,
 			'Cost' => $fourchetteCout
 		);
 	}
