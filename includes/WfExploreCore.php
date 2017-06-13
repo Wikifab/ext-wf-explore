@@ -118,6 +118,19 @@ class WfExploreCore {
 		$this->filters = $filters;
 	}
 
+	private function getValuesForProperty($property, $translateKeyPrefix = null) {
+		$store = PFUtils::getSMWStore();
+		$values = PFValuesUtils::getSMWPropertyValues( $store, Title::newFromDBkey('Property:'.$property), "Allows value" );
+
+		$result = [];
+		foreach ($values as $value) {
+			if($translateKeyPrefix) {
+				$result[$value] = wfMessage($translateKeyPrefix . str_replace(' ','_', $value));
+			}
+		}
+		return $result;
+	}
+
 	private function getFilters() {
 
 		//$property =new SMWDIProperty('Type');
@@ -131,11 +144,18 @@ class WfExploreCore {
 			return $GLOBALS['wfexploreCategories'];
 		}
 
-		$type = array(
+
+
+		$type = $this->getValuesForProperty('Type', "wf-propertyvalue-type-");
+		$categories = $this->getValuesForProperty('Area', "wf-propertyvalue-area-");
+		$diff = $this->getValuesForProperty('Difficulty', "wf-propertyvalue-difficulty-");
+
+
+		$typeOld = array(
 			wfMessage( 'wfexplore-category-name-creation' )->text() => wfMessage( 'wfexplore-category-name-creation' )->text(),
 			wfMessage( 'wfexplore-category-name-technique' )->text() => wfMessage( 'wfexplore-category-name-technique' )->text(),
 		);
-		$categories = array(
+		$categoriesOld = array(
 			wfMessage( 'wfexplore-category-name-art' )->text() => wfMessage( 'wfexplore-category-name-art' )->text(),
 			wfMessage( 'wfexplore-category-name-clothing-accessories' )->text() => wfMessage( 'wfexplore-category-name-clothing-accessories' )->text(),
 			wfMessage( 'wfexplore-category-name-decoration' )->text() => wfMessage( 'wfexplore-category-name-decoration' )->text(),
@@ -154,7 +174,7 @@ class WfExploreCore {
 			wfMessage( 'wfexplore-category-name-science-biology' )->text() => wfMessage( 'wfexplore-category-name-science-biology' )->text(),
 			wfMessage( 'wfexplore-category-name-transport-mobility' )->text() => wfMessage( 'wfexplore-category-name-transport-mobility' )->text(),
 		);
-		$diff = array(
+		$diffOld = array(
 			wfMessage( 'wfexplore-category-name-very-easy' )->text() => wfMessage( 'wfexplore-category-name-very-easy' )->text(),
 			wfMessage( 'wfexplore-category-name-easy' )->text() => wfMessage( 'wfexplore-category-name-easy' )->text(),
 			wfMessage( 'wfexplore-category-name-medium' )->text() => wfMessage( 'wfexplore-category-name-medium' )->text(),
