@@ -334,7 +334,12 @@ class WfExploreCore {
 		if ($this->isLocalised && ! isset($results['lang'])) {
 			// default : use user language :
 			global $wgLang;
-			$results['lang'] = $wgLang->getCode();
+			$lang = $wgLang->getCode();
+			$results['Language'][$lang] = array(
+					'category' => $category,
+					'valueName' => $lang,
+					'valueId' => $lang
+			);
 		}
 		return $results;
 	}
@@ -397,7 +402,7 @@ class WfExploreCore {
 
 	private function getQueryParamsWithType($category, $values) {
 
-		if($category == 'lang') {
+		if($category == 'Language') {
 			return '';
 		}
 
@@ -460,6 +465,16 @@ class WfExploreCore {
 				$query .= $specialField['query'];
 			}
 		}
+		// language conditions :
+		$lang = null;
+		if ( isset($selectedOptions['Language'])) {
+			foreach ($selectedOptions['Language'] as $value) {
+				$lang = $value['valueId'];
+				if ($lang == 'ALL') {
+					$lang = null;
+				}
+			}
+		}
 
 		foreach ($selectedOptions as $category => $values) {
 			if ($category != 'lang') {
@@ -473,9 +488,16 @@ class WfExploreCore {
 			//$query .= '[[group-type::*]]';
 			//$query .= '[[Group:*]]';
 		}
+
+		if ($lang) {
+			$query = "$query [[Language::none]] OR $query [[Language::$lang]][[isTranslation::0]] OR $query [[Language::$lang]][[isTranslation::1]][[SourceLanguage::!$lang]]";
+		}
+
+
 		if( ! $query ) {
 			$query = '[[area::!none]]';
 		}
+		//var_dump($query);
 		$results = $this->processSemanticQuery($query, $limit, $offset);
 		if($save) {
 			$this->results = $results;
