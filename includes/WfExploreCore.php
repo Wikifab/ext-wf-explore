@@ -13,6 +13,7 @@ class WfExploreCore {
 	private $searchPageTitle = null;
 	private $filters = null;
 
+	private $isLocalised = false;
 	private $extractTags = null;
 	private $extractedTags = null;
 
@@ -29,6 +30,9 @@ class WfExploreCore {
 	public function __construct() {
 		if (isset($GLOBALS['wfexploreExtractTags'])) {
 			$this->extractTags = $GLOBALS['wfexploreExtractTags'];
+		}
+		if (isset($GLOBALS['wgExploreIsLocalized'])) {
+			$this->isLocalised = $GLOBALS['wgExploreIsLocalized'];
 		}
 	}
 
@@ -182,9 +186,6 @@ class WfExploreCore {
 
 	private function getFilters() {
 
-		//$property =new SMWDIProperty('Type');
-		//var_dump($property);
-
 		if ($this->filters !== null) {
 			return $this->filters;
 		}
@@ -194,7 +195,7 @@ class WfExploreCore {
 		}
 
 		// for compatibility with old versions
-		if ( ! isset($GLOBALS['wgMessagesDirs']['WikifabPages'])) {
+		if ( ! $this->isLocalised ) {
 			return $this->getStaticFilters();
 		}
 
@@ -267,6 +268,19 @@ class WfExploreCore {
 			);
 			$filters['complete'] = $fieldComplete;
 		}
+		if ($this->isLocalised ) {
+			global $wgLang;
+			$filters['lang'] = array(
+					'id' => 'lang',
+					'name' => 'lang',
+					'values' => array(
+							'1' => array(
+							'id' => $wgLang->getCode(),
+							'name' => $wgLang->getCode(),
+						)
+					)
+			);
+		}
 		return $filters;
 	}
 
@@ -308,7 +322,6 @@ class WfExploreCore {
 			$fieldName = "wf-expl-" . $field;
 			if ($request && $request->getValues( $fieldName ) || isset($params[$fieldName])) {
 				$value = isset($params[$fieldName]) ? $params[$fieldName] : $request->getValues( $fieldName )[$fieldName];
-				//var_dump($value);
 				if($value) {
 					$results[$field] = array(
 							'value' => $value,
@@ -316,6 +329,12 @@ class WfExploreCore {
 					);
 				}
 			}
+		}
+
+		if ($this->isLocalised && ! isset($results['lang'])) {
+			// default : use user language :
+			global $wgLang;
+			$results['lang'] = $wgLang->getCode();
 		}
 		return $results;
 	}
@@ -378,6 +397,10 @@ class WfExploreCore {
 
 	private function getQueryParamsWithType($category, $values) {
 
+		if($category == 'lang') {
+			return '';
+		}
+
 		$type = isset($values['type']) ? $values['type'] : 'checkbox';
 		$andCondition = false;
 
@@ -397,7 +420,6 @@ class WfExploreCore {
 				}
 				break;
 		}
-		//var_dump($values);
 
 		return $this->getQueryParam($category, $valuesIds, $andCondition);
 	}
@@ -440,7 +462,9 @@ class WfExploreCore {
 		}
 
 		foreach ($selectedOptions as $category => $values) {
-			$query .= ' ' . $this->getQueryParamsWithType($category, $values);
+			if ($category != 'lang') {
+				$query .= ' ' . $this->getQueryParamsWithType($category, $values);
+			}
 			//$query .= ' [[' . $category . '::' . implode('||', $valuesIds) . ']]';
 		}
 

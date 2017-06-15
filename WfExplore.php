@@ -44,6 +44,7 @@ $wgResourceModules['ext.wikifab.wfExplore.js'] = array(
 	)
 );
 $wfexploreExtractTags = true;
+$wgExploreIsLocalized = false;
 
 $wgHooks['ParserFirstCallInit'][] = 'WfExploreParserFunctions';
 
