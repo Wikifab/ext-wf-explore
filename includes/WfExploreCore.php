@@ -209,11 +209,15 @@ class WfExploreCore {
 			'50-100' => '50 - 100',
 			'100-inf' => '100 - ∞'
 		);
+		$lang = array(
+			'ALL' => 'ALL'
+		);
 		return array (
 			'Type' => $type,
 			'area' => $categories,
 			'Difficulty' => $diff,
-			'Cost' => $fourchetteCout
+			'Cost' => $fourchetteCout,
+			'Language' => $lang
 		);
 	}
 
@@ -225,6 +229,7 @@ class WfExploreCore {
 			'Difficulty' => wfMessage( 'wfexplore-difficulty' )->text() ,
 			'Cost' => wfMessage( 'wfexplore-cost' )->text() ,
 			'Complete' => 'Complete',
+			'Language' => wfMessage( 'wfexplore-language' )->text(),
 		);
 
 		if (isset($GLOBALS['wfexploreCategoriesNames'])) {
@@ -267,19 +272,6 @@ class WfExploreCore {
 					)
 			);
 			$filters['complete'] = $fieldComplete;
-		}
-		if ($this->isLocalised ) {
-			global $wgLang;
-			$filters['lang'] = array(
-					'id' => 'lang',
-					'name' => 'lang',
-					'values' => array(
-							'1' => array(
-							'id' => $wgLang->getCode(),
-							'name' => $wgLang->getCode(),
-						)
-					)
-			);
 		}
 		return $filters;
 	}
@@ -331,14 +323,19 @@ class WfExploreCore {
 			}
 		}
 
-		if ($this->isLocalised && ! isset($results['lang'])) {
+		if ($this->isLocalised && ! isset($results['Language'])) {
 			// default : use user language :
 			global $wgLang;
 			$lang = $wgLang->getCode();
-			$results['Language'][$lang] = array(
+
+			// if no language set, (not a spécial one, nor 'ALL') we set current language
+			// use current language
+			$results['Language'] = array(
+				$lang => array(
 					'category' => $category,
 					'valueName' => $lang,
 					'valueId' => $lang
+				)
 			);
 		}
 		return $results;
@@ -389,7 +386,6 @@ class WfExploreCore {
 		$selectedOptions = $this->getSelectedAdvancedSearchOptions($request, $params);
 		$params = $this->params;
 
-		//$tags = array('CNC', 'Jeux', 'Impression 3D');
 		$tags = $this->getTags();
 
 		ob_start();
@@ -413,7 +409,7 @@ class WfExploreCore {
 			case 'text' :
 				$valuesIds = explode(',',$values['value']);
 				foreach ($valuesIds as $key => $val) {
-					$valuesIds[$key] = "~" . $val;
+					$valuesIds[$key] = "~*" . $val . "*";
 				}
 				$andCondition = true;
 				break;
@@ -477,7 +473,7 @@ class WfExploreCore {
 		}
 
 		foreach ($selectedOptions as $category => $values) {
-			if ($category != 'lang') {
+			if ($category != 'Language') {
 				$query .= ' ' . $this->getQueryParamsWithType($category, $values);
 			}
 			//$query .= ' [[' . $category . '::' . implode('||', $valuesIds) . ']]';
@@ -494,9 +490,10 @@ class WfExploreCore {
 		}
 
 
-		if( ! $query ) {
+		if( ! trim($query) ) {
 			$query = '[[area::!none]]';
 		}
+
 		//var_dump($query);
 		$results = $this->processSemanticQuery($query, $limit, $offset);
 		if($save) {
