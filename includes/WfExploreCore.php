@@ -210,7 +210,7 @@ class WfExploreCore {
 			'100-inf' => '100 - ∞'
 		);
 		$lang = array(
-			'ALL' => 'ALL'
+			'ALL' => wfMessage("wfexplore-language-all")
 		);
 		return array (
 			'Type' => $type,
