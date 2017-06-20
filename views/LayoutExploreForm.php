@@ -130,6 +130,14 @@ switch(count($filtersData)) {
 			}
 			continue;
 		}
+
+		// exception : for 'Language' property, if this is default language selected, we do not display it :
+		if ($category == 'Language') {
+			if(count($values) == 1 && isset($values[$currentLanguage])) {
+				continue;
+			}
+		}
+
 		echo ' <span class="category-filter-title">' . $filtersData[$category]['name'] . ' : </span>';
 		foreach ($values as $id => $value) {
 			$inputId = "wf-expl-$category-" . $id;

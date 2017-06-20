@@ -379,6 +379,8 @@ class WfExploreCore {
 	*
 	*/
 	private function getSearchForm($request, $params = []) {
+		global $wgLang;
+		$currentLanguage = $wgLang->getCode();
 
 		// get form options :
 		$filtersData = $this->getFiltersData();
