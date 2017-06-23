@@ -1,11 +1,7 @@
 <div class="search-section">
 <div class="container">
 <div class="WFfilter">
-<div class="col-md-1 col-sm-0 col-xs-0"></div>
-<div class="col-md-10 col-sm-12 col-xs-12">
-
 	<?php foreach ($filtersData as $category => $categoryDetails) : ?>
-		<div class="col-md-3 col-sm-3 col-xs-6">
 	    <ul class="nav nav-pills" role="tablist">
 	      <li class="dropdown mega-dropdown" id="myForm">
 	        <a id="drop5" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
@@ -56,11 +52,7 @@
 			</ul>
 	      </li>
 		 </ul>
-	 	</div>
 	<?php endforeach; ?>
-
-</div>
-<div class="col-md-1 col-sm-0 col-xs-0"></div>
 </div>
 </div>
 </div>
