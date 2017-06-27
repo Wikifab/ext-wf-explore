@@ -13,6 +13,7 @@ class WfExploreCore {
 	private $searchPageTitle = null;
 	private $filters = null;
 
+	private $isLocalised = false;
 	private $extractTags = null;
 	private $extractedTags = null;
 
@@ -29,6 +30,9 @@ class WfExploreCore {
 	public function __construct() {
 		if (isset($GLOBALS['wfexploreExtractTags'])) {
 			$this->extractTags = $GLOBALS['wfexploreExtractTags'];
+		}
+		if (isset($GLOBALS['wgExploreIsLocalized'])) {
+			$this->isLocalised = $GLOBALS['wgExploreIsLocalized'];
 		}
 	}
 
@@ -118,10 +122,69 @@ class WfExploreCore {
 		$this->filters = $filters;
 	}
 
-	private function getFilters() {
+	private function getValuesForProperty($property, $translateKeyPrefix = null) {
+		$store = PFUtils::getSMWStore();
+		$values = PFValuesUtils::getSMWPropertyValues( $store, Title::newFromDBkey('Property:'.$property), "Allows value" );
 
-		//$property =new SMWDIProperty('Type');
-		//var_dump($property);
+		$result = [];
+		foreach ($values as $value) {
+			if($translateKeyPrefix) {
+				$result[$value] = wfMessage($translateKeyPrefix . str_replace(' ','_', $value));
+			}
+		}
+		return $result;
+	}
+
+	/**
+	 * deprecated : for compatibility with previous versions
+	 */
+	private function getStaticFilters () {
+
+		$type = array(
+				wfMessage( 'wfexplore-category-name-creation' )->text() => wfMessage( 'wfexplore-category-name-creation' )->text(),
+				wfMessage( 'wfexplore-category-name-technique' )->text() => wfMessage( 'wfexplore-category-name-technique' )->text(),
+		);
+		$categories = array(
+				wfMessage( 'wfexplore-category-name-art' )->text() => wfMessage( 'wfexplore-category-name-art' )->text(),
+				wfMessage( 'wfexplore-category-name-clothing-accessories' )->text() => wfMessage( 'wfexplore-category-name-clothing-accessories' )->text(),
+				wfMessage( 'wfexplore-category-name-decoration' )->text() => wfMessage( 'wfexplore-category-name-decoration' )->text(),
+				wfMessage( 'wfexplore-category-name-electronics' )->text() => wfMessage( 'wfexplore-category-name-electronics' )->text(),
+				wfMessage( 'wfexplore-category-name-energy' )->text() => wfMessage( 'wfexplore-category-name-energy' )->text(),
+				wfMessage( 'wfexplore-category-name-food-agriculture' )->text() => wfMessage( 'wfexplore-category-name-food-agriculture' )->text(),
+				wfMessage( 'wfexplore-category-name-furniture' )->text() => wfMessage( 'wfexplore-category-name-furniture' )->text(),
+				wfMessage( 'wfexplore-category-name-health-wellbeing' )->text() => wfMessage( 'wfexplore-category-name-health-wellbeing' )->text(),
+				wfMessage( 'wfexplore-category-name-play-recreation' )->text() => wfMessage( 'wfexplore-category-name-play-recreation' )->text(),
+				wfMessage( 'wfexplore-category-name-house' )->text() => wfMessage( 'wfexplore-category-name-house' )->text(),
+				wfMessage( 'wfexplore-category-name-machines-tools' )->text() => wfMessage( 'wfexplore-category-name-machines-tools' )->text(),
+				wfMessage( 'wfexplore-category-name-music-sound' )->text() => wfMessage( 'wfexplore-category-name-music-sound' )->text(),
+				wfMessage( 'wfexplore-category-name-play-outside' )->text() => wfMessage( 'wfexplore-category-name-play-outside' )->text(),
+				wfMessage( 'wfexplore-category-name-recycling-upcycling' )->text() => wfMessage( 'wfexplore-category-name-recycling-upcycling' )->text(),
+				wfMessage( 'wfexplore-category-name-robotics' )->text() => wfMessage( 'wfexplore-category-name-robotics' )->text(),
+				wfMessage( 'wfexplore-category-name-science-biology' )->text() => wfMessage( 'wfexplore-category-name-science-biology' )->text(),
+				wfMessage( 'wfexplore-category-name-transport-mobility' )->text() => wfMessage( 'wfexplore-category-name-transport-mobility' )->text(),
+		);
+		$diff = array(
+				wfMessage( 'wfexplore-category-name-very-easy' )->text() => wfMessage( 'wfexplore-category-name-very-easy' )->text(),
+				wfMessage( 'wfexplore-category-name-easy' )->text() => wfMessage( 'wfexplore-category-name-easy' )->text(),
+				wfMessage( 'wfexplore-category-name-medium' )->text() => wfMessage( 'wfexplore-category-name-medium' )->text(),
+				wfMessage( 'wfexplore-category-name-hard' )->text() => wfMessage( 'wfexplore-category-name-hard' )->text(),
+				wfMessage( 'wfexplore-category-name-very-hard' )->text() => wfMessage( 'wfexplore-category-name-very-hard' )->text(),
+		);
+		$fourchetteCout = array(
+				'0-10' => '0 - 10',
+				'10-50' => '10 - 50',
+				'50-100' => '50 - 100',
+				'100-inf' => '100 - ∞'
+		);
+		return array (
+				'Type' => $type,
+				'area' => $categories,
+				'Difficulty' => $diff,
+				'Cost' => $fourchetteCout
+		);
+	}
+
+	private function getFilters() {
 
 		if ($this->filters !== null) {
 			return $this->filters;
@@ -131,53 +194,30 @@ class WfExploreCore {
 			return $GLOBALS['wfexploreCategories'];
 		}
 
-		$type = array(
-			wfMessage( 'wfexplore-category-name-creation' )->text() => wfMessage( 'wfexplore-category-name-creation' )->text(),
-			wfMessage( 'wfexplore-category-name-technique' )->text() => wfMessage( 'wfexplore-category-name-technique' )->text(),
-		);
-		$categories = array(
-			wfMessage( 'wfexplore-category-name-art' )->text() => wfMessage( 'wfexplore-category-name-art' )->text(),
-			wfMessage( 'wfexplore-category-name-clothing-accessories' )->text() => wfMessage( 'wfexplore-category-name-clothing-accessories' )->text(),
-			wfMessage( 'wfexplore-category-name-decoration' )->text() => wfMessage( 'wfexplore-category-name-decoration' )->text(),
-			wfMessage( 'wfexplore-category-name-electronics' )->text() => wfMessage( 'wfexplore-category-name-electronics' )->text(),
-			wfMessage( 'wfexplore-category-name-energy' )->text() => wfMessage( 'wfexplore-category-name-energy' )->text(),
-			wfMessage( 'wfexplore-category-name-food-agriculture' )->text() => wfMessage( 'wfexplore-category-name-food-agriculture' )->text(),
-			wfMessage( 'wfexplore-category-name-furniture' )->text() => wfMessage( 'wfexplore-category-name-furniture' )->text(),
-			wfMessage( 'wfexplore-category-name-health-wellbeing' )->text() => wfMessage( 'wfexplore-category-name-health-wellbeing' )->text(),
-			wfMessage( 'wfexplore-category-name-play-recreation' )->text() => wfMessage( 'wfexplore-category-name-play-recreation' )->text(),
-			wfMessage( 'wfexplore-category-name-house' )->text() => wfMessage( 'wfexplore-category-name-house' )->text(),
-			wfMessage( 'wfexplore-category-name-machines-tools' )->text() => wfMessage( 'wfexplore-category-name-machines-tools' )->text(),
-			wfMessage( 'wfexplore-category-name-music-sound' )->text() => wfMessage( 'wfexplore-category-name-music-sound' )->text(),
-			wfMessage( 'wfexplore-category-name-play-outside' )->text() => wfMessage( 'wfexplore-category-name-play-outside' )->text(),
-			wfMessage( 'wfexplore-category-name-recycling-upcycling' )->text() => wfMessage( 'wfexplore-category-name-recycling-upcycling' )->text(),
-			wfMessage( 'wfexplore-category-name-robotics' )->text() => wfMessage( 'wfexplore-category-name-robotics' )->text(),
-			wfMessage( 'wfexplore-category-name-science-biology' )->text() => wfMessage( 'wfexplore-category-name-science-biology' )->text(),
-			wfMessage( 'wfexplore-category-name-transport-mobility' )->text() => wfMessage( 'wfexplore-category-name-transport-mobility' )->text(),
-		);
-		$diff = array(
-			wfMessage( 'wfexplore-category-name-very-easy' )->text() => wfMessage( 'wfexplore-category-name-very-easy' )->text(),
-			wfMessage( 'wfexplore-category-name-easy' )->text() => wfMessage( 'wfexplore-category-name-easy' )->text(),
-			wfMessage( 'wfexplore-category-name-medium' )->text() => wfMessage( 'wfexplore-category-name-medium' )->text(),
-			wfMessage( 'wfexplore-category-name-hard' )->text() => wfMessage( 'wfexplore-category-name-hard' )->text(),
-			wfMessage( 'wfexplore-category-name-very-hard' )->text() => wfMessage( 'wfexplore-category-name-very-hard' )->text(),
-		);
-		$cout = array(
-			'1' => '€',
-			'2' => '€€',
-			'3' => '€€€'
-		);
+		// for compatibility with old versions
+		if ( ! $this->isLocalised ) {
+			return $this->getStaticFilters();
+		}
+
+		$type = $this->getValuesForProperty('Type', "wf-propertyvalue-type-");
+		$categories = $this->getValuesForProperty('Area', "wf-propertyvalue-area-");
+		$diff = $this->getValuesForProperty('Difficulty', "wf-propertyvalue-difficulty-");
+
 		$fourchetteCout = array(
 			'0-10' => '0 - 10',
 			'10-50' => '10 - 50',
 			'50-100' => '50 - 100',
 			'100-inf' => '100 - ∞'
 		);
+		$lang = array(
+			'ALL' => wfMessage("wfexplore-language-all")
+		);
 		return array (
 			'Type' => $type,
 			'area' => $categories,
 			'Difficulty' => $diff,
-			//'Cost' => $cout,
-			'Cost' => $fourchetteCout
+			'Cost' => $fourchetteCout,
+			'Language' => $lang
 		);
 	}
 
@@ -189,6 +229,7 @@ class WfExploreCore {
 			'Difficulty' => wfMessage( 'wfexplore-difficulty' )->text() ,
 			'Cost' => wfMessage( 'wfexplore-cost' )->text() ,
 			'Complete' => 'Complete',
+			'Language' => wfMessage( 'wfexplore-language' )->text(),
 		);
 
 		if (isset($GLOBALS['wfexploreCategoriesNames'])) {
@@ -273,7 +314,6 @@ class WfExploreCore {
 			$fieldName = "wf-expl-" . $field;
 			if ($request && $request->getValues( $fieldName ) || isset($params[$fieldName])) {
 				$value = isset($params[$fieldName]) ? $params[$fieldName] : $request->getValues( $fieldName )[$fieldName];
-				//var_dump($value);
 				if($value) {
 					$results[$field] = array(
 							'value' => $value,
@@ -281,6 +321,22 @@ class WfExploreCore {
 					);
 				}
 			}
+		}
+
+		if ($this->isLocalised && ! isset($results['Language'])) {
+			// default : use user language :
+			global $wgLang;
+			$lang = $wgLang->getCode();
+
+			// if no language set, (not a spécial one, nor 'ALL') we set current language
+			// use current language
+			$results['Language'] = array(
+				$lang => array(
+					'category' => $category,
+					'valueName' => $lang,
+					'valueId' => $lang
+				)
+			);
 		}
 		return $results;
 	}
@@ -323,6 +379,8 @@ class WfExploreCore {
 	*
 	*/
 	private function getSearchForm($request, $params = []) {
+		global $wgLang;
+		$currentLanguage = $wgLang->getCode();
 
 		// get form options :
 		$filtersData = $this->getFiltersData();
@@ -330,7 +388,6 @@ class WfExploreCore {
 		$selectedOptions = $this->getSelectedAdvancedSearchOptions($request, $params);
 		$params = $this->params;
 
-		//$tags = array('CNC', 'Jeux', 'Impression 3D');
 		$tags = $this->getTags();
 
 		ob_start();
@@ -343,6 +400,10 @@ class WfExploreCore {
 
 	private function getQueryParamsWithType($category, $values) {
 
+		if($category == 'Language') {
+			return '';
+		}
+
 		$type = isset($values['type']) ? $values['type'] : 'checkbox';
 		$andCondition = false;
 
@@ -350,7 +411,7 @@ class WfExploreCore {
 			case 'text' :
 				$valuesIds = explode(',',$values['value']);
 				foreach ($valuesIds as $key => $val) {
-					$valuesIds[$key] = "~" . $val;
+					$valuesIds[$key] = "~*" . $val . "*";
 				}
 				$andCondition = true;
 				break;
@@ -362,7 +423,6 @@ class WfExploreCore {
 				}
 				break;
 		}
-		//var_dump($values);
 
 		return $this->getQueryParam($category, $valuesIds, $andCondition);
 	}
@@ -403,9 +463,21 @@ class WfExploreCore {
 				$query .= $specialField['query'];
 			}
 		}
+		// language conditions :
+		$lang = null;
+		if ( isset($selectedOptions['Language'])) {
+			foreach ($selectedOptions['Language'] as $value) {
+				$lang = $value['valueId'];
+				if ($lang == 'ALL') {
+					$lang = null;
+				}
+			}
+		}
 
 		foreach ($selectedOptions as $category => $values) {
-			$query .= ' ' . $this->getQueryParamsWithType($category, $values);
+			if ($category != 'Language') {
+				$query .= ' ' . $this->getQueryParamsWithType($category, $values);
+			}
 			//$query .= ' [[' . $category . '::' . implode('||', $valuesIds) . ']]';
 		}
 
@@ -414,9 +486,17 @@ class WfExploreCore {
 			//$query .= '[[group-type::*]]';
 			//$query .= '[[Group:*]]';
 		}
-		if( ! $query ) {
+
+		if ($lang) {
+			$query = "$query [[Language::none]] OR $query [[Language::$lang]][[isTranslation::0]] OR $query [[Language::$lang]][[isTranslation::1]][[SourceLanguage::!$lang]]";
+		}
+
+
+		if( ! trim($query) ) {
 			$query = '[[area::!none]]';
 		}
+
+		//var_dump($query);
 		$results = $this->processSemanticQuery($query, $limit, $offset);
 		if($save) {
 			$this->results = $results;

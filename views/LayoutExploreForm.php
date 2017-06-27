@@ -1,6 +1,10 @@
 <?php if (count($filtersData) > 0):?>
 <div class="search-section">
 <div class="container">
+
+<?php if (isset($params['complete']) && $params['complete']):?>
+	<input type="hidden" id="wf-expl-complete-1" name="wf-expl-complete-1" value='1'/>
+<?php endif; ?>
 <div class="WFfilter">
 <div class="col-md-1 col-sm-0 col-xs-0"></div>
 <div class="col-md-10 col-sm-12 col-xs-12">
@@ -43,9 +47,6 @@ switch(count($filtersData)) {
 			?>
 			<ul class="dropdown-menu mega-dropdown-menu dropdown-menu-<?php echo $nbcolone ?>cols">
 
-			<?php if (isset($params['complete']) && $params['complete']):?>
-				<input type="hidden" id="wf-expl-complete-1" name="wf-expl-complete-1" value='1'/>
-			<?php endif; ?>
 
 			<div class="row">
 				<?php
@@ -129,6 +130,14 @@ switch(count($filtersData)) {
 			}
 			continue;
 		}
+
+		// exception : for 'Language' property, if this is default language selected, we do not display it :
+		if ($category == 'Language') {
+			if(count($values) == 1 && isset($values[$currentLanguage])) {
+				continue;
+			}
+		}
+
 		echo ' <span class="category-filter-title">' . $filtersData[$category]['name'] . ' : </span>';
 		foreach ($values as $id => $value) {
 			$inputId = "wf-expl-$category-" . $id;
