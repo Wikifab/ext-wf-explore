@@ -5,9 +5,7 @@
 <?php if (isset($params['complete']) && $params['complete']):?>
 	<input type="hidden" id="wf-expl-complete-1" name="wf-expl-complete-1" value='1'/>
 <?php endif; ?>
-<div class="WFfilter">
-<div class="col-md-1 col-sm-0 col-xs-0"></div>
-<div class="col-md-10 col-sm-12 col-xs-12">
+<div class="row WFfilter">
 
 <?php
 
@@ -82,8 +80,6 @@ switch(count($filtersData)) {
 	 	</div>
 	<?php endforeach; ?>
 
-</div>
-<div class="col-md-1 col-sm-0 col-xs-0"></div>
 </div>
 </div>
 </div>
