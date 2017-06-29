@@ -194,6 +194,16 @@ class WikifabExploreResultFormatter {
 				}
 			}
 			$out = str_replace("{{" . $key . "}}", $value, $out);
+			if (strpos($out, "{{int:" . $key . "}}") !== false) {
+				$values = explode(',', $value);
+				$intValues = [];
+				$intKeyPrefix = 'wf-propertyvalue-'. str_replace('-', '', strtolower($key)).'-';
+				foreach ($values as $v) {
+					$intValues[] = wfMessage( $intKeyPrefix . trim($v));
+				}
+				$intValue = implode(', ', $intValues);
+				$out = str_replace("{{int:" . $key . "}}", $intValue, $out);
+			}
 		}
 		return $out;
 	}
