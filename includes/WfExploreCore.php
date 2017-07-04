@@ -105,6 +105,16 @@ class WfExploreCore {
 			}
 			return $result;
 
+		} else if ($category == 'Category') {
+			if($andCondition) {
+				$result = '';
+				foreach ($valuesIds as $valueId) {
+					$result .= '[[' . $category . ':' .  $valueId . ']]';
+				}
+				return $result;
+			} else {
+				return '[[' . $category . ':' . implode('||', $valuesIds) . ']]';
+			}
 		} else {
 			if($andCondition) {
 				$result = '';
