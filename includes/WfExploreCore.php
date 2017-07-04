@@ -503,7 +503,12 @@ class WfExploreCore {
 
 
 		if( ! trim($query) ) {
-			$query = '[[area::!none]]';
+
+			if (isset($GLOBALS['wfexploreDefaultQuery'])) {
+				$query = $GLOBALS['wfexploreDefaultQuery'];
+			} else {
+				$query = '[[area::!none]]';
+			}
 		}
 
 		//var_dump($query);
