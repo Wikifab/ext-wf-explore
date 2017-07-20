@@ -398,6 +398,15 @@ class WfExploreCore {
 		$selectedOptions = $this->getSelectedAdvancedSearchOptions($request, $params);
 		$params = $this->params;
 
+		// those two vars could be parametized in Localsettings
+		// for now, this is hard-coded
+		$wgExploreCategoriesUsingSwitchButtons = [
+				'Language' => "Language"
+		];
+		$wgExploreSwitchButtons = [
+				'Language-ALL' => 'wfexplore-display-all-language'
+		];
+
 		$tags = $this->getTags();
 
 		ob_start();

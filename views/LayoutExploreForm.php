@@ -29,6 +29,36 @@ switch(count($filtersData)) {
 }
 ?>
 	<?php foreach ($filtersData as $category => $categoryDetails) : ?>
+		<?php
+		// for categories with only 1 value, display a switch button instead of a dropdown
+		if(isset($wgExploreCategoriesUsingSwitchButtons[$category])):
+			foreach ($categoryDetails['values'] as $value) :?>
+
+			  <div class="col-md-4 col-sm-6 col-xs-12">
+				<?php
+
+				$inputName = "wf-expl-$category-" . $value['id'];
+				$pattern = '/[^0-9a-zA-Z\-_]/i';
+				$replacement = '-';
+				$inputId = preg_replace($pattern, $replacement, $inputName);
+
+				$label = $categoryDetails['name'] . ' : ' . $value['name'];
+				if (isset($wgExploreSwitchButtons["$category-" . $value['id']])) {
+					$label = wfMessage($wgExploreSwitchButtons["$category-" . $value['id']]);
+				}
+				?>
+
+				<label class="switch-label" for="<?php echo $inputId;?>"><?php echo $label; ?></label>
+				<label class="switch">
+				  <input id='<?php echo $inputId; ?>' name="<?php echo $inputName; ?>"
+							    		type="checkbox"
+							    		<?php echo isset($selectedOptions[$category][$value['id']]) ? 'checked="checked"' : ''; ?>
+							    		autocomplete="off">
+				  <span class="slider round"></span>
+				</label>
+			<?php endforeach;?>
+	 	  </div>
+		<?php else:?>
 		<div class="<?php echo $bootstrapClass ?>">
 	    <ul class="nav nav-pills" role="tablist">
 	      <li class="dropdown mega-dropdown" id="myForm">
@@ -78,6 +108,7 @@ switch(count($filtersData)) {
 	      </li>
 		 </ul>
 	 	</div>
+		<?php endif;?>
 	<?php endforeach; ?>
 
 </div>

@@ -36,23 +36,39 @@ $wgExploreDefaultsFieldsDisplayValues = [
 
 
 $wgResourceModules['ext.wikifab.wfExplore.js'] = array(
-	'scripts' => 'wf-explore.js',
-	'localBasePath' => __DIR__,
-	'remoteExtPath' => 'Explore',
-	'messages' => array(
-			'wfexplore-load-more-tutorials-previous'
-	)
+		'scripts' => 'wf-explore.js',
+		'styles' => array('wf-explore.css'),
+		'localBasePath' => __DIR__,
+		'remoteExtPath' => 'Explore',
+		'messages' => array(
+				'wfexplore-load-more-tutorials-previous'
+		)
 );
+$wgResourceModules['ext.wikifab.wfexplore.css'] = array(
+	'styles' => array('wf-explore.css'),
+	'localBasePath' => __DIR__,
+	'remoteExtPath' => 'Explore'
+);
+
+$wgResourceModules['ext.wikifab.wfexplore'] = array(
+	'dependencies' => array(
+			'ext.wikifab.wfexplore.css',
+			'ext.wikifab.wfExplore.js'
+	),
+);
+
 $wfexploreExtractTags = true;
 $wgExploreIsLocalized = false;
 
 $wgHooks['ParserFirstCallInit'][] = 'WfExploreParserFunctions';
 
+
 # Parser function to insert a link changing a tab.
 function WfExploreParserFunctions( $parser ) {
+	global $wgOut;
+	$wgOut->addModules( array( 'ext.wikifab.wfexplore' ) );
 	$parser->setFunctionHook( 'displayExplore', array('WfExploreTag', 'addSampleParser' ));
 	$parser->setFunctionHook( 'exploreQuery', array('WfExploreQueryParser', 'addSampleParser' ));
-	//$parser->setFunctionTagHook('displayTutorialsList', array('WfSampleDisplay', 'addSampleParser' ), array());
 	return true;
 }
 
