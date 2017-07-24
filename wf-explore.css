@@ -1,8 +1,19 @@
 
 
 .WFfilter label.switch-label {
-	font-size: 0.8em;
+	font-size: 0.85em;
+  font-weight: normal;
 	cursor:pointer;
+  color: #999;
+}
+
+.search-section .WFfilter p.switch-p-container {
+    text-align: right;
+    margin-top: 10px;
+}
+
+.WFfilter label.switch-label:hover {
+  color:#337ab7;
 }
 
 /** Layout for check box slider switch **/
