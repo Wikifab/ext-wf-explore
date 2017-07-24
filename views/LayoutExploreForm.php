@@ -48,14 +48,16 @@ switch(count($filtersData)) {
 				}
 				?>
 
-				<label class="switch-label" for="<?php echo $inputId;?>"><?php echo $label; ?></label>
-				<label class="switch">
-				  <input id='<?php echo $inputId; ?>' name="<?php echo $inputName; ?>"
-							    		type="checkbox"
-							    		<?php echo isset($selectedOptions[$category][$value['id']]) ? 'checked="checked"' : ''; ?>
-							    		autocomplete="off">
-				  <span class="slider round"></span>
-				</label>
+				<p class="switch-p-container">
+					<label class="switch-label" for="<?php echo $inputId;?>"><?php echo $label; ?></label>
+					<label class="switch">
+					  <input id='<?php echo $inputId; ?>' name="<?php echo $inputName; ?>"
+								    		type="checkbox"
+								    		<?php echo isset($selectedOptions[$category][$value['id']]) ? 'checked="checked"' : ''; ?>
+								    		autocomplete="off">
+					<span class="slider round"></span>
+					</label>
+				</p>
 			<?php endforeach;?>
 	 	  </div>
 		<?php else:?>
@@ -138,6 +140,10 @@ switch(count($filtersData)) {
 <div class="search-filters-section wfexplore-selectedLabels">
 <div class="container">
 	<?php foreach ($selectedOptions as $category => $values) {
+		if (isset($wgExploreCategoriesUsingSwitchButtons[$category])) {
+			// if this is from a switch button, do not display label
+			continue;
+		}
 		if (! isset($filtersData[$category]) ) {
 
 			if(isset($values['type']) && $values['type'] =='text' && $values['value']) {
