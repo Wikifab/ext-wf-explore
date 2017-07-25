@@ -8,6 +8,10 @@
   margin-right: 1px;
 }
 
+.switch-btn {
+  float:right;
+}
+
 .search-section .WFfilter p.switch-p-container {
     text-align: right;
     margin-top: 10px;

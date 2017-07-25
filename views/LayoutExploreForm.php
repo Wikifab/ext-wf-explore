@@ -5,36 +5,15 @@
 <?php if (isset($params['complete']) && $params['complete']):?>
 	<input type="hidden" id="wf-expl-complete-1" name="wf-expl-complete-1" value='1'/>
 <?php endif; ?>
-<div class="row WFfilter">
+<div class="WFfilter">
 
-<?php
-
-switch(count($filtersData)) {
-	case 1 :
-		$bootstrapClass = "col-md-12 col-sm-12 col-xs-12";
-		break;
-	case 2 :
-		$bootstrapClass = "col-md-6 col-sm-6 col-xs-6";
-		break;
-	case 3 :
-		$bootstrapClass = "col-md-4 col-sm-4 col-xs-6";
-		break;
-	case 4 :
-		$bootstrapClass = "col-md-3 col-sm-3 col-xs-6";
-		break;
-	case 5 :
-	default :
-		$bootstrapClass = "col-md-2 col-sm-3 col-xs-6";
-		break;
-}
-?>
 	<?php foreach ($filtersData as $category => $categoryDetails) : ?>
 		<?php
 		// for categories with only 1 value, display a switch button instead of a dropdown
 		if(isset($wgExploreCategoriesUsingSwitchButtons[$category])):
 			foreach ($categoryDetails['values'] as $value) :?>
 
-			  <div class="col-md-4 col-sm-6 col-xs-12">
+			  <div class="switch-btn">
 				<?php
 
 				$inputName = "wf-expl-$category-" . $value['id'];
@@ -61,7 +40,7 @@ switch(count($filtersData)) {
 			<?php endforeach;?>
 	 	  </div>
 		<?php else:?>
-		<div class="<?php echo $bootstrapClass ?>">
+		<div class="WFfilter-property">
 	    <ul class="nav nav-pills" role="tablist">
 	      <li class="dropdown mega-dropdown" id="myForm">
 	        <a id="drop5" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
