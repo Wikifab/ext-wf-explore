@@ -66,6 +66,12 @@ $wgHooks['ParserFirstCallInit'][] = 'WfExploreParserFunctions';
 # Parser function to insert a link changing a tab.
 function WfExploreParserFunctions( $parser ) {
 	global $wgOut;
+
+	$wgOut->addModuleStyles(
+		array(
+				'ext.wikifab.wfexplore.css'
+		)
+	);
 	$wgOut->addModules( array( 'ext.wikifab.wfexplore' ) );
 	$parser->setFunctionHook( 'displayExplore', array('WfExploreTag', 'addSampleParser' ));
 	$parser->setFunctionHook( 'exploreQuery', array('WfExploreQueryParser', 'addSampleParser' ));
