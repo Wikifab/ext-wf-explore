@@ -31,37 +31,38 @@ $( document ).ready(function () {
 		$( ".wfexplore-selectedLabels .tag .remove" ).click(function (item) {
 
 
+			var form = $(this).parents('form:first');
 			var dataRole =  $( this ) . attr('data-role');
 			inputID = $( this ) . attr('data-inputId');
 
 			switch(dataRole) {
 				case 'remove':
-					$('#Label' + inputID).button('toggle');
+					form.find('#Label' + inputID).button('toggle');
 					break;
 				case 'textRemove':
 					var valueToRemove = $( this ) . attr('data-textValue');
-					var values = $('#' + inputID).val().split(',');
+					var values = form.find('#' + inputID).val().split(',');
 					index = values.indexOf(valueToRemove);
 					if (index > -1) {
 						values.splice(index, 1);
 					}
 					values = values.join();
-					$('#' + inputID).val(values);
+					form.find('#' + inputID).val(values);
 					break;
 			}
 
 			$( this ).parent().hide();
 
-			$("#wfExplore").submit();
+			//$("#wfExplore").submit();
+			form.submit();
 
 		});
 	}
 
 
 	/* submit form on each change on filters */
-	$("#wfExplore input[type=checkbox]").change(function () {
-
-		$("#wfExplore").submit();
+	$("form.wfExplore input[type=checkbox]").change(function () {
+		$(this).parents('form:first').submit();
     });
 
 	function updateUriFromForm(form) {
@@ -72,41 +73,43 @@ $( document ).ready(function () {
 	/* manage tags buttons */
 
 	/* function added to add tag with input */
-	function addTag(value) {
+	function addTag(form, value) {
 		value = value.trim();
 		console.log(value);
 		if( ! value) {
 			return;
 		}
 		// add tag value in field
-		var fieldValue = $("#wf-expl-Tags").val();
+		var fieldValue = form.find("#wf-expl-Tags").val();
 		if(fieldValue) {
 			fieldValue += "," + value;
 		} else {
 			fieldValue = value;
 		}
-		$("#wf-expl-Tags").val(fieldValue);
+		form.find("#wf-expl-Tags").val(fieldValue);
 		// subit form to apply filters
-		$("#wfExplore").submit();
+		form.submit();
 	}
 
 	function proposedTagsBind() {
-		$(".proposedTag").click(function () {
+		$(".proposedTag").click(function (event) {
+			var form = $(this).parents('form:first');
 			// add tag value in field
-			addTag($(this).attr('data-value'));
+			addTag(form, $(this).attr('data-value'));
 			event.preventDefault();
 	    });
 
 		$("#wf-expl-addTagButton").click(function () {
+			var form = $(this).parents('form:first');
 			// add tag value in field
-			addTag($("#wf-expl-TagsInput").val());
+			addTag(form, $("#wf-expl-TagsInput").val());
 			$("#wf-expl-TagsInput").val('');
 	    });
 
 		$('#wf-expl-TagsInput').keypress(function (e) {
 			 var key = e.which;
 			 if(key == 13) { // the enter key code
-			    $('#wf-expl-addTagButton').click();
+				 $(this).parents('form:first').find('#wf-expl-addTagButton').click();
 			    return false;
 			 }
 		});
@@ -116,16 +119,18 @@ $( document ).ready(function () {
 
 
 	/* soumission du formulaire en ajax */
-    $('#wfExplore').on('submit', function(e) {
+    $('form.wfExplore').on('submit', function(e) {
         e.preventDefault(); // J'empêche le comportement par défaut du navigateur, c-à-d de soumettre le formulaire
         requestRunning ++;
         var form = $(this); // L'objet jQuery du formulaire
 
+        var exploreId = form.attr('data-exploreId');
+        console.log('explore id ' + exploreId)
         explorePageNumber = 1;
     	exploreMinPageNumber = 1;
-        $('#wfExplore input[name=page]').val(explorePageNumber);
+        form.find('input[name=page]').val(explorePageNumber);
 
-        $('.loader').show();
+        form.find('.loader').show();
         // Envoi de la requête HTTP en mode asynchrone
         $.ajax({
             url: form.attr('action'),
@@ -137,25 +142,26 @@ $( document ).ready(function () {
                 // get .searchresults div content from result
 				wfExplore = $data.find('.searchresults').contents();
 				// replace .searchresults div content in dom
-				$('.searchresults').empty();
-				$('.searchresults').append(wfExplore);
+				var resultDiv = $('#result-' + exploreId +'.searchresults');
+				resultDiv.empty();
+				resultDiv.append(wfExplore);
 
                 // idem for get .wfexplore-selectedLabels div content
 				wfExplore = $data.find('.wfexplore-selectedLabels').contents();
 				// replace .wfexplore-selectedLabels div content in dom
-				$('.wfexplore-selectedLabels').empty();
-				$('.wfexplore-selectedLabels').append(wfExplore);
+				form.find('.wfexplore-selectedLabels').empty();
+				form.find('.wfexplore-selectedLabels').append(wfExplore);
 
 				// refresh tags proposals
 				proposedTags = $data.find('.wfexplore-proposedTags').contents();
-				$('.wfexplore-proposedTags').empty();
-				$('.wfexplore-proposedTags').append(proposedTags);
+				form.find('.wfexplore-proposedTags').empty();
+				form.find('.wfexplore-proposedTags').append(proposedTags);
 				proposedTagsBind();
 
 
 				setHandlerOnRemoveTags();
-        		$('.loader').hide();
-        		$('.load-more').on('click', loadMoreClick);
+        		form.find('.loader').hide();
+        		resultDiv.find('.load-more').on('click', loadMoreClick);
 
         		updateUriFromForm(form) ;
 

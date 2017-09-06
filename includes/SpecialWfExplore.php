@@ -51,6 +51,9 @@ class SpecialWfExplore extends SpecialPage {
 	/** @var string No idea, apparently used by some other classes */
 	protected $mPrefix;
 
+	/** @var array parameters for query, and display (limit, page number, layout) */
+	protected $params = [];
+
 	/**
 	 * @var int
 	 */
@@ -106,9 +109,14 @@ class SpecialWfExplore extends SpecialPage {
 
 		$this->load();
 
-		$this->results = $this->WfExploreCore->executeSearch( $request );
+		$layout = $request->getValues( 'layout' );
+		if($layout) {
+			$this->params['layout'] = $layout['layout'];
+		}
 
-		$this->WfExploreCore->extractTags($request);
+		$this->results = $this->WfExploreCore->executeSearch( $request, $this->params);
+
+		$this->WfExploreCore->extractTags($request, $this->params);
 
 		$this->showResults();
 	}
@@ -145,7 +153,7 @@ class SpecialWfExplore extends SpecialPage {
 
 		$out->addHtml($this->WfExploreCore->getHtmlForm());
 
-		$out->addHtml(  $this->WfExploreCore->getSearchResultsHtml());
+		$out->addHtml(  $this->WfExploreCore->getSearchResultsHtml($this->params));
 
 	}
 

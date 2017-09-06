@@ -1,9 +1,12 @@
 <?php if (count($filtersData) > 0):?>
-<div class="search-section">
+<div class="search-section" id="search-<?php echo $exploreId; ?>">
 <div class="container">
 
 <?php if (isset($params['complete']) && $params['complete']):?>
 	<input type="hidden" id="wf-expl-complete-1" name="wf-expl-complete-1" value='1'/>
+<?php endif; ?>
+<?php if (isset($params['layout']) && $params['layout']):?>
+	<input type="hidden" id="layout" name="layout" value='<?php echo $params['layout'] ?>'/>
 <?php endif; ?>
 <div class="WFfilter">
 

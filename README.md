@@ -2,6 +2,10 @@
 
 ## parsers usage :
 
+### explore Page :
+
+Navigate to the page 'Spécial:WfExplore'  to see the full explore page
+
 ### explore Query :
 
 'exploreQuery' function just display a list of tutorials, accordint to a semantic query
@@ -10,6 +14,12 @@
 
 Ex : 
   {{#exploreQuery:  [[area::Électronique]] | 8}}
+  
+### displayExplore function
+
+to display explorer in a page, insert the function displayExplore :
+  {{#displayExplore: params}}
+
   
 ## configuration :
 
@@ -31,3 +41,13 @@ Ex :
   		'Cost' => wfMessage( 'wfexplore-cost' )->text() ,
   		'Complete' => 'Complete',
   ]
+
+### configure layout to display results : 
+
+it is possible to change the layout of results, to do it, set the available layouts in LocalSettings.php : 
+  $wgExploreResultsLayouts = [
+		'event' => __DIR__ . '/views/layout-event.html'
+  ];
+  
+then, when calling the explore with parser function in a page, set the 'layout' params :
+  {{#displayExplore: layout=event}}

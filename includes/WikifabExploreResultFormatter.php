@@ -22,6 +22,19 @@ class WikifabExploreResultFormatter {
 		$this->results = $results;
 	}
 
+	public function setLayout($name) {
+		global $wgExploreResultsLayouts;
+		if( ! $wgExploreResultsLayouts) {
+			trigger_error("Layouts available undefined", E_USER_NOTICE);
+			return false;
+		}
+		if (! $wgExploreResultsLayouts[$name]) {
+			trigger_error("Layouts undefined : " . $name, E_USER_NOTICE);
+			return false;
+		}
+		$this->template = $wgExploreResultsLayouts[$name];
+	}
+
 	public function render($params = []) {
 		$this->out = '';
 

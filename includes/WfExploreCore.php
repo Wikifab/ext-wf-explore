@@ -5,6 +5,8 @@ class WfExploreCore {
 	private $request;
 	private $params;
 
+	private $instanceId;
+
 	private $pageResultsLimit = 8;
 
 	private $namespaces = false;
@@ -28,6 +30,11 @@ class WfExploreCore {
 	);
 
 	public function __construct() {
+		static $instanceCount = 0;
+		$instanceCount ++;
+
+		$this->instanceId = 'wfe' . $instanceCount;
+
 		if (isset($GLOBALS['wfexploreExtractTags'])) {
 			$this->extractTags = $GLOBALS['wfexploreExtractTags'];
 		}
@@ -46,6 +53,7 @@ class WfExploreCore {
 		}
 		return $this->formatter;
 	}
+
 	public function setMessageKey($message, $key) {
 		$this->message[$message] = $key;
 	}
@@ -276,13 +284,14 @@ class WfExploreCore {
 					'name' => 'Complete',
 					'values' => array(
 							'1' => array(
-							'id' => 1,
-							'name' => 'Complete',
-						)
+									'id' => 1,
+									'name' => 'Complete',
+							)
 					)
 			);
 			$filters['complete'] = $fieldComplete;
 		}
+
 		return $filters;
 	}
 
@@ -360,9 +369,11 @@ class WfExploreCore {
 		$out = Xml::openElement(
 				'form',
 				array(
-					'id' => 'wfExplore',
+					'id' => 'wfExplore-' . $this->instanceId,
+					'class' => 'wfExplore',
 					'method' => 'get',
 					'action' => $url,
+					'data-exploreId' => $this->instanceId
 				)
 		);
 
@@ -396,6 +407,7 @@ class WfExploreCore {
 		$filtersData = $this->getFiltersData();
 		// get selected Options
 		$selectedOptions = $this->getSelectedAdvancedSearchOptions($request, $params);
+
 		$params = $this->params;
 
 		// those two vars could be parametized in Localsettings
@@ -408,6 +420,8 @@ class WfExploreCore {
 		];
 
 		$tags = $this->getTags();
+
+		$exploreId = $this->instanceId;
 
 		ob_start();
 		include ($GLOBALS['egWfExploreLayoutForm']);
@@ -567,7 +581,7 @@ class WfExploreCore {
 		return $tags;
 	}
 
-	public function extractTags($request) {
+	public function extractTags($request, $params) {
 		$tags = [];
 
 		if ($this->extractTags == false) {
@@ -577,7 +591,9 @@ class WfExploreCore {
 			return array_keys($this->extractedTags);
 		}
 
-		$results = $this->executeSearch($request, ['limit' => 200, 'page'=> 1], false);
+		$params = array_merge($params, ['limit' => 200, 'page'=> 1]);
+
+		$results = $this->executeSearch($request, $params, false);
 
 
 		foreach ($results as $result){
@@ -674,7 +690,7 @@ class WfExploreCore {
 		}
 
 		$param = array_merge($defaultParams, $param);
-		$out = "<div class='".$param['replaceClass']."'>\n";
+		$out = "<div class='".$param['replaceClass']."'  id='result-" . $this->instanceId . "'>\n";
 
 		$out .= '<a id="explore-page'.$this->page . '" name="page'.$this->page . '"></a>';
 
@@ -685,6 +701,10 @@ class WfExploreCore {
 		}
 
 		$wikifabExploreResultFormatter = $this->getFormatter();
+
+		if(isset($param['layout'])) {
+			$wikifabExploreResultFormatter->setLayout($param['layout']);
+		}
 
 		$wikifabExploreResultFormatter->setResults($this->results);
 
