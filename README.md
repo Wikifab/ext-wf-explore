@@ -11,9 +11,15 @@ Navigate to the page 'Spécial:WfExplore'  to see the full explore page
 'exploreQuery' function just display a list of tutorials, accordint to a semantic query
 
 1st param is  the query, the second param (optional) is the number limite of results to display.
+other named parameters can be set : 
+- sort : field to use to sort results
+- limit : number of result to display
+- layout : layout to use (see layout config)
 
 Ex : 
   {{#exploreQuery:  [[area::Électronique]] | 8}}
+  {{#exploreQuery:  [[area::Électronique]] | sort=editdate|limit=8}}
+  {{#exploreQuery:  [[area::Électronique]] | sort=editdate|limit=8| layout=event}}
   
 ### displayExplore function
 
