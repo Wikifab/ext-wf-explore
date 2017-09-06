@@ -33,13 +33,9 @@ class WfExploreQueryParser {
 
 		$params = array();
 
-		$params['limit'] = intval($limit);
+		$params['limit'] = intval($options['limit']);
 
-		$params['query'] = $query;
-
-		$WfExploreCore->executeSearch( $request = null , $params);
-
-		$out = "";
+		$params['query'] = $options['query'];
 
 		$paramsOutput = [
 				'showPreviousButton' => true,
@@ -47,6 +43,16 @@ class WfExploreQueryParser {
 				'replaceClass' => 'exploreQueryResult',
 				'isEmbed' => true
 		];
+
+		if(isset($options['layout'])) {
+			$params['layout'] = $options['layout'];
+			$paramsOutput['layout'] = $paramsOutput['layout'];
+		}
+
+		$WfExploreCore->executeSearch( $request = null , $params);
+
+		$out = "";
+
 		$out .= $WfExploreCore->getSearchResultsHtml($paramsOutput);
 
 		return array( $out, 'noparse' => true, 'isHTML' => true );
