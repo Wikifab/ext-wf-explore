@@ -46,7 +46,7 @@ class WfExploreQueryParser {
 
 		if(isset($options['layout'])) {
 			$params['layout'] = $options['layout'];
-			$paramsOutput['layout'] = $paramsOutput['layout'];
+			$paramsOutput['layout'] = $options['layout'];
 		}
 
 		$WfExploreCore->executeSearch( $request = null , $params);
