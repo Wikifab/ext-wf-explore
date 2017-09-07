@@ -37,6 +37,9 @@ class WfExploreTag {
 
 		$params = $_GET;
 
+		if (isset($options['query'])) {
+			$params['query'] = $options['query'];
+		}
 		if (isset($options['completeonly'])) {
 			$params['complete'] = 'complete';
 		}

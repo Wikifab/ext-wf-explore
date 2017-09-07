@@ -204,12 +204,19 @@ class WfExploreCore {
 
 	private function getFilters() {
 
+		global $wfexploreCategoriesByLayout, $wfexploreCategories;
+
 		if ($this->filters !== null) {
 			return $this->filters;
 		}
 
-		if (isset($GLOBALS['wfexploreCategories'])) {
-			return $GLOBALS['wfexploreCategories'];
+		if ( isset($wfexploreCategoriesByLayout) &&  isset($this->params['layout'])
+				&& isset($wfexploreCategoriesByLayout[$this->params['layout']])) {
+			return $wfexploreCategoriesByLayout[$this->params['layout']];
+		}
+
+		if (isset($wfexploreCategories) && $wfexploreCategories) {
+			return $wfexploreCategories;
 		}
 
 		// for compatibility with old versions
@@ -240,6 +247,7 @@ class WfExploreCore {
 	}
 
 	private function getFiltersData() {
+		global $wfexploreCategoriesNames;
 
 		$categoriesNames = array(
 			'Type' => wfMessage( 'wfexplore-type' )->text() ,
@@ -250,10 +258,9 @@ class WfExploreCore {
 			'Language' => wfMessage( 'wfexplore-language' )->text(),
 		);
 
-		if (isset($GLOBALS['wfexploreCategoriesNames'])) {
-			$categoriesNames = $GLOBALS['wfexploreCategoriesNames'];
+		if (isset($wfexploreCategoriesNames) && $wfexploreCategoriesNames) {
+			$categoriesNames = $wfexploreCategoriesNames;
 		}
-
 
 		$filters = $this->getFilters();
 		$result = array();
@@ -261,13 +268,18 @@ class WfExploreCore {
 			$filter = array(
 				'id' => $filtersKey,
 				'name' => $categoriesNames[$filtersKey],
+				'type' => 'enum',
 				'values' => array()
 			);
-			foreach ($values as $key => $value) {
-				$filter['values'][$key] = array(
-					'id' => $key,
-					'name' => $value
-				);
+			if(is_array($values)) {
+				foreach ($values as $key => $value) {
+					$filter['values'][$key] = array(
+						'id' => $key,
+						'name' => $value
+					);
+				}
+			} else {
+				$filter['type'] = $values;
 			}
 			$result[$filtersKey] = $filter;
 		}
@@ -311,18 +323,38 @@ class WfExploreCore {
 		// manage checkbox filters :
 		foreach ($filtersData as $category => $values) {
 
-			foreach ($values['values'] as $key => $value) {
-				$fieldName = "wf-expl-$category-" . $value['id'];
-				$fieldName = str_replace(' ', '_', $fieldName);
-				if ( ($request && $request->getCheck( $fieldName )) || isset($params[$category]) || isset($params[$fieldName])) {
-					if( ! isset($results[$category])) {
-						$results[$category] = array();
+			if($values['type'] == 'date') {
+				$fieldName = "wf-expl-$category-date";
+
+				$value = null;
+				if ( ($request && $request->getVal( $fieldName )) ) {
+					$value = $request->getVal( $fieldName );
+				} else if(isset($params[$fieldName])) {
+					$value = $params[$fieldName];
+				}
+				if($value) {
+					$results[$category] = array(
+							'category' => $category,
+							'type' => 'date',
+							'valueName' => $value,
+							'valueId' => $value,
+							'value' => $value
+					);
+				}
+			} else {
+				foreach ($values['values'] as $key => $value) {
+					$fieldName = "wf-expl-$category-" . $value['id'];
+					$fieldName = str_replace(' ', '_', $fieldName);
+					if ( ($request && $request->getCheck( $fieldName )) || isset($params[$category]) || isset($params[$fieldName])) {
+						if( ! isset($results[$category])) {
+							$results[$category] = array();
+						}
+						$results[$category][$value['id']] = array(
+							'category' => $category,
+							'valueName' => $value['name'],
+							'valueId' => $value['id']
+							);
 					}
-					$results[$category][$value['id']] = array(
-						'category' => $category,
-						'valueName' => $value['name'],
-						'valueId' => $value['id']
-						);
 				}
 			}
 		}
@@ -448,6 +480,21 @@ class WfExploreCore {
 				}
 				$andCondition = true;
 				break;
+			case 'date' :
+				$valuesIds = [];
+				//= explode(',',$values['value']);
+				$categoryArray = explode('-', $values['category']);
+				if (count($categoryArray) == 2 && $categoryArray[1] == 'min') {
+					$category = $categoryArray[0];
+					$valuesIds[] = ">" . $values['value'];
+				} else if (count($categoryArray) == 2 && $categoryArray[1] == 'max') {
+					$category = $categoryArray[0];
+					$valuesIds[] = "<" . $values['value'];
+				} else {
+					$valuesIds[] =  $values['value'];
+				}
+				$andCondition = true;
+				break;
 			case 'checkbox' :
 			default :
 				$valuesIds  = array();
@@ -456,7 +503,6 @@ class WfExploreCore {
 				}
 				break;
 		}
-
 		return $this->getQueryParam($category, $valuesIds, $andCondition);
 	}
 
@@ -487,6 +533,7 @@ class WfExploreCore {
 
 		$query = '';
 
+		//var_dump($params);
 		if (isset($params['query'])) {
 			$query = $params['query'];
 		}
@@ -523,7 +570,6 @@ class WfExploreCore {
 		if ($lang) {
 			$query = "$query [[Language::none]] OR $query [[Language::$lang]][[isTranslation::0]] OR $query [[Language::$lang]][[isTranslation::1]][[SourceLanguage::!$lang]]";
 		}
-
 
 		if( ! trim($query) ) {
 

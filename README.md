@@ -57,3 +57,18 @@ it is possible to change the layout of results, to do it, set the available layo
   
 then, when calling the explore with parser function in a page, set the 'layout' params :
   {{#displayExplore: layout=event}}
+  
+  
+### configure filters for layout
+
+it is possible te define other filter when a layout is given:
+
+  $wfexploreCategoriesByLayout = [
+  	  'event' => [ 
+  		  $categoriesName => [
+  			  CategorisValueName => CategorieValueLabel,
+    			...
+    		],
+    		...
+    ]
+  ];

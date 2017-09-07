@@ -39,6 +39,9 @@ $( document ).ready(function () {
 				case 'remove':
 					form.find('#Label' + inputID).button('toggle');
 					break;
+				case 'dateRemove':
+					form.find('#'+inputID).val('');
+					break;
 				case 'textRemove':
 					var valueToRemove = $( this ) . attr('data-textValue');
 					var values = form.find('#' + inputID).val().split(',');
@@ -61,9 +64,10 @@ $( document ).ready(function () {
 
 
 	/* submit form on each change on filters */
-	$("form.wfExplore input[type=checkbox]").change(function () {
-		$(this).parents('form:first').submit();
-    });
+		//$("form.wfExplore input[type=checkbox]")
+		$("form.wfExplore input").change(function () {
+			$(this).parents('form:first').submit();
+	    });
 
 	function updateUriFromForm(form) {
         var uri = window.location.pathname + "?" + form.serialize();
@@ -344,6 +348,11 @@ $( document ).ready(function () {
 
     $('.load-more').on('click', loadMoreClick);
     $('.load-more-previous').on('click', loadPreviousClick);
+    
+    $( ".datepicker" ).datepicker({
+    	dateFormat: 'yy/mm/dd',
+        showButtonPanel: true
+      });
 
 	setHandlerOnRemoveTags();
 

@@ -42,6 +42,9 @@ $wgResourceModules['ext.wikifab.wfExplore.js'] = array(
 		'remoteExtPath' => 'Explore',
 		'messages' => array(
 				'wfexplore-load-more-tutorials-previous'
+		),
+		'dependencies' => array(
+				'jquery.ui.datepicker'
 		)
 );
 $wgResourceModules['ext.wikifab.wfexplore.css'] = array(

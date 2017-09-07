@@ -113,6 +113,10 @@ class SpecialWfExplore extends SpecialPage {
 		if($layout) {
 			$this->params['layout'] = $layout['layout'];
 		}
+		$query = $request->getValues( 'query' );
+		if($query) {
+			$this->params['query'] = $query['query'];
+		}
 
 		$this->results = $this->WfExploreCore->executeSearch( $request, $this->params);
 
