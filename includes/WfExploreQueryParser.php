@@ -12,16 +12,10 @@ class WfExploreQueryParser {
 
 
 
-	public static function addSampleParser( $input, $query = '[Area::!none]', $limit = 4, $sort = 'editdate', $layout = null) {
+	public static function addSampleParser( $input, $query = '[Area::!none]', $limit = 4) {
 
 		// new way to get function params, read dynamicaly params (params are separated by '|' )
 		$options = self::extractOptions( array_slice(func_get_args(), 1) );
-
-		// old way to reads params, all params are concatenated in the first one, separated by ','
-		$oldparams = [
-				$query , $limit, $sort , $layout
-		];
-
 
 		$input->getOutput ()->addModuleStyles( array(
 			'mediawiki.special', 'mediawiki.special.search', 'mediawiki.ui', 'mediawiki.ui.button',
@@ -47,6 +41,14 @@ class WfExploreQueryParser {
 		if(isset($options['layout'])) {
 			$params['layout'] = $options['layout'];
 			$paramsOutput['layout'] = $options['layout'];
+		}
+		if(isset($options['sort'])) {
+			$params['sort'] = $options['sort'];
+			$paramsOutput['sort'] = $options['sort'];
+		}
+		if(isset($options['order'])) {
+			$params['order'] = $options['order'];
+			$paramsOutput['order'] = $options['order'];
 		}
 
 		$WfExploreCore->executeSearch( $request = null , $params);

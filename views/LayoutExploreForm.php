@@ -8,6 +8,12 @@
 <?php if (isset($params['layout']) && $params['layout']):?>
 	<input type="hidden" id="layout" name="layout" value='<?php echo $params['layout'] ?>'/>
 <?php endif; ?>
+<?php if (isset($params['order']) && $params['order']):?>
+	<input type="hidden" id="order" name="order" value='<?php echo $params['order'] ?>'/>
+<?php endif; ?>
+<?php if (isset($params['sort']) && $params['sort']):?>
+	<input type="hidden" id="sort" name="sort" value='<?php echo $params['sort'] ?>'/>
+<?php endif; ?>
 <div class="WFfilter">
 
 	<?php foreach ($filtersData as $category => $categoryDetails) : ?>

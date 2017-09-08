@@ -580,8 +580,11 @@ class WfExploreCore {
 			}
 		}
 
+		$sort =  isset($params['sort']) ? $params['sort'] : null;
+		$order =  isset($params['order']) ? $params['order'] : 'desc';
+
 		//var_dump($query);
-		$results = $this->processSemanticQuery($query, $limit, $offset);
+		$results = $this->processSemanticQuery($query, $limit, $offset, $sort, $order);
 		if($save) {
 			$this->results = $results;
 		}
@@ -678,7 +681,7 @@ class WfExploreCore {
 	 * @param $rawQueryString string - the query string like [[Category:Trees]][[age::>1000]]
 	 * @return array of SMWDIWikiPage objects representing the result
 	 */
-	private function processSemanticQuery($rawQuery, $limit = 20, $offset = 0, $sort = null) {
+	private function processSemanticQuery($rawQuery, $limit = 20, $offset = 0, $sort = null, $order = 'desc') {
 		global $wfeSortField;
 
 		$rawQueryArray = array( trim($rawQuery) );
@@ -690,10 +693,10 @@ class WfExploreCore {
 		}
 		if($sort) {
 			$rawQueryArray['sort'] = $sort;
-			$rawQueryArray['order'] = 'desc';
+			$rawQueryArray['order'] = $order;
 		} else if (isset($wfeSortField)  && $wfeSortField) {
 			$rawQueryArray['sort'] = $wfeSortField;
-			$rawQueryArray['order'] = 'desc';
+			$rawQueryArray['order'] = $order;
 		}
 		SMWQueryProcessor::processFunctionParams( $rawQueryArray, $queryString, $processedParams, $printouts );
 		SMWQueryProcessor::addThisPrintout( $printouts, $processedParams );

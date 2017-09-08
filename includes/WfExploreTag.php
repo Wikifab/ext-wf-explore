@@ -46,6 +46,12 @@ class WfExploreTag {
 		if (isset($options['layout'])) {
 			$params['layout'] = $options['layout'];
 		}
+		if (isset($options['sort'])) {
+			$params['sort'] = $options['sort'];
+		}
+		if (isset($options['order'])) {
+			$params['order'] = $options['order'];
+		}
 
 		$WfExploreCore->executeSearch( $request = null , $params);
 

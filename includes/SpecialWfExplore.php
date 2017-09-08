@@ -51,7 +51,7 @@ class SpecialWfExplore extends SpecialPage {
 	/** @var string No idea, apparently used by some other classes */
 	protected $mPrefix;
 
-	/** @var array parameters for query, and display (limit, page number, layout) */
+	/** @var array parameters for query, and display (limit, page number, layout, sort, order) */
 	protected $params = [];
 
 	/**
@@ -109,14 +109,14 @@ class SpecialWfExplore extends SpecialPage {
 
 		$this->load();
 
-		$layout = $request->getValues( 'layout' );
-		if($layout) {
-			$this->params['layout'] = $layout['layout'];
+		$paramsToGet = ['layout', 'sort', 'order', 'query'];
+		foreach ($paramsToGet as $paramToGet) {
+			$theValue =  $request->getValues( $paramToGet );
+			if($theValue) {
+				$this->params[$paramToGet] = $theValue[$paramToGet];
+			}
 		}
-		$query = $request->getValues( 'query' );
-		if($query) {
-			$this->params['query'] = $query['query'];
-		}
+
 
 		$this->results = $this->WfExploreCore->executeSearch( $request, $this->params);
 
