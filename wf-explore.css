@@ -21,6 +21,13 @@
   color:#2c9ab7;
 }
 
+.WFfilter input.hasDatepicker {
+  border: 1px solid #ddd;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+}
+
 /** Layout for check box slider switch **/
 
 .ns-special .mw-body label.switch,
