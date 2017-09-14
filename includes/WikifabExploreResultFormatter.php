@@ -121,7 +121,7 @@ class WikifabExploreResultFormatter {
 	 *
 	 */
 	public function getPageDetails($result) {
-		global $sfgFormPrinter;
+		global $sfgFormPrinter, $wgLang;
 
 		$mTitle = $result->getTitle();
 
@@ -136,6 +136,8 @@ class WikifabExploreResultFormatter {
 		$creator = $page->getCreator();
 
 		$displayTitle = $mTitle->getText();
+		$translatedLang = false;
+		$pageCodeLang = $mTitle->getPageLanguage()->getCode();
 
 		// For translated pages : $creator must be changed to match the original Creator
 		// or it will ofen display "fussybot" or one of the translators
@@ -147,8 +149,8 @@ class WikifabExploreResultFormatter {
 				// if this is a translated page, creator is got from the original one :
 				$creator = $sourcePage->getCreator();
 				// get the translated Title if any :
-				$codeLang = $mTitle->getPageLanguage()->getCode();
-				$displayTitleTranslated = $sourcePageTranslatable->getPageDisplayTitle( $codeLang );
+				$translatedLang = $pageCodeLang;
+				$displayTitleTranslated = $sourcePageTranslatable->getPageDisplayTitle( $pageCodeLang );
 				if($displayTitleTranslated) {
 					$displayTitle = $displayTitleTranslated;
 				} else {
@@ -160,7 +162,6 @@ class WikifabExploreResultFormatter {
 		// remplace template :
 		$preloadContent  = str_replace('{{Tuto Details', '{{Tuto SearchResult', $preloadContent);
 
-
 		// get the form content
 		$formTitle = Title::makeTitleSafe( SF_NS_FORM, 'Template:Tuto_Details' );
 
@@ -169,8 +170,11 @@ class WikifabExploreResultFormatter {
 		if( ! $data ) {
 			return '';
 		}
+		$pageLang = $mTitle->getPageLanguage()->getCode();
 
 		$data['title'] = $displayTitle;
+		$data['codeLang'] = $pageLang == $wgLang->getCode() ? '' : $pageLang ;
+		$data['translatedCodeLang'] = $translatedLang;
 		$data['creatorId'] = $creator->getId();
 		$data['creatorUrl'] = $creator->getUserPage()->getLinkURL();
 		$data['creatorName'] = $creator->getName();
