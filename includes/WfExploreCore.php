@@ -323,7 +323,7 @@ class WfExploreCore {
 		// manage checkbox filters :
 		foreach ($filtersData as $category => $values) {
 
-			if($values['type'] == 'date') {
+			if(isset($values['type']) && $values['type'] == 'date') {
 				$fieldName = "wf-expl-$category-date";
 
 				$value = null;
