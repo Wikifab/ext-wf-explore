@@ -135,6 +135,8 @@ class WikifabExploreResultFormatter {
 		$text = $page->getContent();
 		$creator = $page->getCreator();
 
+		$displayTitle = $mTitle->getText();
+
 		// For translated pages : $creator must be changed to match the original Creator
 		// or it will ofen display "fussybot" or one of the translators
 		if (class_exists('TranslatablePage')) {
@@ -144,6 +146,14 @@ class WikifabExploreResultFormatter {
 				$sourcePage = WikiPage::factory( $sourcePageTranslatable->getTitle() );
 				// if this is a translated page, creator is got from the original one :
 				$creator = $sourcePage->getCreator();
+				// get the translated Title if any :
+				$codeLang = $mTitle->getPageLanguage()->getCode();
+				$displayTitleTranslated = $sourcePageTranslatable->getPageDisplayTitle( $codeLang );
+				if($displayTitleTranslated) {
+					$displayTitle = $displayTitleTranslated;
+				} else {
+					$displayTitle = $sourcePageTranslatable->getTitle()->getText();
+				}
 			}
 		}
 
@@ -160,7 +170,7 @@ class WikifabExploreResultFormatter {
 			return '';
 		}
 
-		$data['title'] =$mTitle->getText();
+		$data['title'] = $displayTitle;
 		$data['creatorId'] = $creator->getId();
 		$data['creatorUrl'] = $creator->getUserPage()->getLinkURL();
 		$data['creatorName'] = $creator->getName();
