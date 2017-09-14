@@ -137,12 +137,14 @@ class WikifabExploreResultFormatter {
 
 		// For translated pages : $creator must be changed to match the original Creator
 		// or it will ofen display "fussybot" or one of the translators
-		$sourcePageTranslatable = \TranslatablePage::isTranslationPage( $mTitle );
-		//var_dump($page); echo "<br/>";
-		if ($sourcePageTranslatable) {
-			$sourcePage = WikiPage::factory( $sourcePageTranslatable->getTitle() );
-			// if this is a translated page, creator is got from the original one :
-			$creator = $sourcePage->getCreator();
+		if (class_exists('TranslatablePage')) {
+			$sourcePageTranslatable = \TranslatablePage::isTranslationPage( $mTitle );
+			//var_dump($page); echo "<br/>";
+			if ($sourcePageTranslatable) {
+				$sourcePage = WikiPage::factory( $sourcePageTranslatable->getTitle() );
+				// if this is a translated page, creator is got from the original one :
+				$creator = $sourcePage->getCreator();
+			}
 		}
 
 		// remplace template :
