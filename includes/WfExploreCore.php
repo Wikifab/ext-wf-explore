@@ -548,9 +548,9 @@ class WfExploreCore {
 		if ( isset($selectedOptions['Language'])) {
 			foreach ($selectedOptions['Language'] as $value) {
 				$lang = $value['valueId'];
-				if ($lang == 'ALL') {
+				/*if ($lang == 'ALL') {
 					$lang = null;
-				}
+				}*/
 			}
 		}
 
@@ -567,8 +567,10 @@ class WfExploreCore {
 			//$query .= '[[Group:*]]';
 		}
 
-		if ($lang) {
-			$query = "$query [[Language::none]] OR $query [[Language::$lang]][[isTranslation::0]] OR $query [[Language::$lang]][[isTranslation::1]][[SourceLanguage::!$lang]]";
+		if ($lang == 'ALL') {
+			$query = "$query [[isTranslation::0]] OR $query [[isTranslation::1]][[SourceLanguage::!none]]";
+		} else if ($lang) {
+			$query = "$query [[Language::none]] OR $query [[Language::$lang]][[isTranslation::0]] OR $query [[Language::$lang]][[isTranslation::1]][[SourceLanguage::!none]]";
 		}
 
 		if( ! trim($query) ) {
