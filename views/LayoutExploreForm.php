@@ -16,8 +16,11 @@
 <?php endif; ?>
 <div class="WFfilter">
 
-	<?php foreach ($filtersData as $category => $categoryDetails) : ?>
-		<?php
+	<?php foreach ($filtersData as $category => $categoryDetails) :
+	     if($categoryDetails['type'] == 'date') {
+	    	include 'LowTechLabLayoutExploreForm-dateinput.php';
+	    	continue;
+	    }
 		// for categories with only 1 value, display a switch button instead of a dropdown
 		if(isset($wgExploreCategoriesUsingSwitchButtons[$category])):
 			foreach ($categoryDetails['values'] as $value) :?>
@@ -151,6 +154,15 @@
 			}
 			continue;
 		}
+		if (isset($values['type'] ) && $values['type'] == 'date') {
+			$inputId = "wf-expl-$category-date" ;
+			echo ' <span class="category-filter-title">' . $filtersData[$category]['name'] . ' : </span>';
+			echo ' <span class="tag label label-default">'
+					. $values['value']
+					. ' <span class="remove" data-role="dateRemove" data-inputId="' . $inputId . '"> '
+					. 'x</span></span> ';
+			continue;
+		}
 
 		// exception : for 'Language' property, if this is default language selected, we do not display it :
 		if ($category == 'Language') {
@@ -174,3 +186,4 @@
 <span></span>
 </div>
 </div>
+
