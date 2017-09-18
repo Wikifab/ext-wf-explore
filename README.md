@@ -72,3 +72,8 @@ it is possible te define other filter when a layout is given:
     		...
     ]
   ];
+  
+### default sort order
+
+Default sort order can be configured using the $wfeSortField var in LocalSettings.php. For instance, to sort by date of last change : 
+  $wfeSortField = 'Modification date';
