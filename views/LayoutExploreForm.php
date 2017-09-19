@@ -18,7 +18,7 @@
 
 	<?php foreach ($filtersData as $category => $categoryDetails) :
 	     if($categoryDetails['type'] == 'date') {
-	    	include 'LowTechLabLayoutExploreForm-dateinput.php';
+	    	include 'Form-dateinput.php';
 	    	continue;
 	    }
 		// for categories with only 1 value, display a switch button instead of a dropdown
