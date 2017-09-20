@@ -259,7 +259,7 @@ class WfExploreCore {
 		);
 
 		if (isset($wfexploreCategoriesNames) && $wfexploreCategoriesNames) {
-			$categoriesNames = $wfexploreCategoriesNames;
+			$categoriesNames = array_merge($categoriesNames, $wfexploreCategoriesNames);
 		}
 
 		$filters = $this->getFilters();
@@ -545,12 +545,14 @@ class WfExploreCore {
 		}
 		// language conditions :
 		$lang = null;
-		if ( isset($selectedOptions['Language'])) {
-			foreach ($selectedOptions['Language'] as $value) {
-				$lang = $value['valueId'];
-				/*if ($lang == 'ALL') {
-					$lang = null;
-				}*/
+		if( ! isset($params['nolang'])) {
+			if ( isset($selectedOptions['Language'])) {
+				foreach ($selectedOptions['Language'] as $value) {
+					$lang = $value['valueId'];
+					/*if ($lang == 'ALL') {
+						$lang = null;
+					}*/
+				}
 			}
 		}
 

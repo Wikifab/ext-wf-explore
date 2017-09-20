@@ -52,6 +52,9 @@ class WfExploreTag {
 		if (isset($options['order'])) {
 			$params['order'] = $options['order'];
 		}
+		if (isset($options['nolang'])) {
+			$params['nolang'] = $options['nolang'];
+		}
 
 		$WfExploreCore->executeSearch( $request = null , $params);
 

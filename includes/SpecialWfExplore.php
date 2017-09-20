@@ -109,7 +109,7 @@ class SpecialWfExplore extends SpecialPage {
 
 		$this->load();
 
-		$paramsToGet = ['layout', 'sort', 'order', 'query'];
+		$paramsToGet = ['layout', 'sort', 'order', 'query', 'nolang'];
 		foreach ($paramsToGet as $paramToGet) {
 			$theValue =  $request->getValues( $paramToGet );
 			if($theValue) {

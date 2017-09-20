@@ -1,19 +1,26 @@
-<?php if (count($filtersData) > 0):?>
+<?php
+if (isset($params['complete']) && $params['complete']):
+	?><input type="hidden" id="wf-expl-complete-1" name="wf-expl-complete-1" value='1'/><?php
+endif;
+if (isset($params['query']) && $params['query']):?>
+	<input type="hidden" id="query" name="query" value='<?php echo $params['query'] ?>'/>
+<?php endif;
+if (isset($params['layout']) && $params['layout']):?>
+	<input type="hidden" id="layout" name="layout" value='<?php echo $params['layout'] ?>'/>
+<?php endif;
+if (isset($params['order']) && $params['order']):?>
+	<input type="hidden" id="order" name="order" value='<?php echo $params['order'] ?>'/>
+<?php endif;
+if (isset($params['sort']) && $params['sort']):?>
+	<input type="hidden" id="sort" name="sort" value='<?php echo $params['sort'] ?>'/>
+<?php endif;
+if (isset($params['nolang']) && $params['nolang']):?>
+	<input type="hidden" id="nolang" name="nolang" value='<?php echo $params['nolang'] ?>'/>
+<?php endif;
+if (count($filtersData) > 0):?>
 <div class="search-section" id="search-<?php echo $exploreId; ?>">
 <div class="container">
 
-<?php if (isset($params['complete']) && $params['complete']):?>
-	<input type="hidden" id="wf-expl-complete-1" name="wf-expl-complete-1" value='1'/>
-<?php endif; ?>
-<?php if (isset($params['layout']) && $params['layout']):?>
-	<input type="hidden" id="layout" name="layout" value='<?php echo $params['layout'] ?>'/>
-<?php endif; ?>
-<?php if (isset($params['order']) && $params['order']):?>
-	<input type="hidden" id="order" name="order" value='<?php echo $params['order'] ?>'/>
-<?php endif; ?>
-<?php if (isset($params['sort']) && $params['sort']):?>
-	<input type="hidden" id="sort" name="sort" value='<?php echo $params['sort'] ?>'/>
-<?php endif; ?>
 <div class="WFfilter">
 
 	<?php foreach ($filtersData as $category => $categoryDetails) :

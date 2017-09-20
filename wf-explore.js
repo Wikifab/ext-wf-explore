@@ -79,7 +79,6 @@ $( document ).ready(function () {
 	/* function added to add tag with input */
 	function addTag(form, value) {
 		value = value.trim();
-		console.log(value);
 		if( ! value) {
 			return;
 		}
@@ -129,7 +128,6 @@ $( document ).ready(function () {
         var form = $(this); // L'objet jQuery du formulaire
 
         var exploreId = form.attr('data-exploreId');
-        console.log('explore id ' + exploreId)
         explorePageNumber = 1;
     	exploreMinPageNumber = 1;
         form.find('input[name=page]').val(explorePageNumber);
@@ -206,7 +204,7 @@ $( document ).ready(function () {
 
 		requestRunning ++;
 
-    	var $form = $('#wfExplore');
+		var $form = $('form.wfExplore:first');
     	var pagenumber;
     	var loadMorePreviousButton = null;
 
@@ -222,7 +220,7 @@ $( document ).ready(function () {
 		}
         $('.loader').show();
 
-    	$('#wfExplore input[name=page]').val(pagenumber);
+        $form.find('input[name=page]').val(pagenumber);
 
     	var requestUrl = $form.attr('action');
     	var requestType = $form.attr('method') ? $form.attr('method') : 'GET';
