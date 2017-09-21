@@ -282,6 +282,10 @@ $( document ).ready(function () {
         		// this second line replace the previous to use a slow effect, but do not change the uri
         		//$('html,body').animate({scrollTop: $('#explore-page' + pagenumber).offset().top}, 'slow');
         		//window.location.hash = '#page' + explorePageNumber;
+				
+				//this set all form params un uri :
+				//updateUriFromForm($form);
+				// this change only page, usefull for page query without filters :
         		changePageParameter('page', pagenumber);
         		requestRunning --;
 
