@@ -202,6 +202,11 @@ class WfExploreCore {
 		);
 	}
 
+	/**
+	 * return filters to use according to layout and global var configuration
+	 *
+	 * @return unknown|string[][]|string[][]|Message[][]|unknown[]
+	 */
 	private function getFilters() {
 
 		global $wfexploreCategoriesByLayout, $wfexploreCategories;
@@ -237,13 +242,19 @@ class WfExploreCore {
 		$lang = array(
 			'ALL' => wfMessage("wfexplore-language-all")
 		);
-		return array (
+		$result = array (
 			'Type' => $type,
 			'area' => $categories,
 			'Difficulty' => $diff,
 			'Cost' => $fourchetteCout,
 			'Language' => $lang
 		);
+
+		$layout =  isset($this->params['layout']) ? $this->params['layout'] : null;
+
+		Hooks::run('Explore::getFilters', [ &$result, $layout ] );
+
+		return $result;
 	}
 
 	private function getFiltersData() {

@@ -27,7 +27,7 @@ to display explorer in a page, insert the function displayExplore :
   {{#displayExplore: params}}
 
   
-## configuration :
+## configuration using global vars :
 
 2 vars enable to configure filters params :
 
@@ -77,3 +77,20 @@ it is possible te define other filter when a layout is given:
 
 Default sort order can be configured using the $wfeSortField var in LocalSettings.php. For instance, to sort by date of last change : 
   $wfeSortField = 'Modification date';
+  
+  
+## configuration using hooks :
+
+Explore::OnGetFilters
+it is possible to change categories using hooks, this is recommended for internationalized wiki.
+
+Record hooks in LocalSettings, and  set a function, for example :
+
+  $wgHooks['Explore::getFilters'][] = 'onExploreGetFilters';
+  function onExploreGetFilters(& $filters, $layout) {
+  	$filters["Type"] = [
+  		['Oukou'] = 'Oukoukou',
+  		['Ouka'] = 'Oukaka'
+  	];
+ 	return true;
+ }
