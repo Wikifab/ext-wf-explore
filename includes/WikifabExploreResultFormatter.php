@@ -125,6 +125,11 @@ class WikifabExploreResultFormatter {
 
 		$mTitle = $result->getTitle();
 
+		if( ! $mTitle) {
+			trigger_error('Fail to get Page Title', E_USER_WARNING);
+			return '';
+		}
+
 		$page = WikiPage::factory( $mTitle );
 
 		if($page->getContent()) {
