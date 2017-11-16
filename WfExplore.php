@@ -68,11 +68,18 @@ $wgExploreResultsLayouts = [
 ];
 
 $wgHooks['ParserFirstCallInit'][] = 'WfExploreParserFunctions';
+$wgHooks['PageRenderingHash'][] = 'wfExploreOnPageRenderingHash';
 
+// this global var is used to record is parser has been called
+// it should be move inside a class, with the 2 functions below
+$wfExploreGlobalParsedFunction = false;
 
 # Parser function to insert a link changing a tab.
 function WfExploreParserFunctions( $parser ) {
-	global $wgOut;
+	global $wgOut, $wfExploreGlobalParsedFunction;
+
+	// we record that parsing function has been used to chang cache hash
+	$wfExploreGlobalParsedFunction = true;
 
 	$wgOut->addModuleStyles(
 		array(
@@ -82,6 +89,18 @@ function WfExploreParserFunctions( $parser ) {
 	$wgOut->addModules( array( 'ext.wikifab.wfexplore' ) );
 	$parser->setFunctionHook( 'displayExplore', array('WfExploreTag', 'addSampleParser' ));
 	$parser->setFunctionHook( 'exploreQuery', array('WfExploreQueryParser', 'addSampleParser' ));
+	return true;
+}
+
+function wfExploreOnPageRenderingHash( &$confstr, User $user, &$forOptions ) {
+	global $wfExploreGlobalParsedFunction, $wgRequest;
+
+	// if parse function has been used, we add query to cache hash key
+	if ($wfExploreGlobalParsedFunction) {
+		foreach ($wgRequest->getValues() as $key => $val) {
+			 $confstr .= '-' . $key . "-" . $val;
+		}
+	}
 	return true;
 }
 

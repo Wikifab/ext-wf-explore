@@ -13,6 +13,7 @@ class WfExploreTag {
 
 
 	public static function addSampleParser( $input, $filters = 'completeonly') {
+		global $wgRequest;
 
 		// new way to get function params, read dynamicaly params (params are separated by '|' )
 		$options = self::extractOptions( array_slice(func_get_args(), 1) );
@@ -56,7 +57,7 @@ class WfExploreTag {
 			$params['nolang'] = $options['nolang'];
 		}
 
-		$WfExploreCore->executeSearch( $request = null , $params);
+		$WfExploreCore->executeSearch( $wgRequest  , $params);
 
 		$out = "";
 
