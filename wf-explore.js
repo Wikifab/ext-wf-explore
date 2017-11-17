@@ -351,11 +351,12 @@ $( document ).ready(function () {
     $('.load-more').on('click', loadMoreClick);
     $('.load-more-previous').on('click', loadPreviousClick);
     
-    $( ".datepicker" ).datepicker({
-    	dateFormat: 'yy/mm/dd',
-        showButtonPanel: true
-      });
-
+    mw.loader.using( 'jquery.ui.datepicker' ).then( function () {
+    	$( ".datepicker" ).datepicker({
+        	dateFormat: 'yy/mm/dd',
+            showButtonPanel: true
+          });
+    } );
+    
 	setHandlerOnRemoveTags();
-
 });
