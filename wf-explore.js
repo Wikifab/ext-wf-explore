@@ -132,7 +132,7 @@ $( document ).ready(function () {
     	exploreMinPageNumber = 1;
         form.find('input[name=page]').val(explorePageNumber);
 
-        form.find('.loader').show();
+        $('.exploreLoader').show();
         // Envoi de la requête HTTP en mode asynchrone
         $.ajax({
             url: form.attr('action'),
@@ -162,7 +162,7 @@ $( document ).ready(function () {
 
 
 				setHandlerOnRemoveTags();
-        		form.find('.loader').hide();
+		        $('.exploreLoader').hide();
         		resultDiv.find('.load-more').on('click', loadMoreClick);
 
         		updateUriFromForm(form) ;
@@ -209,16 +209,16 @@ $( document ).ready(function () {
     	var loadMorePreviousButton = null;
 
     	if (direction == 'up') {
-    		$('.load-more-previous').html($('.loader').html());
+    		$('.load-more-previous').html($('.exploreLoader').html());
     		exploreMinPageNumber = exploreMinPageNumber -1;
     		pagenumber = exploreMinPageNumber;
     		// incerment page number
     	} else {
-        	$('.load-more').html($('.loader').html());
+        	$('.load-more').html($('.exploreLoader').html());
         	explorePageNumber = explorePageNumber +1;
     		pagenumber = explorePageNumber;
 		}
-        $('.loader').show();
+        $('.exploreLoader').show();
 
         $form.find('input[name=page]').val(pagenumber);
 
@@ -262,7 +262,7 @@ $( document ).ready(function () {
 				$('.wfexplore-selectedLabels').append(wfExplore);
 
 				setHandlerOnRemoveTags();
-        		$('.loader').hide();
+        		$('.exploreLoader').hide();
 
 				if (direction == 'up') {
 					// remove .load.more added
