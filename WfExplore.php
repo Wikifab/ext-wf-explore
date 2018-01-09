@@ -61,7 +61,7 @@ $wgResourceModules['ext.wikifab.wfexplore'] = array(
 );
 
 $wfexploreExtractTags = true;
-$wgExploreIsLocalized = true;
+$wgExploreIsLocalized = false;
 
 $wgExploreResultsLayouts = [
 		'event' => __DIR__ . '/views/layout-event.html'
