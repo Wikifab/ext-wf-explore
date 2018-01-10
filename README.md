@@ -73,6 +73,18 @@ it is possible te define other filter when a layout is given:
     ]
   ];
   
+### Wikifab Groups config
+To configure explore for groups like wikifab, here is the config : (it set no filters for groups)
+
+$wgExploreResultsLayouts = [
+		'group' => __DIR__ . '/extensions/WfextStyle/templates/layout-group-search-result.html'
+];
+
+$wfexploreCategoriesByLayout = [
+		'group' => []
+];
+
+  
 ### default sort order
 
 Default sort order can be configured using the $wfeSortField var in LocalSettings.php. For instance, to sort by date of last change : 
@@ -94,3 +106,4 @@ Record hooks in LocalSettings, and  set a function, for example :
   	];
  	return true;
  }
+
