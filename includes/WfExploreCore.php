@@ -394,7 +394,7 @@ class WfExploreCore {
 			// use current language
 			$results['Language'] = array(
 				$lang => array(
-					'category' => $category,
+					'category' => 'Language',
 					'valueName' => $lang,
 					'valueId' => $lang
 				)
