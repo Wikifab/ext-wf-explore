@@ -556,13 +556,10 @@ class WfExploreCore {
 		}
 		// language conditions :
 		$lang = null;
-		if( ! isset($params['nolang'])) {
+		if( $this->isLocalised && ! isset($params['nolang']) ) {
 			if ( isset($selectedOptions['Language'])) {
 				foreach ($selectedOptions['Language'] as $value) {
 					$lang = $value['valueId'];
-					/*if ($lang == 'ALL') {
-						$lang = null;
-					}*/
 				}
 			}
 		}
