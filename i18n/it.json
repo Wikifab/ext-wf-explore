@@ -1,0 +1,23 @@
+{
+    "@metadata": {
+        "authors": [
+            "Pierre Boutet"
+        ]
+    },
+    "wfexplore-title": "Cerca",
+	"wfexplore-category-name-technique": "Tecnica",
+	"wfexplore-category-name-creation": "Creazione",
+    "wfexplore-desc": "Pagina per cercare un tutorial",
+    "wfexplore-summary": "Cerca un tutorial",
+    "wfexplore-newTutorial": "Creare un tutorial",
+    "wfexplore-noResultMessage": "Oops, la tua ricerca non ha dato risultati... Prendere in considerazione l'ampliamento dei criteri per trovare più risultati.",
+	"wfexplore-category": "Categoria",
+	"wfexplore-difficulty": "Difficoltà",
+	"wfexplore-cost": "Costo",
+	"wfexplore-language": "Lingua",
+	"wfexplore-language-all": "tutte",
+	"wfexplore-type": "Modello",
+	"wfexplore-load-more-tutorials": "Caricare più tutorial",
+	"wfexplore-load-more-tutorials-previous": "Caricare tutorial precedenti",
+	"wfexplore-display-all-language": "Mostra risultati in tutte le lingue"
+}
