@@ -147,7 +147,7 @@ class WfExploreCore {
 		$result = [];
 		foreach ($values as $value) {
 			if($translateKeyPrefix) {
-				$result[$value] = wfMessage($translateKeyPrefix . str_replace(' ','_', $value));
+				$result[$value] = wfMessage($translateKeyPrefix . str_replace(' ','_', $value))->text();
 			}
 		}
 		return $result;
@@ -202,14 +202,35 @@ class WfExploreCore {
 		);
 	}
 
+	private function getDynamicsFilters($wfexploreDynamicsFilters) {
+
+		$result = [];
+		foreach ($wfexploreDynamicsFilters as $key => $filter) {
+
+			$filterName = $filter ['name'];
+			if( ! isset($filter['values'])) {
+				$prefix = isset($filter ['translate_prefix']) ? $filter ['translate_prefix'] : 'wfexplore-value-';
+				$values = $this->getValuesForProperty($filterName, $prefix);
+			} else {
+				$values = $filter['values'];
+				if(isset($filter ['translate_prefix'])) {
+					foreach ($values as $key => $value) {
+						$values [$key] = wfMessage($filter ['translate_prefix'] . $value)->text();
+					}
+				}
+			}
+			$result [$filterName] = $values;
+		}
+		return $result;
+	}
+
 	/**
 	 * return filters to use according to layout and global var configuration
 	 *
 	 * @return unknown|string[][]|string[][]|Message[][]|unknown[]
 	 */
 	private function getFilters() {
-
-		global $wfexploreCategoriesByLayout, $wfexploreCategories;
+		global $wfexploreCategoriesByLayout, $wfexploreCategories, $wfexploreDynamicsFilters;
 
 		if ($this->filters !== null) {
 			return $this->filters;
@@ -220,6 +241,14 @@ class WfExploreCore {
 			return $wfexploreCategoriesByLayout[$this->params['layout']];
 		}
 
+		// new way do define Filters : use table $wfexploreDynamicsFilters
+		// it fill the properties values automaticaly
+		// TODO : apply the same for $wfexploreCategoriesByLayout
+		if(isset($wfexploreDynamicsFilters)) {
+			return $this->getDynamicsFilters($wfexploreDynamicsFilters);
+		}
+
+		// old way to define filters, by setting all properties and values in $wfexploreCategories
 		if (isset($wfexploreCategories) && $wfexploreCategories) {
 			return $wfexploreCategories;
 		}
@@ -229,6 +258,7 @@ class WfExploreCore {
 			return $this->getStaticFilters();
 		}
 
+		// default values, should not be used for real case
 		$type = $this->getValuesForProperty('Type', "wf-propertyvalue-type-");
 		$categories = $this->getValuesForProperty('Area', "wf-propertyvalue-area-");
 		$diff = $this->getValuesForProperty('Difficulty', "wf-propertyvalue-difficulty-");
@@ -262,7 +292,8 @@ class WfExploreCore {
 
 		$categoriesNames = array(
 			'Type' => wfMessage( 'wfexplore-type' )->text() ,
-			'area' =>  wfMessage( 'wfexplore-category' )->text(),
+			'area' =>  wfMessage( 'wfexplore-category' )->text(), // this line is kept for old config
+			'Area' =>  wfMessage( 'wfexplore-category' )->text(),
 			'Difficulty' => wfMessage( 'wfexplore-difficulty' )->text() ,
 			'Cost' => wfMessage( 'wfexplore-cost' )->text() ,
 			'Complete' => 'Complete',
