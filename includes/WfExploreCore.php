@@ -148,6 +148,8 @@ class WfExploreCore {
 		foreach ($values as $value) {
 			if($translateKeyPrefix) {
 				$result[$value] = wfMessage($translateKeyPrefix . str_replace(' ','_', $value))->text();
+			} else {
+				$result[$value] = $value;
 			}
 		}
 		return $result;
