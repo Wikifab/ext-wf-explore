@@ -123,6 +123,16 @@ class WfExploreCore {
 			} else {
 				return '[[' . $category . ':' . implode('||', $valuesIds) . ']]';
 			}
+		} else if ($category == 'fulltext') {
+			if($andCondition) {
+				$result = '';
+				foreach ($valuesIds as $valueId) {
+					$result .= '[[' . $valueId . ']]';
+				}
+				return $result;
+			} else {
+				return '[[' . implode('||', $valuesIds) . ']]';
+			}
 		} else {
 			if($andCondition) {
 				$result = '';
@@ -210,7 +220,9 @@ class WfExploreCore {
 		foreach ($wfexploreDynamicsFilters as $key => $filter) {
 
 			$filterName = $filter ['name'];
-			if( ! isset($filter['values'])) {
+			if (isset($filter['type']) && $filter['type'] == 'fulltext') {
+				$values = 'fulltext';
+			} else if( ! isset($filter['values'])) {
 				$prefix = isset($filter ['translate_prefix']) ? $filter ['translate_prefix'] : 'wfexplore-value-';
 				$values = $this->getValuesForProperty($filterName, $prefix);
 			} else {
@@ -293,6 +305,7 @@ class WfExploreCore {
 		global $wfexploreCategoriesNames;
 
 		$categoriesNames = array(
+			'fulltext' => wfMessage( 'wfexplore-fulltext' )->text() ,
 			'Type' => wfMessage( 'wfexplore-type' )->text() ,
 			'area' =>  wfMessage( 'wfexplore-category' )->text(), // this line is kept for old config
 			'Area' =>  wfMessage( 'wfexplore-category' )->text(),
@@ -367,7 +380,25 @@ class WfExploreCore {
 		// manage checkbox filters :
 		foreach ($filtersData as $category => $values) {
 
-			if(isset($values['type']) && $values['type'] == 'date') {
+			if(isset($values['type']) && $values['type'] == 'fulltext') {
+				$fieldName = "wf-expl-$category-fulltext";
+
+				$value = null;
+				if ( ($request && $request->getVal( $fieldName )) ) {
+					$value = $request->getVal( $fieldName );
+				} else if(isset($params[$fieldName])) {
+					$value = $params[$fieldName];
+				}
+				if($value) {
+					$results[$category] = array(
+							'category' => $category,
+							'type' => 'fulltext',
+							'valueName' => $value,
+							'valueId' => $value,
+							'value' => $value
+					);
+				}
+			} else if(isset($values['type']) && $values['type'] == 'date') {
 				$fieldName = "wf-expl-$category-date";
 
 				$value = null;
@@ -522,6 +553,13 @@ class WfExploreCore {
 				foreach ($valuesIds as $key => $val) {
 					$valuesIds[$key] = "~*" . $val . "*";
 				}
+				$andCondition = true;
+				break;
+			case 'fulltext' :
+				$searchText = $values['value'];
+				// forbid some special chars :
+				$searchText = str_replace(['[', ']', '*', '~', '%'], [' ',' ',' ',' ','%'], $searchText);
+				$valuesIds = ["~~" . $searchText . ""];
 				$andCondition = true;
 				break;
 			case 'date' :

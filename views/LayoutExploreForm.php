@@ -1,4 +1,6 @@
 <?php
+use phpDocumentor\Reflection\DocBlock\Tags\Var_;
+
 if (isset($params['complete']) && $params['complete']):
 	?><input type="hidden" id="wf-expl-complete-1" name="wf-expl-complete-1" value='1'/><?php
 endif;
@@ -26,6 +28,10 @@ if (count($filtersData) > 0):?>
 	<?php foreach ($filtersData as $category => $categoryDetails) :
 	     if($categoryDetails['type'] == 'date') {
 	    	include 'Form-dateinput.php';
+	    	continue;
+	    }
+	     if($categoryDetails['type'] == 'fulltext') {
+	    	include 'Form-fulltext.php';
 	    	continue;
 	    }
 		// for categories with only 1 value, display a switch button instead of a dropdown
@@ -163,6 +169,15 @@ if (count($filtersData) > 0):?>
 		}
 		if (isset($values['type'] ) && $values['type'] == 'date') {
 			$inputId = "wf-expl-$category-date" ;
+			echo ' <span class="category-filter-title">' . $filtersData[$category]['name'] . ' : </span>';
+			echo ' <span class="tag label label-default">'
+					. $values['value']
+					. ' <span class="remove" data-role="dateRemove" data-inputId="' . $inputId . '"> '
+					. 'x</span></span> ';
+			continue;
+		}
+		if (isset($values['type'] ) && $values['type'] == 'fulltext') {
+			$inputId = "wf-expl-$category-fulltext" ;
 			echo ' <span class="category-filter-title">' . $filtersData[$category]['name'] . ' : </span>';
 			echo ' <span class="tag label label-default">'
 					. $values['value']
