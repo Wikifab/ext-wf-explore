@@ -1,4 +1,4 @@
-<div class="<?php echo $bootstrapClass ?>">
+<div class="<?php echo isset($bootstrapClass)?  $bootstrapClass : '' ?>">
 		<ul class="nav nav-pills" role="tablist">
 			<?php
 			$inputName = "wf-expl-$category-fulltext" ;

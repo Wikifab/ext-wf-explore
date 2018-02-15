@@ -17,6 +17,7 @@ $wgAutoloadClasses['WfExploreQueryParser'] = __DIR__ . "/includes/WfExploreQuery
 $wgAutoloadClasses['WfExploreTag'] = __DIR__ . "/includes/WfExploreTag.php";
 $wgAutoloadClasses['WfExploreCore'] = __DIR__ . "/includes/WfExploreCore.php";
 $wgAutoloadClasses['WikifabExploreResultFormatter'] = __DIR__ . '/includes/WikifabExploreResultFormatter.php'; # Location of the WikifabSearchResultFormatter class
+$wgAutoloadClasses['Skins\\Chameleon\\Components\\ExploreSearchBar'] = __DIR__ . '/includes/ChameleonComponents/ExploreSearchBar.php'; # Location of the WikifabSearchResultFormatter class
 //$wgAutoloadClasses['WfTutorialUtils'] = __DIR__ . '/includes/WfTutorialUtils.php'; # tools for using tutorial forms pages
 
 
@@ -96,7 +97,7 @@ function wfExploreOnPageRenderingHash( &$confstr, User $user, &$forOptions ) {
 	global $wfExploreGlobalParsedFunction, $wgRequest;
 
 	// if parse function has been used, we add query to cache hash key
-	if ($wfExploreGlobalParsedFunction) {
+	if (isset($wfExploreGlobalParsedFunction) && $wfExploreGlobalParsedFunction) {
 		foreach ($wgRequest->getValues() as $key => $val) {
 			 $confstr .= '-' . $key . "-" . $val;
 		}
