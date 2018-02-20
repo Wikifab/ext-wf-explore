@@ -96,10 +96,12 @@ function WfExploreParserFunctions( $parser ) {
 function wfExploreOnPageRenderingHash( &$confstr, User $user, &$forOptions ) {
 	global $wfExploreGlobalParsedFunction, $wgRequest;
 
-	// if parse function has been used, we add query to cache hash key
-	if (isset($wfExploreGlobalParsedFunction) && $wfExploreGlobalParsedFunction) {
-		foreach ($wgRequest->getValues() as $key => $val) {
-			 $confstr .= '-' . $key . "-" . $val;
+	if($wgRequest->getMethod() == 'GET') {
+		// if parse function has been used, we add query to cache hash key
+		if (isset($wfExploreGlobalParsedFunction) && $wfExploreGlobalParsedFunction) {
+			foreach ($wgRequest->getValues() as $key => $val) {
+				 $confstr .= '-' . $key . "-" . $val;
+			}
 		}
 	}
 	return true;

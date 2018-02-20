@@ -6,7 +6,7 @@
 			$replacement = '-';
 			$inputId = preg_replace($pattern, $replacement, $inputName);
 			?>
-			<label id='Label<?php echo $inputId; ?>' class="fulltext-search-label <?php echo isset($selectedOptions[$category][$value['id']]) ? 'active' : ''; ?>">
+			<label id='Label<?php echo $inputId; ?>' class="fulltext-search-label <?php echo isset($selectedOptions[$category]['value']) ? 'active' : ''; ?>">
 				<?php echo $categoryDetails['name'] ?>
 			</label>
 			<input id='<?php echo $inputId; ?>'
