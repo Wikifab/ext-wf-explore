@@ -12,6 +12,7 @@ $wgExtensionCredits['specialpage'][] = array(
 	'descriptionmsg' => 'wfexplore-desc',
 	'version' => '0.1.0',
 );
+$wgAutoloadClasses['Explore\\InputBox'] = __DIR__ . '/includes/InputBox.php';
 $wgAutoloadClasses['SpecialWfExplore'] = __DIR__ . '/includes/SpecialWfExplore.php'; # Location of the SpecialWfSearch class (Tell MediaWiki to load this file)
 $wgAutoloadClasses['WfExploreQueryParser'] = __DIR__ . "/includes/WfExploreQueryParser.php";
 $wgAutoloadClasses['WfExploreTag'] = __DIR__ . "/includes/WfExploreTag.php";
@@ -90,6 +91,7 @@ function WfExploreParserFunctions( $parser ) {
 	$wgOut->addModules( array( 'ext.wikifab.wfexplore' ) );
 	$parser->setFunctionHook( 'displayExplore', array('WfExploreTag', 'addSampleParser' ));
 	$parser->setFunctionHook( 'exploreQuery', array('WfExploreQueryParser', 'addSampleParser' ));
+	$parser->setFunctionHook( 'exploreinputbox', array( 'Explore\\InputBox', 'render' ) );
 	return true;
 }
 

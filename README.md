@@ -25,6 +25,11 @@ Ex :
 
 to display explorer in a page, insert the function displayExplore :
   {{#displayExplore: params}}
+  
+### Input Box function
+
+to add an input box to search pages using Special:WfExplore :
+  {{#exploreinputbox:}}
 
   
 ## configuration using global vars :

@@ -1,5 +1,4 @@
 <?php
-use phpDocumentor\Reflection\DocBlock\Tags\Var_;
 
 if (isset($params['complete']) && $params['complete']):
 	?><input type="hidden" id="wf-expl-complete-1" name="wf-expl-complete-1" value='1'/><?php
