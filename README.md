@@ -30,6 +30,9 @@ to display explorer in a page, insert the function displayExplore :
 
 to add an input box to search pages using Special:WfExplore :
   {{#exploreinputbox:}}
+  
+you cant add 2 parameters : the first param is the button text, the second is the placehoder
+  {{#exploreinputbox:GO| placeholder}}
 
   
 ## configuration using global vars :

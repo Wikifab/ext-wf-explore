@@ -14,9 +14,13 @@ use Xml;
 class InputBox {
 
 	// Render the input box
-	public static function render( $parser) {
+	public static function render( $parser, $buttonlabel = '', $placeholder = '') {
 
 		static $idCounter = 1;
+
+		if( ! $buttonlabel) {
+			$buttonlabel = Xml::openElement( 'span',['class' => "glyphicon glyphicon-search"]);
+		}
 
 		$url = SpecialPage::getTitleFor( 'WfExplore' )->getLinkURL();
 
@@ -36,6 +40,7 @@ class InputBox {
 		$out .= Xml::openElement( 'input', array(
 				'class' => 'fulltext-search',
 				'name' => "wf-expl-fulltext-fulltext",
+				'placeholder' => $placeholder,
 				'type' => "text",
 				'value' => ''
 		) );
@@ -48,7 +53,7 @@ class InputBox {
 				'title' => wfMessage("tooltip-search-fulltext"),
 				'value' => wfMessage("search"),
 				'type' => "submit",
-		) ) . Xml::openElement( 'span',['class' => "glyphicon glyphicon-search"]);
+		) ) . $buttonlabel;
 		$out .= Xml::closeElement( 'button');
 		$out .= Xml::closeElement( 'div' ); //close input-group-btn
 
