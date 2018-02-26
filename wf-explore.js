@@ -351,6 +351,18 @@ $( document ).ready(function () {
     $('.load-more').on('click', loadMoreClick);
     $('.load-more-previous').on('click', loadPreviousClick);
     
+    $('.explore-hidden-field').each(function() {
+    	// little hack to set value of search field,
+    	// when the search field is outside of the form
+    	var clonedId = $(this).attr('data-exploreClonedId');
+    	var value = $(this).val();
+    	if( clonedId) {
+    		$('#' + clonedId).each(function() {
+    			$(this).val(value);
+    		});
+    	}
+    });
+    
     mw.loader.using( 'jquery.ui.datepicker' ).then( function () {
     	$( ".datepicker" ).datepicker({
         	dateFormat: 'yy/mm/dd',

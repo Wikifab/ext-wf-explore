@@ -25,6 +25,20 @@ if (count($filtersData) > 0):?>
 <div class="WFfilter">
 
 	<?php foreach ($filtersData as $category => $categoryDetails) :
+	    if(isset($categoryDetails['hidden']) &&  $categoryDetails['hidden']) {
+	    	$inputName = "wf-expl-$category-fulltext" ;
+	    	$pattern = '/[^0-9a-zA-Z\-_]/i';
+	    	$replacement = '-';
+	    	$inputId = preg_replace($pattern, $replacement, $inputName);
+	    	$hiddeninputId = $inputId . '-hidden';
+	    	?>
+			<input id='<?php echo $hiddeninputId; ?>' name="<?php echo $inputName; ?>"
+	    		type="hidden" value="<?php echo isset($selectedOptions[$category]['value']) ? $selectedOptions[$category]['value'] : ''; ?>"
+	    		data-exploreClonedId="<?php echo $inputId; ?>" class='explore-hidden-field'
+	    		>
+	    	<?php
+	    	continue;
+	    }
 	     if($categoryDetails['type'] == 'date') {
 	    	include 'Form-dateinput.php';
 	    	continue;

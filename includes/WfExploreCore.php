@@ -214,6 +214,16 @@ class WfExploreCore {
 		);
 	}
 
+	private function getFiltersAttributes() {
+
+		global $wfexploreDynamicsFilters;
+
+		if(isset($wfexploreDynamicsFilters)) {
+			return $wfexploreDynamicsFilters;
+		}
+		return [];
+	}
+
 	private function getDynamicsFilters($wfexploreDynamicsFilters) {
 
 		$result = [];
@@ -320,6 +330,7 @@ class WfExploreCore {
 		}
 
 		$filters = $this->getFilters();
+		$filtersAttributes = $this->getFiltersAttributes();
 		$result = array();
 		foreach ($filters as $filtersKey => $values) {
 			$filter = array(
@@ -328,6 +339,9 @@ class WfExploreCore {
 				'type' => 'enum',
 				'values' => array()
 			);
+			if(isset($filtersAttributes[$filtersKey]['hidden'])) {
+				$filter['hidden'] = $filtersAttributes[$filtersKey]['hidden'];
+			}
 			if(is_array($values)) {
 				foreach ($values as $key => $value) {
 					$filter['values'][$key] = array(
