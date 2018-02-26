@@ -38,6 +38,7 @@ class InputBox {
 
 		$out .= Xml::openElement( 'div', array( 'class' => 'wfExpInput-container' ) );
 		$out .= Xml::openElement( 'input', array(
+				'id' => "wf-expl-fulltext-fulltext-cloned",
 				'class' => 'fulltext-search',
 				'name' => "wf-expl-fulltext-fulltext",
 				'placeholder' => $placeholder,

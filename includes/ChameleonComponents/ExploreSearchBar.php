@@ -68,7 +68,7 @@ class ExploreSearchBar extends Component {
 
 			$this->indent( 1 ) . '<input type="hidden" name="title" value="' . \SpecialPage::getTitleFor( $searchPageName) . '" />' .
 			$this->indent() . '<div class="input-group">' .
-			$this->indent() . '<input id="wf-expl-fulltext-fulltext" class="form-control webfonts-changed"  title="'. wfMessage('search').'" placeholder="'. wfMessage('search').'"  name="wf-expl-fulltext-fulltext" class="fulltext-search webfonts-changed" value="" autocomplete="off" type="text">' .
+			$this->indent() . '<input id="wf-expl-fulltext-fulltext-cloned" class="form-control webfonts-changed"  title="'. wfMessage('search').'" placeholder="'. wfMessage('search').'"  name="wf-expl-fulltext-fulltext" class="fulltext-search webfonts-changed" value="" autocomplete="off" type="text">' .
 			$this->indent() . '<div class="input-group-btn">' .
 			//$this->indent( 1 ) . $this->getSearchButton( 'go' ) .
 			$this->indent( 0 ) . $this->getSearchButton( 'fulltext' ) .

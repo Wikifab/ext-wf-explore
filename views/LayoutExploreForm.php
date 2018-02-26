@@ -30,11 +30,11 @@ if (count($filtersData) > 0):?>
 	    	$pattern = '/[^0-9a-zA-Z\-_]/i';
 	    	$replacement = '-';
 	    	$inputId = preg_replace($pattern, $replacement, $inputName);
-	    	$hiddeninputId = $inputId . '-hidden';
+	    	$clonedInputId = $inputId . '-cloned';
 	    	?>
-			<input id='<?php echo $hiddeninputId; ?>' name="<?php echo $inputName; ?>"
+			<input id='<?php echo $inputId; ?>' name="<?php echo $inputName; ?>"
 	    		type="hidden" value="<?php echo isset($selectedOptions[$category]['value']) ? $selectedOptions[$category]['value'] : ''; ?>"
-	    		data-exploreClonedId="<?php echo $inputId; ?>" class='explore-hidden-field'
+	    		data-exploreClonedId="<?php echo $clonedInputId; ?>" class='explore-hidden-field'
 	    		>
 	    	<?php
 	    	continue;
