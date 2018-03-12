@@ -27,6 +27,9 @@ class WfExploreQueryParser {
 
 		$params = array();
 
+		if(!isset($options['limit'])) {
+			$options['limit'] = $limit;
+		}
 		$params['limit'] = intval($options['limit']);
 
 		$params['query'] = $options['query'];
