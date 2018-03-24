@@ -311,23 +311,42 @@ class WfExploreCore {
 		return $result;
 	}
 
-	private function getFiltersData() {
+	/**
+	 * return name of each filter, manage translation
+	 *
+	 * @return array<string>
+	 */
+	private function getCategoriesName() {
 		global $wfexploreCategoriesNames;
 
 		$categoriesNames = array(
-			'fulltext' => wfMessage( 'wfexplore-fulltext' )->text() ,
-			'Type' => wfMessage( 'wfexplore-type' )->text() ,
-			'area' =>  wfMessage( 'wfexplore-category' )->text(), // this line is kept for old config
-			'Area' =>  wfMessage( 'wfexplore-category' )->text(),
-			'Difficulty' => wfMessage( 'wfexplore-difficulty' )->text() ,
-			'Cost' => wfMessage( 'wfexplore-cost' )->text() ,
-			'Complete' => 'Complete',
-			'Language' => wfMessage( 'wfexplore-language' )->text(),
+				'fulltext' => wfMessage( 'wfexplore-fulltext' )->text() ,
+				'Category' => wfMessage( 'wfexplore-category' )->text() ,
+				'Type' => wfMessage( 'wfexplore-type' )->text() ,
+				'area' =>  wfMessage( 'wfexplore-category' )->text(), // this line is kept for old config
+				'Area' =>  wfMessage( 'wfexplore-category' )->text(),
+				'Difficulty' => wfMessage( 'wfexplore-difficulty' )->text() ,
+				'Cost' => wfMessage( 'wfexplore-cost' )->text() ,
+				'Complete' => 'Complete',
+				'Language' => wfMessage( 'wfexplore-language' )->text(),
 		);
 
 		if (isset($wfexploreCategoriesNames) && $wfexploreCategoriesNames) {
 			$categoriesNames = array_merge($categoriesNames, $wfexploreCategoriesNames);
 		}
+
+		foreach ($categoriesNames as $key => $val) {
+			if (substr($val, 0,4) == 'int:') {
+				$categoriesNames[$key] = wfMessage(substr($val, 4))->text();
+			}
+		}
+
+		return $categoriesNames;
+	}
+
+	private function getFiltersData() {
+
+		$categoriesNames = $this->getCategoriesName();
 
 		$filters = $this->getFilters();
 		$filtersAttributes = $this->getFiltersAttributes();
