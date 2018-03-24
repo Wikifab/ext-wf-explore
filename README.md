@@ -49,12 +49,14 @@ you cant add 2 parameters : the first param is the button text, the second is th
   ]
 
   $wfexploreCategoriesNames = [
-  		'Type' => wfMessage( 'wfexplore-type' )->text() ,
-  		'area' =>  wfMessage( 'wfexplore-category' )->text(),
-  		'Difficulty' => wfMessage( 'wfexplore-difficulty' )->text() ,
-  		'Cost' => wfMessage( 'wfexplore-cost' )->text() ,
+  		'Type' => 'int:wfexplore-type' ,
+  		'area' =>  'int:wfexplore-category',
+  		'Difficulty' => 'int:wfexplore-difficulty',
+  		'Cost' => 'int:wfexplore-cost',
   		'Complete' => 'Complete',
-  ]
+  ];
+
+Note : using prefix 'int' enable to use translation key
 
 ### configure layout to display results : 
 
