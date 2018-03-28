@@ -292,8 +292,6 @@ class WikifabExploreResultFormatter {
 
 		$content2 = array_merge($defaultFields, $content);
 
-
-		var_dump(substr($this->getTemplate(), -4) );
 		if (substr($this->getTemplate(), -4) == '.php') {
 			return$this->formatResultPhpTemplate($content2);
 		} else {
