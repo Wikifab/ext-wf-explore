@@ -200,16 +200,51 @@ class WikifabExploreResultFormatter {
 
 	}
 
-	public function formatResult($content) {
+	public function formatResultPhpTemplate($content) {
+
+		// remove invalid Chars for vars :
+		foreach ($content as $key => $val) {
+			if ( false !== strpos($key, '-')) {
+				$newkey = str_replace('-','_', $key);
+				if (! isset($content[$newkey])) {
+					$content[$newkey] = $val;
+				}
+			}
+		}
+		function getImageUrl($filename) {
+			$file = wfFindFile( $filename );
+			$fileUrl = '';
+			if($file) {
+				$fileUrl = $file->getUrl();
+				if ( isset($GLOBALS['wgExploreUseThumbs']) &&  $GLOBALS['wgExploreUseThumbs']) {
+					// if possible, we use thumbnail
+					$params = ['width' => 400];
+
+					$mto = $file->transform( $params );
+					if ( $mto && !$mto->isError() ) {
+						// thumb Ok, change the URL to point to a thumbnail.
+						$fileUrl = wfExpandUrl( $mto->getUrl(), PROTO_RELATIVE );
+					}
+				}
+			}
+			return $fileUrl;
+		}
+
+		extract($content);
+		ob_start();
+		include ($this->getTemplate());
+		$out = ob_get_contents();
+		ob_end_clean();
+		return $out;
+	}
+
+	public function formatResultHtmlTemplate($content) {
+
 		$wgScriptPath = $GLOBALS['wgScriptPath'];
 		$out = file_get_contents($this->getTemplate());
 		$content['ROOT_URL'] = $wgScriptPath . '/';
 
-		$defaultFields = $GLOBALS['wgExploreDefaultsFieldsDisplayValues'];
-
-		$content2 = array_merge($defaultFields, $content);
-
-		foreach ($content2 as $key => $value) {
+		foreach ($content as $key => $value) {
 
 			$imageKeywords = array(
 					'picture',
@@ -249,6 +284,21 @@ class WikifabExploreResultFormatter {
 			}
 		}
 		return $out;
+	}
+
+	public function formatResult($content) {
+
+		$defaultFields = $GLOBALS['wgExploreDefaultsFieldsDisplayValues'];
+
+		$content2 = array_merge($defaultFields, $content);
+
+
+		var_dump(substr($this->getTemplate(), -4) );
+		if (substr($this->getTemplate(), -4) == '.php') {
+			return$this->formatResultPhpTemplate($content2);
+		} else {
+			return $this->formatResultHtmlTemplate($content2);
+		}
 	}
 
 }
