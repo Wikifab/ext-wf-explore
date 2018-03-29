@@ -200,18 +200,7 @@ class WikifabExploreResultFormatter {
 
 	}
 
-	public function formatResultPhpTemplate($content) {
-
-		// remove invalid Chars for vars :
-		foreach ($content as $key => $val) {
-			if ( false !== strpos($key, '-')) {
-				$newkey = str_replace('-','_', $key);
-				if (! isset($content[$newkey])) {
-					$content[$newkey] = $val;
-				}
-			}
-		}
-		function getImageUrl($filename) {
+	public static function getImageUrl($filename) {
 			$file = wfFindFile( $filename );
 			$fileUrl = '';
 			if($file) {
@@ -228,6 +217,18 @@ class WikifabExploreResultFormatter {
 				}
 			}
 			return $fileUrl;
+		}
+
+	public function formatResultPhpTemplate($content) {
+
+		// remove invalid Chars for vars :
+		foreach ($content as $key => $val) {
+			if ( false !== strpos($key, '-')) {
+				$newkey = str_replace('-','_', $key);
+				if (! isset($content[$newkey])) {
+					$content[$newkey] = $val;
+				}
+			}
 		}
 
 		extract($content);
