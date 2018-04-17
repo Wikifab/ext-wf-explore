@@ -232,6 +232,8 @@ class WfExploreCore {
 			$filterName = $filter ['name'];
 			if (isset($filter['type']) && $filter['type'] == 'fulltext') {
 				$values = 'fulltext';
+			} else if (isset($filter['type']) && $filter['type'] == 'sort') {
+				$values = 'sort';
 			} else if( ! isset($filter['values'])) {
 				$prefix = isset($filter ['translate_prefix']) ? $filter ['translate_prefix'] : 'wfexplore-value-';
 				$values = $this->getValuesForProperty($filterName, $prefix);
@@ -329,6 +331,7 @@ class WfExploreCore {
 				'Cost' => wfMessage( 'wfexplore-cost' )->text() ,
 				'Complete' => 'Complete',
 				'Language' => wfMessage( 'wfexplore-language' )->text(),
+				'sort' => wfMessage( 'wfexplore-sort' )->text()
 		);
 
 		if (isset($wfexploreCategoriesNames) && $wfexploreCategoriesNames) {
@@ -400,7 +403,7 @@ class WfExploreCore {
 	/**
 	* return selected Options
 	*/
-	private function getSelectedAdvancedSearchOptions($request, $params = []) {
+	private function getSelectedAdvancedSearchOptions($request, &$params = []) {
 		$filtersData = $this->getFiltersData();
 		$filtersData = $this->addHiddenFields($filtersData);
 
@@ -448,6 +451,18 @@ class WfExploreCore {
 							'valueId' => $value,
 							'value' => $value
 					);
+				}
+			} else if(isset($values['type']) && $values['type'] == 'sort') {
+				$fieldName = "wf-expl-$category-sort";
+
+				$value = null;
+				if ( ($request && $request->getVal( $fieldName )) ) {
+					$value = $request->getVal( $fieldName );
+				} else if(isset($params[$fieldName])) {
+					$value = $params[$fieldName];
+				}
+				if($value) {
+					$params['sort'] = $category;
 				}
 			} else {
 				foreach ($values['values'] as $key => $value) {
@@ -497,6 +512,7 @@ class WfExploreCore {
 				)
 			);
 		}
+		
 		return $results;
 	}
 
@@ -541,14 +557,14 @@ class WfExploreCore {
 	*/
 	private function getSearchForm($request, $params = []) {
 		global $wgLang;
+		global $wfexploreCategoriesNames;
 		$currentLanguage = $wgLang->getCode();
 
 		// get form options :
 		$filtersData = $this->getFiltersData();
 		// get selected Options
-		$selectedOptions = $this->getSelectedAdvancedSearchOptions($request, $params);
 
-		$params = $this->params;
+		$selectedOptions = $this->getSelectedAdvancedSearchOptions($request, $params);
 
 		// those two vars could be parametized in Localsettings
 		// for now, this is hard-coded

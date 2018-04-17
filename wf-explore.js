@@ -62,12 +62,18 @@ $( document ).ready(function () {
 		});
 	}
 
+	//one filter at a time
+	$('#sort-filters input[type="checkbox"]').on('change', function() {
+	   $('#sort-filters input[type="checkbox"]').not(this).prop('checked', false);
+	   $('#sort-filters label').not($(this).parent()).removeClass('active');
+	});
+
 
 	/* submit form on each change on filters */
-		//$("form.wfExplore input[type=checkbox]")
-		$("form.wfExplore input").change(function () {
-			$(this).parents('form:first').submit();
-	    });
+	//$("form.wfExplore input[type=checkbox]")
+	$("form.wfExplore input").change(function () {
+		$(this).parents('form:first').submit();
+	});
 
 	function updateUriFromForm(form) {
         var uri = window.location.pathname + "?" + form.serialize();
@@ -119,7 +125,6 @@ $( document ).ready(function () {
 	}
 
 	proposedTagsBind();
-
 
 	/* soumission du formulaire en ajax */
     $('form.wfExplore').on('submit', function(e) {

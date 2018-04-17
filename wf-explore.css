@@ -87,3 +87,13 @@ input:checked + .slider:before {
 .slider.round:before {
   border-radius: 50%;
 }
+
+.wfexplore-filters-label{
+  color: #a4a4a4;
+  display: inline-block;
+  font-size: 10px;
+  font-weight: bold;
+  line-height: 13px;
+  margin-bottom: 10px;
+  text-transform: uppercase;
+}

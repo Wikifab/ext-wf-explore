@@ -15,6 +15,7 @@
 	"wfexplore-difficulty": "Difficulté",
 	"wfexplore-cost": "Coût",
 	"wfexplore-fulltext": "Recherche",
+	"wfexplore-sort": "Trier",
 	"wfexplore-language": "Langue",
 	"wfexplore-language-all": "Toutes",
 	"wfexplore-type": "Type",
@@ -42,7 +43,15 @@
 	"wfexplore-category-name-medium": "Moyen",
 	"wfexplore-category-name-hard": "Difficile",
 	"wfexplore-category-name-very-hard": "Très difficile",
-	"wfexplore-display-all-language": "Afficher les résultats dans toutes les langues"
+	"wfexplore-display-all-language": "Afficher les résultats dans toutes les langues",
+	"wfexplore-filters-ididit": "Les plus faits",
+	"wfexplore-filters-favorites": "les plus aimés",
+	"wfexplore-filters-views": "Les plus vus",
+	"wfexplore-filters-last-modified": "Les derniers modifiés",
+	"wfexplore-filters-page-creator": "Créateur du tuto",
+	"wfexplore-filters-sort-label" : "Trier",
+	"wfexplore-filters-search-label" : "Rechercher"
+
 }
 
 

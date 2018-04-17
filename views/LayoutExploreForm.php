@@ -24,6 +24,12 @@ if (count($filtersData) > 0):?>
 
 <div class="WFfilter">
 
+	<?php 
+		$sortFilters = '';
+		$searchFilters = '';
+		$moreFilters = '';
+	?>
+
 	<?php foreach ($filtersData as $category => $categoryDetails) :
 	    if(isset($categoryDetails['hidden']) &&  $categoryDetails['hidden']) {
 	    	$inputName = "wf-expl-$category-fulltext" ;
@@ -47,36 +53,39 @@ if (count($filtersData) > 0):?>
 	    	include 'Form-fulltext.php';
 	    	continue;
 	    }
+	    if($categoryDetails['type'] == 'sort') {
+	    	include 'Form-sort.php';
+	    	continue;
+	    }
 		// for categories with only 1 value, display a switch button instead of a dropdown
 		if(isset($wgExploreCategoriesUsingSwitchButtons[$category])):
 			foreach ($categoryDetails['values'] as $value) :?>
-
-			  <div class="switch-btn">
 				<?php
 
 				$inputName = "wf-expl-$category-" . $value['id'];
 				$pattern = '/[^0-9a-zA-Z\-_]/i';
 				$replacement = '-';
 				$inputId = preg_replace($pattern, $replacement, $inputName);
+				$checked = isset($selectedOptions[$category][$value['id']]) ? 'checked="checked"' : '';
 
 				$label = $categoryDetails['name'] . ' : ' . $value['name'];
 				if (isset($wgExploreSwitchButtons["$category-" . $value['id']])) {
 					$label = wfMessage($wgExploreSwitchButtons["$category-" . $value['id']]);
 				}
-				?>
 
-				<p class="switch-p-container">
-					<label class="switch-label" for="<?php echo $inputId;?>"><?php echo $label; ?></label>
+				$moreFilters .= '<div class="switch-btn"><p class="switch-p-container">
+					<label class="switch-label" for="'.$inputId.'">'.$label.'</label>
 					<label class="switch">
-					  <input id='<?php echo $inputId; ?>' name="<?php echo $inputName; ?>"
-								    		type="checkbox"
-								    		<?php echo isset($selectedOptions[$category][$value['id']]) ? 'checked="checked"' : ''; ?>
+					  <input id="'.$inputId.'" name="'.$inputName.'"
+								    		type="checkbox" '.
+								    		$checked.'
 								    		autocomplete="off">
 					<span class="slider round"></span>
 					</label>
 				</p>
-			<?php endforeach;?>
-	 	  </div>
+				</div>';
+			endforeach; ?>
+
 		<?php else:?>
 		<div class="WFfilter-property">
 	    <ul class="nav nav-pills" role="tablist">
@@ -129,6 +138,29 @@ if (count($filtersData) > 0):?>
 	 	</div>
 		<?php endif;?>
 	<?php endforeach; ?>
+	<ul class="nav nav-pills" role="tablist">
+      <li class="dropdown mega-dropdown" id="myForm">
+        <a id="drop5" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+          <?php echo 'Filtres' ; ?>
+          <span class="caret"></span>
+        </a>
+		<ul class="dropdown-menu mega-dropdown-menu">
+			<div id="sort-filters">
+				<span class="wfexplore-filters-label"><?php echo wfMessage("wfexplore-filters-sort-label"); ?></span>
+				<div><?php echo $sortFilters; ?></div>
+			</div>
+			<hr />
+			<div id="search-filters">
+				<span class="wfexplore-filters-label"><?php echo wfMessage("wfexplore-filters-search-label"); ?></span>
+				<div><?php echo $searchFilters; ?></div>
+			</div>
+			<hr />
+			<div id="more-filters">
+				<div><?php echo $moreFilters; ?></div>
+			</div>
+		</ul>
+      </li>
+	</ul>
 
 </div>
 </div>
@@ -156,6 +188,15 @@ if (count($filtersData) > 0):?>
 
 <div class="search-filters-section wfexplore-selectedLabels">
 <div class="container">
+	<?php if (isset($params['sort']) && $params['sort']) {
+		$category = $params['sort'];	
+		$inputId = "wf-expl-$category-sort";
+		echo ' <span class="category-filter-title">'.wfMessage("wfexplore-filters-sort-label").' : </span>';
+		echo ' <span class="tag label label-default">'
+				. $wfexploreCategoriesNames[$params['sort']]
+				. ' <span class="remove" data-role="remove" data-inputId="' . $inputId . '"> '
+				. 'x</span></span> ';
+	} ?>
 	<?php foreach ($selectedOptions as $category => $values) {
 		if (isset($wgExploreCategoriesUsingSwitchButtons[$category])) {
 			// if this is from a switch button, do not display label
