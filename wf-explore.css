@@ -97,3 +97,31 @@ input:checked + .slider:before {
   margin-bottom: 10px;
   text-transform: uppercase;
 }
+
+.WFfilter-filters {
+  float:right;
+}
+
+.WFfilter .WFfilter-filters ul.mega-dropdown-menu {
+    right: 0;
+    left: auto;
+  padding: 15px 0;
+}
+
+.WFfilter .WFfilter-filters #sort-filters,
+.WFfilter .WFfilter-filters #search-filters,
+.WFfilter .WFfilter-filters #more-filters {
+  padding: 0 15px;
+}
+
+.WFfilter .WFfilter-filters #search-filters input.fulltext-search {
+    width: 200px;
+    border-radius: 3px;
+    padding: 6px 8px;
+}
+
+.WFfilter .WFfilter-filters ul.mega-dropdown-menu hr {
+  float: left;
+    width: 100%;
+    margin: 15px 0px;
+}
