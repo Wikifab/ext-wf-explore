@@ -49,8 +49,8 @@ if (count($filtersData) > 0):?>
 	    	include 'Form-dateinput.php';
 	    	continue;
 	    }
-	     if($categoryDetails['type'] == 'fulltext') {
-	    	include 'Form-fulltext.php';
+	    if($categoryDetails['type'] == 'fulltext') {
+	    	//include 'Form-fulltext.php';
 	    	continue;
 	    }
 	    if($categoryDetails['type'] == 'sort') {
@@ -138,29 +138,61 @@ if (count($filtersData) > 0):?>
 	 	</div>
 		<?php endif;?>
 	<?php endforeach; ?>
-	<ul class="nav nav-pills" role="tablist">
-      <li class="dropdown mega-dropdown" id="myForm">
-        <a id="drop5" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-          <?php echo 'Filtres' ; ?>
-          <span class="caret"></span>
-        </a>
-		<ul class="dropdown-menu mega-dropdown-menu">
-			<div id="sort-filters">
-				<span class="wfexplore-filters-label"><?php echo wfMessage("wfexplore-filters-sort-label"); ?></span>
-				<div><?php echo $sortFilters; ?></div>
-			</div>
-			<hr />
-			<div id="search-filters">
-				<span class="wfexplore-filters-label"><?php echo wfMessage("wfexplore-filters-search-label"); ?></span>
-				<div><?php echo $searchFilters; ?></div>
-			</div>
-			<hr />
-			<div id="more-filters">
-				<div><?php echo $moreFilters; ?></div>
-			</div>
+	<div class="WFfilter-filters">
+		<ul class="nav nav-pills" role="tablist">
+	      <li class="dropdown mega-dropdown">
+	        <a id="drop5" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+	          <?php echo 'Filtres' ; ?>
+	          <span class="caret"></span>
+	        </a>
+			<ul class="dropdown-menu mega-dropdown-menu">
+				<div id="sort-filters">
+					<span class="wfexplore-filters-label"><?php echo wfMessage("wfexplore-filters-sort-label"); ?></span>
+					<div><?php echo $sortFilters; ?></div>
+				</div>
+				<hr />
+				<?php
+					if(array_key_exists('Page_creator', $filtersData)){
+						$category = 'Page_creator';
+						$categoryDetails = $filtersData['Page_creator'];
+				    	$bootstrapClass = isset($bootstrapClass)?  $bootstrapClass : '';
+						$inputName = "wf-expl-$category-fulltext" ;
+						$pattern = '/[^0-9a-zA-Z\-_]/i';
+						$replacement = '-';
+						$inputId = preg_replace($pattern, $replacement, $inputName);
+						$active = isset($selectedOptions[$category]['value']) ? 'active' : '';
+						$valueSearch = isset($selectedOptions[$category]['value']) ? $selectedOptions[$category]['value'] : '';
+
+						$searchByAuthor =   '<div class="'.$bootstrapClass.'">
+												<ul class="nav nav-pills" role="tablist">
+													<li>
+														<input id="'.$inputId.'"
+														name="'.$inputName.'"
+														type="text"
+														placeholder="'.wfMessage("wfexplore-filters-search-by-author-placeholder").'"
+														class="fulltext-search"
+														value="'.$valueSearch.'"
+														autocomplete="off">
+													</li>
+												</ul>
+										 	</div>';
+			    	}
+		    	?>
+		    	<?php if (isset($searchByAuthor)): ?>
+					<div id="search-by-author">
+						<span class="wfexplore-filters-label"><?php echo wfMessage("wfexplore-filters-search-by-author-label"); ?></span>
+						<div><?php echo $searchByAuthor; ?></div>
+					</div>
+					<hr />
+				<?php endif; ?>
+				
+				<div id="more-filters">
+					<div><?php echo $moreFilters; ?></div>
+				</div>
+			</ul>
+	      </li>
 		</ul>
-      </li>
-	</ul>
+	</div>
 
 </div>
 </div>

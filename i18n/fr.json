@@ -48,9 +48,9 @@
 	"wfexplore-filters-favorites": "les plus aimés",
 	"wfexplore-filters-views": "Les plus vus",
 	"wfexplore-filters-last-modified": "Les derniers modifiés",
-	"wfexplore-filters-page-creator": "Créateur du tuto",
 	"wfexplore-filters-sort-label" : "Trier",
-	"wfexplore-filters-search-label" : "Rechercher"
+	"wfexplore-filters-search-by-author-label" : "Rechercher par auteur",
+	"wfexplore-filters-search-by-author-placeholder" : "Nom de l'auteur"
 
 }
 
