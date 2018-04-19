@@ -109,15 +109,24 @@ input:checked + .slider:before {
 }
 
 .WFfilter .WFfilter-filters #sort-filters,
-.WFfilter .WFfilter-filters #search-filters,
+.WFfilter .WFfilter-filters #search-by-author,
 .WFfilter .WFfilter-filters #more-filters {
   padding: 0 15px;
 }
 
-.WFfilter .WFfilter-filters #search-filters input.fulltext-search {
+.WFfilter .WFfilter-filters #search-by-author input.fulltext-search {
     width: 200px;
     border-radius: 3px;
     padding: 6px 8px;
+}
+
+.WFfilter .WFfilter-filters #search-by-author input.fulltext-search::placeholder {
+    color: #bbb;
+    opacity: 1;
+}
+
+.WFfilter .WFfilter-filters #search-by-author input.fulltext-search:-ms-input-placeholder {
+   color: #bbb;
 }
 
 .WFfilter .WFfilter-filters ul.mega-dropdown-menu hr {
