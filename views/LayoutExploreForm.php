@@ -23,13 +23,11 @@ if (count($filtersData) > 0):?>
 <div class="container">
 
 <div class="WFfilter">
-
 	<?php 
 		$sortFilters = '';
 		$searchFilters = '';
 		$moreFilters = '';
 	?>
-
 	<?php foreach ($filtersData as $category => $categoryDetails) :
 	    if(isset($categoryDetails['hidden']) &&  $categoryDetails['hidden']) {
 	    	$inputName = "wf-expl-$category-fulltext" ;
