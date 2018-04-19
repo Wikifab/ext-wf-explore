@@ -116,7 +116,7 @@ input:checked + .slider:before {
 
 .WFfilter .WFfilter-filters #more-filters label.switch-label {
 	float: right;
-    width: calc(~"100% - 50px");
+    width: calc(100% - 50px);
 }
 
 .WFfilter .WFfilter-filters #more-filters label.switch {
