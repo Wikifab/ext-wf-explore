@@ -114,6 +114,16 @@ input:checked + .slider:before {
   padding: 0 15px;
 }
 
+.WFfilter .WFfilter-filters #more-filters label.switch-label {
+	float: right;
+    width: calc(~"100% - 50px");
+}
+
+.WFfilter .WFfilter-filters #more-filters label.switch {
+    float: left;
+    margin-top: 5px;
+}
+
 .WFfilter .WFfilter-filters #search-by-author input.fulltext-search {
     width: 200px;
     border-radius: 3px;
