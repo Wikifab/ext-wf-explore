@@ -46,7 +46,8 @@ $wgResourceModules['ext.wikifab.wfExplore.js'] = array(
 				'wfexplore-load-more-tutorials-previous'
 		),
 		'dependencies' => array(
-				'jquery.ui.datepicker'
+				'jquery.ui.datepicker',
+				'jquery.ui.autocomplete'
 		)
 );
 $wgResourceModules['ext.wikifab.wfexplore.css'] = array(
