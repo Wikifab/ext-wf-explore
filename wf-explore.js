@@ -1,4 +1,44 @@
+//Page Creator autocompletion
 
+(function() {
+
+	$( document ).ready(function() {
+		$("#wf-expl-Page_creator-fulltext").autocomplete({
+
+		    source : function(requete, reponse){ 
+
+			    $.ajax({
+
+			    	type: "POST",
+					url: mw.util.wikiScript('api'),
+					data: { 
+						action:'pfautocomplete', //PageForms
+						format:'json',
+						namespace: 'User', 
+						substr: $("#wf-expl-Page_creator-fulltext").val()
+					},
+				    dataType: 'json',
+
+		            success : function(data){
+		            	reponse($.map(donnee.pfautocomplete, function(obj){
+		                    return obj.title;
+		                }));
+		            }
+
+			    });
+
+		    },
+		    select: function( event, ui ) {
+		    	$("#wf-expl-Page_creator-fulltext").val(ui.item.value);
+        		var form = $(this).parents('form:first');
+        		form.submit();
+      		}
+
+		});
+
+	});
+
+})();
 
 
 $( document ).ready(function () {
