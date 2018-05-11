@@ -51,8 +51,8 @@
 	"wfexplore-filters-sort-label" : "Trier",
 	"wfexplore-filters-page-creator" : "Auteur",
 	"wfexplore-filters-search-by-author-label" : "Rechercher par auteur",
-	"wfexplore-filters-search-by-author-placeholder" : "Nom de l'auteur"
-
+	"wfexplore-filters-search-by-author-placeholder" : "Nom de l'auteur",
+	"wfexplore-filters-comments": "Les plus commentés"
 }
 
 
