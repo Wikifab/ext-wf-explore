@@ -235,7 +235,7 @@ class WfExploreCore {
 			} else if (isset($filter['type']) && $filter['type'] == 'sort') {
 				$values = 'sort';
 			} else if( ! isset($filter['values'])) {
-				$prefix = isset($filter ['translate_prefix']) ? $filter ['translate_prefix'] : 'wfexplore-value-';
+				$prefix = isset($filter ['translate_prefix']) ? $filter ['translate_prefix'] : null;
 				$values = $this->getValuesForProperty($filterName, $prefix);
 			} else {
 				$values = $filter['values'];
@@ -512,7 +512,7 @@ class WfExploreCore {
 				)
 			);
 		}
-		
+
 		return $results;
 	}
 
