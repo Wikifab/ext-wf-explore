@@ -20,5 +20,14 @@
 	"wfexplore-type": "Modello",
 	"wfexplore-load-more-tutorials": "Caricare più tutorial",
 	"wfexplore-load-more-tutorials-previous": "Caricare tutorial precedenti",
-	"wfexplore-display-all-language": "Mostra risultati in tutte le lingue"
+	"wfexplore-display-all-language": "Mostra risultati in tutte le lingue",
+	"wfexplore-filters-ididit": "Più fatto",
+	"wfexplore-filters-favorites": "Più votati",
+	"wfexplore-filters-views": "I più visti",
+	"wfexplore-filters-last-modified": "Ultima modifica",
+	"wfexplore-filters-sort-label" : "Tipo",
+	"wfexplore-filters-page-creator" : "Creatore",
+	"wfexplore-filters-search-by-author-label" : "Ricerca per creatore",
+	"wfexplore-filters-search-by-author-placeholder" : "Nome creatore",
+	"wfexplore-filters-comments": "Più commentati"
 }
