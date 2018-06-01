@@ -26,6 +26,7 @@
 	"wfexplore-filters-views": "I più visti",
 	"wfexplore-filters-last-modified": "Ultima modifica",
 	"wfexplore-filters-sort-label" : "Tipo",
+	"wfexplore-filters-filters-label" : "Filtri",
 	"wfexplore-filters-page-creator" : "Creatore",
 	"wfexplore-filters-search-by-author-label" : "Ricerca per creatore",
 	"wfexplore-filters-search-by-author-placeholder" : "Nome creatore",
