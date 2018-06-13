@@ -140,7 +140,7 @@ if (count($filtersData) > 0):?>
 		<ul class="nav nav-pills" role="tablist">
 	      <li class="dropdown mega-dropdown">
 	        <a id="drop5" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-	          <?php echo 'Filtres' ; ?>
+	          <?php echo wfMessage("wfexplore-filters-filters-label"); ?>
 	          <span class="caret"></span>
 	        </a>
 			<ul class="dropdown-menu mega-dropdown-menu">

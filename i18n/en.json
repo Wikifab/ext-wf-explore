@@ -48,6 +48,7 @@
 	"wfexplore-filters-views": "Most viewed",
 	"wfexplore-filters-last-modified": "Last modified",
 	"wfexplore-filters-sort-label" : "Sort",
+	"wfexplore-filters-filters-label" : "Filters",
 	"wfexplore-filters-page-creator" : "Creator",
 	"wfexplore-filters-search-by-author-label" : "Search by creator",
 	"wfexplore-filters-search-by-author-placeholder" : "Creator name",
