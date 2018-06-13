@@ -715,7 +715,7 @@ class WfExploreCore {
 		$sort =  isset($params['sort']) ? $params['sort'] : null;
 		$order =  isset($params['order']) ? $params['order'] : 'desc';
 
-		//var_dump($query);
+		var_dump($query);
 		$results = $this->processSemanticQuery($query, $limit, $offset, $sort, $order);
 		if($save) {
 			$this->results = $results;
