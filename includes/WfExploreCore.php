@@ -608,7 +608,7 @@ class WfExploreCore {
 				$searchText = $values['value'];
 				// forbid some special chars :
 				$searchText = str_replace(['[', ']', '*', '~', '%'], [' ',' ',' ',' ','%'], $searchText);
-				$valuesIds = ["~~" . $searchText . ""];
+				$valuesIds = isset($values['category']) && $values['category'] === 'fulltext' ? ["~~" . $searchText . ""] : ["~" . $searchText . ""];
 				$andCondition = true;
 				break;
 			case 'date' :
