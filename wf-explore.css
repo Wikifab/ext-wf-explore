@@ -9,12 +9,11 @@
 }
 
 .switch-btn {
-  float:right;
+  float:left;
 }
 
 .search-section .WFfilter p.switch-p-container {
-    text-align: right;
-    margin-top: 12px;
+    margin-top: 5px;
 }
 
 .WFfilter label.switch-label:hover {
