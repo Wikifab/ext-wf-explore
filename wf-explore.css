@@ -17,7 +17,8 @@
 }
 
 .WFfilter label.switch-label:hover {
-  color:var(--main-hover-color);
+  color:#2c9ab7;
+  //color:var(--main-hover-color);
 }
 
 .WFfilter input.hasDatepicker {
