@@ -251,7 +251,8 @@ class WikifabExploreResultFormatter {
 					'picture',
 					'image',
 					'img',
-					'logo'
+					'logo',
+					'banner'
 			);
 			foreach ($imageKeywords as $imageKeyword) {
 				if (strpos(strtolower($key), $imageKeyword)) {
