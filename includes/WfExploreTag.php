@@ -56,6 +56,9 @@ class WfExploreTag {
 		if (isset($options['nolang'])) {
 			$params['nolang'] = $options['nolang'];
 		}
+		if (isset($options['alllang'])) {
+			$params['wf-expl-Language-ALL'] = 'on';
+		}
 
 		$WfExploreCore->executeSearch( $wgRequest  , $params);
 

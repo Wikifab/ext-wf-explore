@@ -12,7 +12,7 @@ class WfTutorialUtils {
 	}
 
 	static private function getFieldFromContent($field,$content) {
-		$pattern = "/\|".$field."\=(.*)/";
+		$pattern = "/\|".$field."\=([^\|\}]*)/s";
 		preg_match($pattern, $content, $matches);
 
 		if($matches) {

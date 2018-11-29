@@ -9,16 +9,16 @@
 }
 
 .switch-btn {
-  float:right;
+  float:left;
 }
 
 .search-section .WFfilter p.switch-p-container {
-    text-align: right;
-    margin-top: 12px;
+    margin-top: 5px;
 }
 
 .WFfilter label.switch-label:hover {
-  color:var(--main-hover-color);
+  color:#2c9ab7;
+  //color:var(--main-hover-color);
 }
 
 .WFfilter input.hasDatepicker {
