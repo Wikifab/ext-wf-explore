@@ -9,7 +9,6 @@ $active = isset($selectedOptions[$category]['value']) ? 'active' : '';
 $valueSearch = isset($selectedOptions[$category]['value']) ? $selectedOptions[$category]['value'] : '';
 
 ?>
-
 <div class="WFfilter-property">
 	<ul class="nav nav-pills" role="tablist">
 		<li class="dropdown mega-dropdown" id="myForm">
