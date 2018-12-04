@@ -67,10 +67,15 @@ class WfExploreTag {
 		$out .= $WfExploreCore->getHtmlForm($params);
 
 		$paramsOutput = ['showPreviousButton' => true];
+		$containerClass = 'explore-layout-default';
 		if (isset($options['layout'])) {
 			$paramsOutput['layout'] = $options['layout'];
+			$containerClass = 'explore-layout-' . $paramsOutput['layout'];
 		}
 		$out .= $WfExploreCore->getSearchResultsHtml($paramsOutput);
+
+
+		$out = "<div class='$containerClass'> $out </div>" ;
 
 		return array( $out, 'noparse' => true, 'isHTML' => true );
 	}
