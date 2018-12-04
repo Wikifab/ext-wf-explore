@@ -8,19 +8,28 @@ $inputId = preg_replace($pattern, $replacement, $inputName);
 $active = isset($selectedOptions[$category]['value']) ? 'active' : '';
 $valueSearch = isset($selectedOptions[$category]['value']) ? $selectedOptions[$category]['value'] : '';
 
-$searchFilters .=   '<div class="'.$bootstrapClass.'">
-						<ul class="nav nav-pills" role="tablist">
-							<li>
-								<label id="Label'.$inputId.'" class="fulltext-search-label '.$active.'">
-								'.$categoryDetails['name'].'
-								</label>
-								<input id="'.$inputId.'"
-								name="'.$inputName.'"
-								type="text"
-								class="fulltext-search"
-								value="'.$valueSearch.'"
-								autocomplete="off">
-							</li>
-						</ul>
-				 	</div>';
 ?>
+
+<div class="WFfilter-property">
+	<ul class="nav nav-pills" role="tablist">
+		<li class="dropdown mega-dropdown" id="myForm">
+			<a id="drop5" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+			  <?php echo $categoryDetails['name'] ?>
+			  <span class="caret"></span>
+			</a>
+			<ul class="dropdown-menu mega-dropdown-menu dropdown-menu-1cols">
+				<div class="<?php echo htmlspecialchars($bootstrapClass); ?>" >
+					<ul class="nav nav-pills" role="tablist">
+						<li>
+							<input id="<?php echo htmlspecialchars($inputId); ?>" name="<?php echo htmlspecialchars($inputName); ?>"
+							type="text"
+							class="fulltext-search"
+							value="<?php echo htmlspecialchars($valueSearch); ?>"
+							autocomplete="off">
+						</li>
+					</ul>
+			 	</div>
+			</ul>
+		</li>
+	</ul>
+</div>

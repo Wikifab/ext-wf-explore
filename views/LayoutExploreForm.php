@@ -37,7 +37,9 @@ if (count($filtersData) > 0):?>
 	    	continue;
 	    }
 	    if($categoryDetails['type'] == 'fulltext') {
-	    	//include 'Form-fulltext.php';
+	    	if ($categoryDetails['id'] != 'Page_creator') {
+	    		include 'Form-fulltext.php';
+	    	}
 	    	continue;
 	    }
 	    if($categoryDetails['type'] == 'sort') {
