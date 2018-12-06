@@ -10,7 +10,6 @@ $valueSearch = isset($selectedOptions[$category]['value']) ? $selectedOptions[$c
 
 
 ?>
-
 <div class="WFfilter-property">
 	<ul class="nav nav-pills" role="tablist">
 		<li class="dropdown mega-dropdown" id="myForm">
@@ -22,13 +21,17 @@ $valueSearch = isset($selectedOptions[$category]['value']) ? $selectedOptions[$c
 				<div class="<?php echo htmlspecialchars($bootstrapClass); ?>" >
 					<ul class="nav nav-pills" role="tablist">
 						<li>
-							<select id="<?php echo htmlspecialchars($inputId); ?>" name="<?php echo htmlspecialchars($inputName); ?>">
-								<?php if(isset($categoryDetails['suggestions'])): ?>
+							<?php if(isset($categoryDetails['suggestions'])): ?>
+								<select id="<?php echo htmlspecialchars($inputId); ?>" name="<?php echo htmlspecialchars($inputName); ?>">
+								
 									<?php foreach($categoryDetails['suggestions'] as $suggestion): ?>
 										<option value="<?php echo $suggestion; ?>"> <?php echo $suggestion; ?> </option>
 									<?php endforeach; ?>
-								<?php endif; ?>
-							</select>
+
+								</select>
+							<?php else: ?>
+								<input type="text" id="<?php echo htmlspecialchars($inputId); ?>" name="<?php echo htmlspecialchars($inputName); ?>">
+							<?php endif; ?>
 						</li>
 					</ul>
 			 	</div>
