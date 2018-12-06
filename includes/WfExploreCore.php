@@ -347,28 +347,6 @@ class WfExploreCore {
 		return $categoriesNames;
 	}
 
-
-	private function getPropertyValues( $propname, $limit ) {
-
-		$res = [];
-
-		$property = SMWPropertyValue::makeUserProperty( $propname );
-
-		$options = new SMWRequestOptions();
-		$options->limit = $limit;
-		$options->offset = 0;
-		$options->sort = true;
-		$results = \SMW\StoreFactory::getStore()->getPropertyValues( null, $property->getDataItem(), $options );
-
-		foreach ( $results as $di ) {
-
-			$dv = \SMW\DataValueFactory::getInstance()->newDataValueByItem( $di, $property->getDataItem() );
-			$res[] = $dv->getLongHTMLText( null );
-		}
-
-		return $res;
-	}
-
 	private function getFiltersData() {
 
 		$categoriesNames = $this->getCategoriesName();
@@ -384,10 +362,6 @@ class WfExploreCore {
 				'type' => 'enum',
 				'values' => array()
 			);
-
-			if ($values == 'fulltext') {
-				$filter['suggestions'] = $this->getPropertyValues($filtersKey, 1000);
-			}
 
 			if(isset($filtersAttributes[$filtersKey]['hidden'])) {
 				$filter['hidden'] = $filtersAttributes[$filtersKey]['hidden'];
