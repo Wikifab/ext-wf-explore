@@ -8,6 +8,7 @@ $inputId = preg_replace($pattern, $replacement, $inputName);
 $active = isset($selectedOptions[$category]['value']) ? 'active' : '';
 $valueSearch = isset($selectedOptions[$category]['value']) ? $selectedOptions[$category]['value'] : '';
 
+
 ?>
 
 <div class="WFfilter-property">
@@ -21,11 +22,13 @@ $valueSearch = isset($selectedOptions[$category]['value']) ? $selectedOptions[$c
 				<div class="<?php echo htmlspecialchars($bootstrapClass); ?>" >
 					<ul class="nav nav-pills" role="tablist">
 						<li>
-							<input id="<?php echo htmlspecialchars($inputId); ?>" name="<?php echo htmlspecialchars($inputName); ?>"
-							type="text"
-							class="fulltext-search"
-							value="<?php echo htmlspecialchars($valueSearch); ?>"
-							autocomplete="off">
+							<select id="<?php echo htmlspecialchars($inputId); ?>" name="<?php echo htmlspecialchars($inputName); ?>">
+								<?php if(isset($categoryDetails['suggestions'])): ?>
+									<?php foreach($categoryDetails['suggestions'] as $suggestion): ?>
+										<option value="<?php echo $suggestion; ?>"> <?php echo $suggestion; ?> </option>
+									<?php endforeach; ?>
+								<?php endif; ?>
+							</select>
 						</li>
 					</ul>
 			 	</div>
