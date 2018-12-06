@@ -21,17 +21,7 @@ $valueSearch = isset($selectedOptions[$category]['value']) ? $selectedOptions[$c
 				<div class="<?php echo htmlspecialchars($bootstrapClass); ?>" >
 					<ul class="nav nav-pills" role="tablist">
 						<li>
-							<?php if(isset($categoryDetails['suggestions'])): ?>
-								<select id="<?php echo htmlspecialchars($inputId); ?>" name="<?php echo htmlspecialchars($inputName); ?>">
-								
-									<?php foreach($categoryDetails['suggestions'] as $suggestion): ?>
-										<option value="<?php echo $suggestion; ?>"> <?php echo $suggestion; ?> </option>
-									<?php endforeach; ?>
-
-								</select>
-							<?php else: ?>
-								<input type="text" id="<?php echo htmlspecialchars($inputId); ?>" name="<?php echo htmlspecialchars($inputName); ?>">
-							<?php endif; ?>
+							<input type="text" id="<?php echo htmlspecialchars($inputId); ?>" name="<?php echo htmlspecialchars($inputName); ?>">
 						</li>
 					</ul>
 			 	</div>
