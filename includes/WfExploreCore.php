@@ -836,7 +836,7 @@ class WfExploreCore {
 		$queryCount = SMWQueryProcessor::createQuery( $queryString,
 			$processedParams,
 			SMWQueryProcessor::SPECIAL_PAGE, 'count', $printouts );
-		$this->queryCount = PFUtils::getSMWStore()->getQueryResult( $queryCount )->getCount();
+		$this->queryCount = PFUtils::getSMWStore()->getQueryResult( $queryCount )->getCountValue();
 
 		$queryObj = SMWQueryProcessor::createQuery( $queryString,
 			$processedParams,
