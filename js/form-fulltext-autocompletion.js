@@ -1,11 +1,12 @@
 ( function ( $, mw ) {
 
-	$("[id^='wf-expl-'][id$='-fulltext']").each(function( index ) {
+	$(".WFfilter-property [id^='wf-expl-'][id$='-fulltext']").each(function( index ) {
 
 		var regex = RegExp('wf-expl-(.*?)-fulltext');
 
 		var propname = regex.exec($(this)[0].id)[1];
 
+		//hack
 		if (propname == null || propname == 'Page_creator') {
 		  return true;
 		}
