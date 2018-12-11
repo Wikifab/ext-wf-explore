@@ -56,6 +56,10 @@
 						}
 					})
 				}
+		    },
+		    onItemAdd: function(value, $item) {
+		    	console.log(value);
+		    	$item.parents('.dropdown').removeClass('open');
 		    }
 		});
 
