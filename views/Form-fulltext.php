@@ -12,7 +12,7 @@ $valueSearch = isset($selectedOptions[$category]['value']) ? $selectedOptions[$c
 ?>
 <div class="WFfilter-property">
 	<ul class="nav nav-pills" role="tablist">
-		<li class="dropdown mega-dropdown" id="myForm">
+		<li class="dropdown mega-dropdown" id="<?php echo $category; ?>-form">
 			<a id="drop5" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
 			  <?php echo $categoryDetails['name'] ?>
 			  <span class="caret"></span>
