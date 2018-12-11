@@ -6,11 +6,6 @@
 
 		var propname = regex.exec($(this)[0].id)[1];
 
-		//hack
-		if (propname == null || propname == 'Page_creator') {
-		  return true;
-		}
-
 		$(this).selectize({
 		    valueField: 'value',
 		    labelField: 'value',
