@@ -355,12 +355,14 @@ class WfExploreCore {
 		$filtersAttributes = $this->getFiltersAttributes();
 		$result = array();
 		foreach ($filters as $filtersKey => $values) {
+
 			$filter = array(
 				'id' => $filtersKey,
 				'name' => $categoriesNames[$filtersKey],
 				'type' => 'enum',
 				'values' => array()
 			);
+
 			if(isset($filtersAttributes[$filtersKey]['hidden'])) {
 				$filter['hidden'] = $filtersAttributes[$filtersKey]['hidden'];
 			}
@@ -376,6 +378,8 @@ class WfExploreCore {
 			}
 			$result[$filtersKey] = $filter;
 		}
+
+
 		return $result;
 	}
 

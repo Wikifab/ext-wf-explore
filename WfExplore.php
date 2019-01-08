@@ -17,6 +17,7 @@ $wgAutoloadClasses['SpecialWfExplore'] = __DIR__ . '/includes/SpecialWfExplore.p
 $wgAutoloadClasses['WfExploreQueryParser'] = __DIR__ . "/includes/WfExploreQueryParser.php";
 $wgAutoloadClasses['WfExploreTag'] = __DIR__ . "/includes/WfExploreTag.php";
 $wgAutoloadClasses['WfExploreCore'] = __DIR__ . "/includes/WfExploreCore.php";
+$wgAutoloadClasses['ApiGetPropertyValues'] = __DIR__ . '/includes/ApiGetPropertyValues.php';
 $wgAutoloadClasses['WikifabExploreResultFormatter'] = __DIR__ . '/includes/WikifabExploreResultFormatter.php'; # Location of the WikifabSearchResultFormatter class
 $wgAutoloadClasses['Skins\\Chameleon\\Components\\ExploreSearchBar'] = __DIR__ . '/includes/ChameleonComponents/ExploreSearchBar.php'; # Location of the WikifabSearchResultFormatter class
 $wgAutoloadClasses['WfTutorialUtils'] = __DIR__ . '/includes/WfTutorialUtils.php'; # tools for using tutorial forms pages
@@ -36,10 +37,19 @@ $wgExploreDefaultsFieldsDisplayValues = [
 		'group-logo' => 'no-logo-group.gif'
 ];
 
+$wgAPIModules['exploregetpropertyvalues'] = 'ApiGetPropertyValues';
+
 
 $wgResourceModules['ext.wikifab.wfExplore.js'] = array(
-		'scripts' => 'wf-explore.js',
-		'styles' => array('wf-explore.css'),
+		'scripts' => array(
+			'js/selectize.js',
+			'wf-explore.js',
+			'js/form-fulltext-autocompletion.js'
+		),
+		'styles' => array(
+			'css/normalize.css',
+			'wf-explore.css'
+		),
 		'localBasePath' => __DIR__,
 		'remoteExtPath' => 'Explore',
 		'messages' => array(
@@ -50,8 +60,12 @@ $wgResourceModules['ext.wikifab.wfExplore.js'] = array(
 				'jquery.ui.autocomplete'
 		)
 );
+
 $wgResourceModules['ext.wikifab.wfexplore.css'] = array(
-	'styles' => array('wf-explore.css'),
+	'styles' => array(
+		'wf-explore.css',
+		'css/normalize.css'
+	),
 	'localBasePath' => __DIR__,
 	'remoteExtPath' => 'Explore'
 );
