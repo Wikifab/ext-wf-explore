@@ -5,16 +5,16 @@
 	$( document ).ready(function() {
 		$("#wf-expl-Page_creator-fulltext").autocomplete({
 
-		    source : function(requete, reponse){ 
+		    source : function(requete, reponse){
 
 			    $.ajax({
 
 			    	type: "POST",
 					url: mw.util.wikiScript('api'),
-					data: { 
+					data: {
 						action:'pfautocomplete', //PageForms
 						format:'json',
-						namespace: 'User', 
+						namespace: 'User',
 						substr: $("#wf-expl-Page_creator-fulltext").val()
 					},
 				    dataType: 'json',
@@ -57,8 +57,12 @@ $( document ).ready(function () {
 	    var url = window.location.href;
 	    var regex = new RegExp("[?&]page(=([^&#]*)|&|#|$)"),
 	        results = regex.exec(url);
-	    if (!results) return null;
-	    if (!results[2]) return '';
+	    if (!results) {
+			return null;
+		}
+	    if (!results[2]) {
+			return '';
+		}
 	    explorePageNumber = parseInt(results[2]);
 	    exploreMinPageNumber = parseInt(results[2]);
 	}
@@ -233,10 +237,7 @@ $( document ).ready(function () {
         }
         else
         {
-        if (uri.indexOf("?") < 0)
-        	uri += "?" + paramName + "=" + paramValue;
-        else
-        	uri += "&" + paramName + "=" + paramValue;
+        if (uri.indexOf("?") < 0){uri += "?" + paramName + "=" + paramValue;} else {uri += "&" + paramName + "=" + paramValue;}
         }
 
 		window.history.pushState(null, null, uri + hash);
@@ -275,6 +276,7 @@ $( document ).ready(function () {
     		requestUrl = '?';
     		data = {page:pagenumber};
     	}
+    	
         // Envoi de la requête HTTP en mode asynchrone
         $.ajax({
             url: requestUrl,
@@ -327,7 +329,7 @@ $( document ).ready(function () {
         		// this second line replace the previous to use a slow effect, but do not change the uri
         		//$('html,body').animate({scrollTop: $('#explore-page' + pagenumber).offset().top}, 'slow');
         		//window.location.hash = '#page' + explorePageNumber;
-				
+
 				//this set all form params un uri :
 				//updateUriFromForm($form);
 				// this change only page, usefull for page query without filters :
@@ -339,7 +341,9 @@ $( document ).ready(function () {
     }
 
 	function autoLoadOnScrollDown() {
-		if (autoScrollDownEnable) return;
+		if (autoScrollDownEnable) {
+			return;
+		}
 
 		autoScrollDownEnable = true;
 
@@ -357,7 +361,9 @@ $( document ).ready(function () {
 
 	}
 	function autoLoadOnScrollUp() {
-		if (autoScrollUpEnable) return;
+		if (autoScrollUpEnable) {
+			return;
+		}
 
 		autoScrollUpEnable = true;
 
@@ -395,7 +401,7 @@ $( document ).ready(function () {
 
     $('.load-more').on('click', loadMoreClick);
     $('.load-more-previous').on('click', loadPreviousClick);
-    
+
     $('.explore-hidden-field').each(function() {
     	// little hack to set value of search field,
     	// when the search field is outside of the form
@@ -407,13 +413,13 @@ $( document ).ready(function () {
     		});
     	}
     });
-    
+
     mw.loader.using( 'jquery.ui.datepicker' ).then( function () {
     	$( ".datepicker" ).datepicker({
         	dateFormat: 'yy/mm/dd',
             showButtonPanel: true
           });
     } );
-    
+
 	setHandlerOnRemoveTags();
 });
