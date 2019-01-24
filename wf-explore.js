@@ -67,6 +67,8 @@ Explore.prototype.onInit = function () {
 	});
 
     /* soumission du formulaire en ajax */
+    // TODO : better selecter to be sure to select form related to this explore
+    // (in case of multiple explore on the same page)
     $('form.wfExplore').on('submit', function(e) {
         e.preventDefault(); // J'empêche le comportement par défaut du navigateur, c-à-d de soumettre le formulaire
         explore.requestRunning ++;
@@ -267,6 +269,7 @@ Explore.prototype.exploreLoadMore = function (direction) {
 
 	explore.requestRunning++;
 
+	// TODO : improve selector to be sure to get the good form
 	var $form = $('form.wfExplore:first');
 	var pagenumber;
 
@@ -288,7 +291,14 @@ Explore.prototype.exploreLoadMore = function (direction) {
 	var requestType = $form.attr('method') ? $form.attr('method') : 'GET';
 	var data = $form.serialize();
 
+
+	// destination page can have 2 values :
+	//  'explore' : it point to the spécial:WfExplore Page, and it must have all query params in the get params
+	//  'self' : it call the actual page, with juste a 'page' param. Cannot works when using form filters
+	var destPageType = 'explore';
+
 	if($form.length == 0) {
+		destPageType = 'self';
 		requestUrl = '?';
 		data = {page:pagenumber};
 	}
@@ -303,7 +313,11 @@ Explore.prototype.exploreLoadMore = function (direction) {
 
             // get .searchresults div content from result
 			var wfExplore = $data.find('#' + explore.$container.attr('id')).contents();
-			// remove previous button
+			if (destPageType == 'explore') {
+				wfExplore = $data.find('.searchresults').contents();
+			}
+
+            // remove previous button
 			wfExplore.find('.load-more-previous').remove();
 
 			// remove old button
