@@ -105,10 +105,10 @@ Explore.prototype.onInit = function () {
 				proposedTags = $data.find('.wfexplore-proposedTags').contents();
 				form.find('.wfexplore-proposedTags').empty();
 				form.find('.wfexplore-proposedTags').append(proposedTags);
-				proposedTagsBind();
+				explore.proposedTagsBind();
 
 
-				setHandlerOnRemoveTags();
+				explore.setHandlerOnRemoveTags();
 		        $('.exploreLoader').hide();
         		resultDiv.find('.load-more').on('click', function(evt) {
 					explore.loadMoreClick(evt);
@@ -216,17 +216,19 @@ Explore.prototype.setHandlerOnRemoveTags = function() {
 
 Explore.prototype.proposedTagsBind = function () {
 
+	var explore = this;
+
 	$(".proposedTag").click(function (event) {
 		var form = $(this).parents('form:first');
 		// add tag value in field
-		addTag(form, $(this).attr('data-value'));
+		explore.addTag(form, $(this).attr('data-value'));
 		event.preventDefault();
     });
 
 	$("#wf-expl-addTagButton").click(function () {
 		var form = $(this).parents('form:first');
 		// add tag value in field
-		addTag(form, $("#wf-expl-TagsInput").val());
+		explore.addTag(form, $("#wf-expl-TagsInput").val());
 		$("#wf-expl-TagsInput").val('');
     });
 
