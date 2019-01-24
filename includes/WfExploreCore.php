@@ -883,12 +883,16 @@ class WfExploreCore {
 
 		// load More button
 		if($this->page > 1 ) {
-			if (isset($param['loadPreviousLabel'])) {
-				$loadPreviousLabel = $param['loadPreviousLabel'];
-			} else {
-				$loadPreviousLabel = wfMessage( $this->message['load-more-previous'] )->text();
+
+			if (! ( isset($param['showPreviousButton']) && $param['showPreviousButton'] == false ) ) {
+
+				if (isset($param['loadPreviousLabel'])) {
+					$loadPreviousLabel = $param['loadPreviousLabel'];
+				} else {
+					$loadPreviousLabel = wfMessage( $this->message['load-more-previous'] )->text();
+				}
+				$out .= '<div class="load-more-previous">'.$loadPreviousLabel. '</div>';
 			}
-			$out .= '<div class="load-more-previous">'.$loadPreviousLabel. '</div>';
 		}
 
 		$wikifabExploreResultFormatter = $this->getFormatter();
@@ -912,7 +916,11 @@ class WfExploreCore {
 			} else {
 				$loadMoreLabel = wfMessage( $this->message['load-more'] )->text();
 			}
-			$out .= '<div class="load-more">'.$loadMoreLabel. '</div>';
+			$class = "load-more";
+			if (isset($param['noAutoLoadOnScroll']) && $param['noAutoLoadOnScroll']) {
+				$class .= ' no-autoload';
+			}
+			$out .= '<div class="'.$class.'">'.$loadMoreLabel. '</div>';
 		}
 
 		$out .= "</div>\n" ;

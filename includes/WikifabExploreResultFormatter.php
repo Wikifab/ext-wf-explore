@@ -168,7 +168,7 @@ class WikifabExploreResultFormatter {
 		$preloadContent  = str_replace('{{Tuto Details', '{{Tuto SearchResult', $preloadContent);
 
 		// get the form content
-		$formTitle = Title::makeTitleSafe( SF_NS_FORM, 'Template:Tuto_Details' );
+		$formTitle = Title::makeTitleSafe( PF_NS_FORM, 'Template:Tuto_Details' );
 
 		$data = WfTutorialUtils::getArticleData( $preloadContent);
 

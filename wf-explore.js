@@ -246,13 +246,14 @@ $( document ).ready(function () {
 
 
 	/* Load More Button */
-	function exploreLoadMore(direction) {
+	function exploreLoadMore(direction, container) {
 
 		requestRunning ++;
 
+		$container = $(container);
+
 		var $form = $('form.wfExplore:first');
     	var pagenumber;
-    	var loadMorePreviousButton = null;
 
     	if (direction == 'up') {
     		$('.load-more-previous').html($('.exploreLoader').html());
@@ -286,20 +287,19 @@ $( document ).ready(function () {
                 var $data = $(html);
 
                 // get .searchresults div content from result
-				var wfExplore = $data.find('.searchresults').contents();
+				var wfExplore = $data.find('#' + $container.attr('id')).contents();
 				// remove previous button
 				wfExplore.find('.load-more-previous').remove();
 
 				// remove old button
 				if (direction == 'up') {
-					loadMorePreviousButton = $('.load-more-previous').clone();
-					$('.load-more-previous').remove();
+					$container.find('.load-more-previous').remove();
 					// append to .searchresults div content in dom
-					$('.searchresults').prepend(wfExplore);
+					$container.prepend(wfExplore);
 				} else {
-					$('.load-more').remove();
+					$container.find('.load-more').remove();
 					// append to .searchresults div content in dom
-					$('.searchresults').append(wfExplore);
+					$container.append(wfExplore);
 				}
 
                 // idem for get .wfexplore-selectedLabels div content
@@ -313,17 +313,16 @@ $( document ).ready(function () {
 
 				if (direction == 'up') {
 					// remove .load.more added
-					$('.load-more').first().remove();
+					$container.find('.load-more').first().remove();
 					// add load-more previous :
 					if(pagenumber > 1) {
 						//$('.searchresults').prepend('<div class="load-more-previous">' + mw.msg( 'wfexplore-load-more-tutorials-previous' ) + '</div>');
 
-						//$('.searchresults').prepend(loadMorePreviousButton);
-						$('.load-more-previous').on('click', loadPreviousClick);
+						$container.find('.load-more-previous').on('click', loadPreviousClick);
 					}
 				} else {
-					$('.load-more-previous').last().remove();
-					$('.load-more').on('click', loadMoreClick);
+					$container.find('.load-more-previous').last().remove();
+					$container.find('.load-more').on('click', loadMoreClick);
 				}
 
         		// this second line replace the previous to use a slow effect, but do not change the uri
@@ -340,7 +339,8 @@ $( document ).ready(function () {
         });
     }
 
-	function autoLoadOnScrollDown() {
+	function autoLoadOnScrollDown(container) {
+
 		if (autoScrollDownEnable) {
 			return;
 		}
@@ -353,14 +353,16 @@ $( document ).ready(function () {
 		    	if (requestRunning == 0) {
 		    		requestRunning = requestRunning +1 ;
 
-		    		exploreLoadMore(null);
+		    		exploreLoadMore('down', container);
 		    		requestRunning --;
 		    	}
 		    }
 		});
 
 	}
-	function autoLoadOnScrollUp() {
+
+	function autoLoadOnScrollUp(container) {
+
 		if (autoScrollUpEnable) {
 			return;
 		}
@@ -373,7 +375,7 @@ $( document ).ready(function () {
 		    	if (requestRunning == 0) {
 		    		requestRunning = requestRunning +1 ;
 
-		    		exploreLoadMore('up');
+		    		exploreLoadMore('up', container);
 		    		requestRunning --;
 		    	}
 		    }
@@ -382,12 +384,18 @@ $( document ).ready(function () {
 	}
 
 	function loadMoreClick(e) {
-		if (autoScrollDownEnable) {
-			autoScrollDownEnable = false;
-		} else {
-			autoLoadOnScrollDown();
+
+		if ( ! $(e.target).hasClass('no-autoload') ) {
+			if (autoScrollDownEnable) {
+				autoScrollDownEnable = false;
+			} else {
+				autoLoadOnScrollDown();
+			}
 		}
-		exploreLoadMore('down');
+
+		container = $(e.target).parents('.searchresults')[0];
+
+		exploreLoadMore('down', container);
 	}
 
 	function loadPreviousClick(e) {
@@ -396,7 +404,10 @@ $( document ).ready(function () {
 		} else {
 			autoLoadOnScrollDown();
 		}
-		exploreLoadMore('up');
+
+		container = $(e.target).parents('.searchresults')[0];
+
+		exploreLoadMore('up', container);
 	}
 
     $('.load-more').on('click', loadMoreClick);
