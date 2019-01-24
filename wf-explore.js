@@ -54,8 +54,6 @@ function Explore(container) {
 	this.onInit();
 }
 
-Explore.prototype.items = [];
-
 Explore.prototype.onInit = function () {
 
 	var explore = this;
