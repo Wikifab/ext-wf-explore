@@ -52,7 +52,7 @@ function Explore(container) {
 	this.requestRunning = 0;
 
 	this.onInit();
-}
+};
 
 Explore.prototype.onInit = function () {
 
@@ -125,13 +125,13 @@ Explore.prototype.onInit = function () {
 	explore.proposedTagsBind();
 
 	explore.setHandlerOnRemoveTags();
-}
+};
 
 Explore.prototype.updateUriFromForm = function(form) {
 
     var uri = window.location.pathname + "?" + form.serialize();
 	window.history.pushState(null, null, uri );
-}
+};
 
 /**
  * initialise la variable page si elle est passé dan l'url
@@ -150,7 +150,7 @@ Explore.prototype.initPageParam = function() {
 	}
     this.explorePageNumber = parseInt(results[2]);
     this.exploreMinPageNumber = parseInt(results[2]);
-}
+};
 
 /* function added to add tag with input */
 Explore.prototype.addTag = function(form, value) {
@@ -169,7 +169,7 @@ Explore.prototype.addTag = function(form, value) {
 	form.find("#wf-expl-Tags").val(fieldValue);
 	// subit form to apply filters
 	form.submit();
-}
+};
 
 /* clique sur une label recherché :
 * deselection du label, et ressoumission du formulaire
@@ -210,7 +210,7 @@ Explore.prototype.setHandlerOnRemoveTags = function() {
 		form.submit();
 
 	});
-}
+};
 
 Explore.prototype.proposedTagsBind = function () {
 
@@ -235,7 +235,7 @@ Explore.prototype.proposedTagsBind = function () {
 		    return false;
 		 }
 	});
-}
+};
 
 Explore.prototype.changePageParameter = function(paramName, paramValue) {
 
@@ -257,7 +257,7 @@ Explore.prototype.changePageParameter = function(paramName, paramValue) {
     }
 
 	window.history.pushState(null, null, uri + hash);
-}
+};
 
 /* Load More Button */
 
@@ -292,7 +292,7 @@ Explore.prototype.exploreLoadMore = function (direction) {
 		requestUrl = '?';
 		data = {page:pagenumber};
 	}
-	
+
     // Envoi de la requête HTTP en mode asynchrone
     $.ajax({
         url: requestUrl,
@@ -356,7 +356,7 @@ Explore.prototype.exploreLoadMore = function (direction) {
 
         }
     });
-}
+};
 
 Explore.prototype.autoLoadOnScrollDown = function() {
 
@@ -379,7 +379,7 @@ Explore.prototype.autoLoadOnScrollDown = function() {
 	    	}
 	    }
 	});
-}
+};
 
 Explore.prototype.autoLoadOnScrollUp = function(container) {
 
@@ -402,7 +402,7 @@ Explore.prototype.autoLoadOnScrollUp = function(container) {
 	    	}
 	    }
 	});
-}
+};
 
 Explore.prototype.loadMoreClick = function(e) {
 
@@ -417,7 +417,7 @@ Explore.prototype.loadMoreClick = function(e) {
 	}
 
 	explore.exploreLoadMore('down');
-}
+};
 
 Explore.prototype.loadPreviousClick = function(e) {
 
@@ -430,7 +430,7 @@ Explore.prototype.loadPreviousClick = function(e) {
 	}
 
 	explore.exploreLoadMore('up');
-}
+};
 
 $( document ).ready(function () {
 
@@ -446,7 +446,7 @@ $( document ).ready(function () {
 		$(this).parents('form:first').submit();
 	});
 
-	
+
     $('.explore-hidden-field').each(function() {
     	// little hack to set value of search field,
     	// when the search field is outside of the form
