@@ -1,4 +1,4 @@
-{
+﻿{
     "@metadata": {
         "authors": [
             "Pierre Boutet"
@@ -19,7 +19,7 @@
 	"wfexplore-language": "Langue",
 	"wfexplore-language-all": "Toutes",
 	"wfexplore-type": "Type",
-	"wfexplore-load-more-tutorials": "Voir plus de tutoriels",
+	"wfexplore-load-more-tutorials": "Voir plus",
 	"wfexplore-load-more-tutorials-previous": "Voir les tutoriels précédents",
 	"wfexplore-category-name-art": "Art",
 	"wfexplore-category-name-clothing-accessories": "Vêtement & Accessoire",
