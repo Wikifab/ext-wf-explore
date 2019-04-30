@@ -267,6 +267,14 @@ Explore.prototype.changePageParameter = function(paramName, paramValue) {
 
 Explore.prototype.exploreLoadMore = function (direction) {
 
+	if($(e.target).parent().prev().children().length > 0){
+		var loadMore = $(e.target);
+		var loadSpinner = loadMore.parent().prev().children().attr('class').split(' ')[1];
+		loadSpinner = $('.' + loadSpinner);
+		loadMore.html(loadSpinner.html());
+		loadSpinner.show();
+	}
+
 	var explore = this;
 
 	explore.requestRunning++;
@@ -432,7 +440,7 @@ Explore.prototype.loadMoreClick = function(e) {
 		}
 	}
 
-	explore.exploreLoadMore('down');
+	explore.exploreLoadMore('down', e);
 };
 
 Explore.prototype.loadPreviousClick = function(e) {
