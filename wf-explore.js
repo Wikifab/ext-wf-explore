@@ -265,7 +265,7 @@ Explore.prototype.changePageParameter = function(paramName, paramValue) {
 
 /* Load More Button */
 
-Explore.prototype.exploreLoadMore = function (direction) {
+Explore.prototype.exploreLoadMore = function (direction, e) {
 
 	if($(e.target).parent().prev().children().length > 0){
 		var loadMore = $(e.target);
