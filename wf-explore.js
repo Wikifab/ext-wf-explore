@@ -348,6 +348,7 @@ Explore.prototype.exploreLoadMore = function (direction, e) {
 			$('.wfexplore-selectedLabels').append(wfExplore);
 
 			explore.setHandlerOnRemoveTags();
+			loadSpinner.hide();
     		$('.exploreLoader').hide();
 
 			if (direction == 'up') {
