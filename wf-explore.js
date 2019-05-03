@@ -269,8 +269,7 @@ Explore.prototype.exploreLoadMore = function (direction, e) {
 
 	if($(e.target).parent().prev().children().length > 0){
 		var loadMore = $(e.target);
-		var loadSpinner = loadMore.parent().prev().children().attr('class').split(' ')[1];
-		loadSpinner = $('.' + loadSpinner);
+		var loadSpinner = loadMore.parent().prev().children().first();
 		loadMore.html(loadSpinner.html());
 		loadSpinner.show();
 	}
