@@ -265,7 +265,14 @@ Explore.prototype.changePageParameter = function(paramName, paramValue) {
 
 /* Load More Button */
 
-Explore.prototype.exploreLoadMore = function (direction) {
+Explore.prototype.exploreLoadMore = function (direction, e) {
+
+	if($(e.target).parent().prev().children().length > 0){
+		var loadMore = $(e.target);
+		var loadSpinner = loadMore.parent().prev().children('.loader');
+		loadMore.html(loadSpinner.html());
+		loadSpinner.show();
+	}
 
 	var explore = this;
 
@@ -340,6 +347,7 @@ Explore.prototype.exploreLoadMore = function (direction) {
 			$('.wfexplore-selectedLabels').append(wfExplore);
 
 			explore.setHandlerOnRemoveTags();
+			loadSpinner.hide();
     		$('.exploreLoader').hide();
 
 			if (direction == 'up') {
@@ -432,7 +440,7 @@ Explore.prototype.loadMoreClick = function(e) {
 		}
 	}
 
-	explore.exploreLoadMore('down');
+	explore.exploreLoadMore('down', e);
 };
 
 Explore.prototype.loadPreviousClick = function(e) {
