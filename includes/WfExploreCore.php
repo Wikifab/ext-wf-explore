@@ -352,7 +352,7 @@ class WfExploreCore {
 		return $categoriesNames;
 	}
 
-	private function getFiltersData() {
+	protected function getFiltersData() {
 
 		$categoriesNames = $this->getCategoriesName();
 
@@ -412,7 +412,7 @@ class WfExploreCore {
 	/**
 	* return selected Options
 	*/
-	private function getSelectedAdvancedSearchOptions($request, &$params = []) {
+	protected function getSelectedAdvancedSearchOptions($request, &$params = []) {
 		$filtersData = $this->getFiltersData();
 		$filtersData = $this->addHiddenFields($filtersData);
 
@@ -596,7 +596,7 @@ class WfExploreCore {
 		return $out;
 	}
 
-	private function getQueryParamsWithType($category, $values) {
+	protected function getQueryParamsWithType($category, $values) {
 
 		if($category == 'Language') {
 			return '';
