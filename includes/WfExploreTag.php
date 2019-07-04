@@ -27,7 +27,6 @@ class WfExploreTag {
 			}
 		}
 
-
 		$input->getOutput ()->addModuleStyles( array(
 			'mediawiki.special', 'mediawiki.special.search', 'mediawiki.ui', 'mediawiki.ui.button',
 			'mediawiki.ui.input',
@@ -59,6 +58,10 @@ class WfExploreTag {
 		if (isset($options['alllang'])) {
 			$params['wf-expl-Language-ALL'] = 'on';
 		}
+		if (isset($options['limit']) && is_numeric($options['limit'])) {
+			$params['limit'] = $options['limit'];
+			$WfExploreCore->setPageResultsLimit($options['limit']);
+		}
 
 		$WfExploreCore->executeSearch( $wgRequest  , $params);
 
@@ -71,6 +74,12 @@ class WfExploreTag {
 		if (isset($options['layout'])) {
 			$paramsOutput['layout'] = $options['layout'];
 			$containerClass = 'explore-layout-' . $paramsOutput['layout'];
+		}
+		if (isset($options['loadMoreLabel'])) {
+			$paramsOutput['loadMoreLabel'] = $options['loadMoreLabel'];
+		}
+		if (isset($options['loadPreviousLabel'])) {
+			$paramsOutput['loadPreviousLabel'] = $options['loadPreviousLabel'];
 		}
 		$out .= $WfExploreCore->getSearchResultsHtml($paramsOutput);
 

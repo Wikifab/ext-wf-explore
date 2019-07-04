@@ -840,7 +840,7 @@ class WfExploreCore {
 		$queryCount = SMWQueryProcessor::createQuery( $queryString,
 			$processedParams,
 			SMWQueryProcessor::SPECIAL_PAGE, 'count', $printouts );
-		$this->queryCount = PFUtils::getSMWStore()->getQueryResult( $queryCount )->getCount();
+		$this->queryCount = PFUtils::getSMWStore()->getQueryResult( $queryCount )->getCountValue();
 
 		$queryObj = SMWQueryProcessor::createQuery( $queryString,
 			$processedParams,
@@ -868,7 +868,8 @@ class WfExploreCore {
 		$defaultParams = [
 				'noLoadMoreButton' => false,
 				'replaceClass' => 'searchresults',
-				'isEmbed' => false
+				'isEmbed' => false,
+				'loadMoreLabel' => false
 		];
 		if( ! isset($this->page)) {
 			$this->page = 1;
@@ -882,7 +883,16 @@ class WfExploreCore {
 
 		// load More button
 		if($this->page > 1 ) {
-			$out .= '<div class="load-more-previous">'.wfMessage( $this->message['load-more-previous'] )->text(). '</div>';
+
+			if (! ( isset($param['showPreviousButton']) && $param['showPreviousButton'] == false ) ) {
+
+				if (isset($param['loadPreviousLabel'])) {
+					$loadPreviousLabel = $param['loadPreviousLabel'];
+				} else {
+					$loadPreviousLabel = wfMessage( $this->message['load-more-previous'] )->text();
+				}
+				$out .= '<div class="load-more-previous">'.$loadPreviousLabel. '</div>';
+			}
 		}
 
 		$wikifabExploreResultFormatter = $this->getFormatter();
@@ -901,7 +911,16 @@ class WfExploreCore {
 
 		// load More button
 		if(count($this->results) >= $this->pageResultsLimit && ! $param['noLoadMoreButton']) {
-			$out .= '<div class="load-more">'.wfMessage( $this->message['load-more'] )->text(). '</div>';
+			if ($param['loadMoreLabel']) {
+				$loadMoreLabel = $param['loadMoreLabel'];
+			} else {
+				$loadMoreLabel = wfMessage( $this->message['load-more'] )->text();
+			}
+			$class = "load-more";
+			if (isset($param['noAutoLoadOnScroll']) && $param['noAutoLoadOnScroll']) {
+				$class .= ' no-autoload';
+			}
+			$out .= '<div class="'.$class.'">'.$loadMoreLabel. '</div>';
 		}
 
 		$out .= "</div>\n" ;

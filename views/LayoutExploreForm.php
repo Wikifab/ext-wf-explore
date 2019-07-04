@@ -6,13 +6,14 @@ if (isset($params['layout']) && $params['layout']):?><input type="hidden" id="la
 if (isset($params['order']) && $params['order']):?><input type="hidden" id="order" name="order" value='<?php echo $params['order'] ?>'/><?php endif;
 if (isset($params['sort']) && $params['sort']):?><input type="hidden" id="sort" name="sort" value='<?php echo $params['sort'] ?>'/><?php endif;
 if (isset($params['nolang']) && $params['nolang']):?><input type="hidden" id="nolang" name="nolang" value='<?php echo $params['nolang'] ?>'/><?php endif;
+if (isset($params['limit']) && $params['limit']):?><input type="hidden" id="limit" name="limit" value='<?php echo $params['limit'] ?>'/><?php endif;
 
 if (count($filtersData) > 0):?>
 <div class="search-section" id="search-<?php echo $exploreId; ?>">
 <div class="container">
 
 <div class="WFfilter">
-	<?php 
+	<?php
 		$sortFilters = '';
 		$searchFilters = '';
 		$moreFilters = '';
@@ -174,7 +175,7 @@ if (count($filtersData) > 0):?>
 					</div>
 					<hr />
 				<?php endif; ?>
-				
+
 				<div id="more-filters">
 					<div><?php echo $moreFilters; ?></div>
 				</div>
@@ -210,7 +211,7 @@ if (count($filtersData) > 0):?>
 <div class="search-filters-section wfexplore-selectedLabels">
 <div class="container">
 	<?php if (isset($params['sort']) && $params['sort']) {
-		$category = $params['sort'];	
+		$category = $params['sort'];
 		$inputId = "wf-expl-$category-sort";
 		echo ' <span class="category-filter-title">'.wfMessage("wfexplore-filters-sort-label").' : </span>';
 		echo ' <span class="tag label label-default">'

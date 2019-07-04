@@ -109,12 +109,15 @@ class SpecialWfExplore extends SpecialPage {
 
 		$this->load();
 
-		$paramsToGet = ['layout', 'sort', 'order', 'query', 'nolang'];
+		$paramsToGet = ['layout', 'sort', 'limit', 'order', 'query', 'nolang'];
 		foreach ($paramsToGet as $paramToGet) {
 			$theValue =  $request->getValues( $paramToGet );
 			if($theValue) {
 				$this->params[$paramToGet] = $theValue[$paramToGet];
 			}
+		}
+		if(isset($this->params['limit'])) {
+			$this->WfExploreCore->setPageResultsLimit($this->params['limit']);
 		}
 
 

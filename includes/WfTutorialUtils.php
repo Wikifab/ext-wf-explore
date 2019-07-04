@@ -1,9 +1,9 @@
 <?php
 
 class WfTutorialUtils {
-	
+
 	static function getFields($content) {
-		$pattern = "/\|([_a-zA-Z0-9\-]+)\=/";
+		$pattern = "/\|([_a-zA-Z0-9\-\s]+)\=/";
 		preg_match_all($pattern, $content, $matches);
 		if($matches) {
 			return $matches[1];
@@ -15,8 +15,19 @@ class WfTutorialUtils {
 		$pattern = "/\|".$field."\=([^\|\}]*)/s";
 		preg_match($pattern, $content, $matches);
 
+		if($matches && strpos($matches[1], '{') !== false) {
+			$result = rtrim ( $matches[1] );
+			// hack : if fields contain '{', the first regexp may be wrong
+			// try to find expression whit | or { on new line :
+			$pattern = "/\|".$field."\=([^\|]*)\n([}|])/s";
+			preg_match($pattern, $content, $matches);
+			if ($matches) {
+				return rtrim ( $matches[1] );
+			}
+			return $result;
+		}
 		if($matches) {
-			return $matches[1];
+			return rtrim ( $matches[1] );
 		}
 		return false;
 	}
@@ -26,7 +37,7 @@ class WfTutorialUtils {
 	* return article data formated in arrays
 	 * @params $text string
 	 * @return array
-	 */ 
+	 */
 	static public function getArticleData($content) {
 
 		$fields = self::getFields($content);

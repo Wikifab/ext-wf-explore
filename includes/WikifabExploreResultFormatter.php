@@ -168,7 +168,7 @@ class WikifabExploreResultFormatter {
 		$preloadContent  = str_replace('{{Tuto Details', '{{Tuto SearchResult', $preloadContent);
 
 		// get the form content
-		$formTitle = Title::makeTitleSafe( SF_NS_FORM, 'Template:Tuto_Details' );
+		$formTitle = Title::makeTitleSafe( PF_NS_FORM, 'Template:Tuto_Details' );
 
 		$data = WfTutorialUtils::getArticleData( $preloadContent);
 
@@ -200,10 +200,18 @@ class WikifabExploreResultFormatter {
 
 	}
 
-	public static function getImageUrl($filename) {
+	public static function getImageUrl($filename, $annotation = null) {
 			$file = wfFindFile( $filename );
 			$fileUrl = '';
 			if($file) {
+				if ($annotation) {
+					$annotatedImage = new \ImageAnnotator\AnnotatedImage("[[File:$filename]]", $annotation);
+
+					if ($annotatedImage->exists() && $annotatedImage->hasCroppedImage()) {
+						return $annotatedImage->getImgUrl();
+					}
+				}
+
 				$fileUrl = $file->getUrl();
 				if ( isset($GLOBALS['wgExploreUseThumbs']) &&  $GLOBALS['wgExploreUseThumbs']) {
 					// if possible, we use thumbnail
@@ -295,7 +303,7 @@ class WikifabExploreResultFormatter {
 		$content2 = array_merge($defaultFields, $content);
 
 		if (substr($this->getTemplate(), -4) == '.php') {
-			return$this->formatResultPhpTemplate($content2);
+			return $this->formatResultPhpTemplate($content2);
 		} else {
 			return $this->formatResultHtmlTemplate($content2);
 		}
