@@ -1,7 +1,5 @@
 <?php
 
-use ApiBase;
-
 class ApiGetPropertyValues extends ApiBase {
 
 	public function __construct($query, $moduleName) {
@@ -54,7 +52,7 @@ class ApiGetPropertyValues extends ApiBase {
 
 		$res = [];
 
-		$property = SMWPropertyValue::makeUserProperty( $propname );
+		$property = SMWDataValueFactory::getInstance()->newPropertyValueByLabel( $propname );
 
 		$options = new SMWRequestOptions();
 		$options->limit = $limit;
@@ -65,11 +63,11 @@ class ApiGetPropertyValues extends ApiBase {
 			$options->addStringCondition( $query, SMWStringCondition::STRCOND_MID);
 		}
 
-		$results = \SMW\StoreFactory::getStore()->getPropertyValues( null, $property->getDataItem(), $options );
+		$results = SMW\StoreFactory::getStore()->getPropertyValues( null, $property->getDataItem(), $options );
 
 		foreach ( $results as $di ) {
 
-			$dv = \SMW\DataValueFactory::getInstance()->newDataValueByItem( $di, $property->getDataItem() );
+			$dv = SMWDataValueFactory::getInstance()->newDataValueByItem( $di, $property->getDataItem() );
 			$res[] = $dv->getLongHTMLText( null );
 		}
 
