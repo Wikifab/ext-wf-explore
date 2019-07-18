@@ -52,22 +52,38 @@ class ApiGetPropertyValues extends ApiBase {
 
 		$res = [];
 
-		$property = SMWDataValueFactory::getInstance()->newPropertyValueByLabel( $propname );
+		$property = SMWDataValueFactory::getInstance()->newPropertyValueByLabel(
+			str_replace( [ '_' ], [ ' ' ], $propname )
+		);
 
-		$options = new SMWRequestOptions();
-		$options->limit = $limit;
-		$options->offset = 0;
-		$options->sort = true;
+		$applicationFactory = SMW\ApplicationFactory::getInstance();
+
+		$requestOptions = [
+			'limit'    => $limit,
+			'offset'   => $offset,
+			'property' => $propname,
+			'search'    => $query,
+			'nearbySearchForType' => $applicationFactory->getSettings()->get( 'smwgSearchByPropertyFuzzy' )
+		];
+
+		$requestOptions = new SMWRequestOptions();
+		$requestOptions->sort = true;
+		$requestOptions->setLimit( $limit );
+		$requestOptions->setOffset( $offset );
 
 		if ($query) {
-			$options->addStringCondition( $query, SMWStringCondition::STRCOND_MID);
+			$requestOptions->addStringCondition($query, SMWStringCondition::COND_MID);
 		}
 
-		$results = SMW\StoreFactory::getStore()->getPropertyValues( null, $property->getDataItem(), $options );
+		$results = $applicationFactory->getStore()->getPropertyValues(
+			null,
+			$pageRequestOptions->property->getDataItem(),
+			$requestOptions
+		);
 
-		foreach ( $results as $di ) {
+		foreach ( $results as $result ) {
 
-			$dv = SMWDataValueFactory::getInstance()->newDataValueByItem( $di, $property->getDataItem() );
+			$dv = SMWDataValueFactory::getInstance()->newDataValueByItem( $result, $property->getDataItem() );
 			$res[] = $dv->getLongHTMLText( null );
 		}
 
