@@ -3,7 +3,7 @@
 class WfTutorialUtils {
 
 	static function getFields($content) {
-		$pattern = "/\|([_a-zA-Z0-9\-]+)\=/";
+		$pattern = "/\|([_a-zA-Z0-9\-\s]+)\=/";
 		preg_match_all($pattern, $content, $matches);
 		if($matches) {
 			return $matches[1];
