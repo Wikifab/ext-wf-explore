@@ -53,18 +53,10 @@ class ApiGetPropertyValues extends ApiBase {
 		$res = [];
 
 		$property = SMWDataValueFactory::getInstance()->newPropertyValueByLabel(
-			str_replace( [ '_' ], [ ' ' ], $propname )
+		    str_replace( [ '_' ], [ ' ' ], $propname )
 		);
 
 		$applicationFactory = SMW\ApplicationFactory::getInstance();
-
-		$requestOptions = [
-			'limit'    => $limit,
-			'offset'   => $offset,
-			'property' => $propname,
-			'search'    => $query,
-			'nearbySearchForType' => $applicationFactory->getSettings()->get( 'smwgSearchByPropertyFuzzy' )
-		];
 
 		$requestOptions = new SMWRequestOptions();
 		$requestOptions->sort = true;
@@ -75,11 +67,7 @@ class ApiGetPropertyValues extends ApiBase {
 			$requestOptions->addStringCondition($query, SMWStringCondition::COND_MID);
 		}
 
-		$results = $applicationFactory->getStore()->getPropertyValues(
-			null,
-			$pageRequestOptions->property->getDataItem(),
-			$requestOptions
-		);
+		$results = \SMW\StoreFactory::getStore()->getPropertyValues( null, $property->getDataItem(), $requestOptions );
 
 		foreach ( $results as $result ) {
 
