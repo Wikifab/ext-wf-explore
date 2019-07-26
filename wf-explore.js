@@ -499,4 +499,8 @@ $( document ).ready(function () {
     $('.searchresults').each(function() {
 		explores.push(new Explore(this));
 	});
+
+	$('.ExploreTreeInput').each(function () {
+		$(this).applyDynatree();
+	});
 });
