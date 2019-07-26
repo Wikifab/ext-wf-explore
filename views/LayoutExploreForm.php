@@ -90,44 +90,74 @@ if (count($filtersData) > 0):?>
 			$nbPerColone = ceil(count($categoryDetails['values']) / $nbcolone);
 			$nbBootstrap = ceil(12 / $nbcolone);
 			$colCount = 0;
+			if($categoryDetails['name'] == 'Catégories'){
 			?>
-			<ul class="dropdown-menu mega-dropdown-menu dropdown-menu-<?php echo $nbcolone ?>cols">
+              <ul class="WfFormTree dropdown-menu mega-dropdown-menu dropdown-menu-<?php echo $nbcolone ?>cols">
+                  <div class="ExploreTreeInput">
+                      <ul class="dynatree-container">
+                          <?php
+                            foreach ($categoryDetails['values'] as $key => $value){
+                          $inputName = "wf-expl-$category-" . $value['id'];
+                          $pattern = '/[^0-9a-zA-Z\-_]/i';
+                          $replacement = '-';
+                          $inputId = preg_replace($pattern, $replacement, $inputName);
+                          ?>
+                          <li id="<?php echo $inputId ?>" data="'expand': true">
+                              <input id='<?php echo $inputId; ?>' name="<?php echo $inputName; ?>"
+                                                                 type="checkbox"
+                                  <?php echo isset($selectedOptions[$category][$value['id']]) ? 'checked="checked"' : ''; ?>
+                                                                 autocomplete="off"><?php echo $value['name']; ?>
+                          </li>
+                          <?php
+                            }
+                          ?>
+                      </ul>
+                  </div>
+              </ul>
+            <?php
+            } else {
+			?>
+              <ul class="dropdown-menu mega-dropdown-menu dropdown-menu-<?php echo $nbcolone ?>cols">
+                  <div class="row">
+					  <?php
+					  foreach ($categoryDetails['values'] as $key => $value) {
+						  $inputName = "wf-expl-$category-" . $value['id'];
+						  $pattern = '/[^0-9a-zA-Z\-_]/i';
+						  $replacement = '-';
+						  $inputId = preg_replace($pattern, $replacement, $inputName);
 
+						  $colCount++;
+						  if($colCount > $nbcolone) {
+							  echo '</div><div class="row">';
+							  $colCount = 1;
+						  }
+						  ?>
+                          <div class="col-sm-<?php echo $nbBootstrap; ?> col-xs-12">
+                              <div class="btn-group" data-toggle="buttons">
+                                  <label id='Label<?php echo $inputId; ?>'
+                                         class="btn btn-primary <?php echo isset($selectedOptions[$category][$value['id']]) ? 'active' : ''; ?>">
+                                      <input id='<?php echo $inputId; ?>' name="<?php echo $inputName; ?>"
+                                             type="checkbox"
+										  <?php echo isset($selectedOptions[$category][$value['id']]) ? 'checked="checked"' : ''; ?>
+                                             autocomplete="off">
+									  <?php echo $value['name'] ?>
+                                  </label>
+                              </div>
+                          </div>
 
-			<div class="row">
-				<?php
-				foreach ($categoryDetails['values'] as $key => $value) {
-					$inputName = "wf-expl-$category-" . $value['id'];
-					$pattern = '/[^0-9a-zA-Z\-_]/i';
-					$replacement = '-';
-					$inputId = preg_replace($pattern, $replacement, $inputName);
+					  <?php } ?>
+                  </div>
+              </ul>
+            <?php
+                  }
+            ?>
 
-					$colCount++;
-					if($colCount > $nbcolone) {
-						echo '</div><div class="row">';
-						$colCount = 1;
-					}
-					?>
-					<div class="col-sm-<?php echo $nbBootstrap; ?> col-xs-12">
-						<div class="btn-group" data-toggle="buttons">
-						  <label id='Label<?php echo $inputId; ?>' class="btn btn-primary <?php echo isset($selectedOptions[$category][$value['id']]) ? 'active' : ''; ?>">
-						    <input id='<?php echo $inputId; ?>' name="<?php echo $inputName; ?>"
-						    		type="checkbox"
-						    		<?php echo isset($selectedOptions[$category][$value['id']]) ? 'checked="checked"' : ''; ?>
-						    		autocomplete="off">
-						     <?php echo $value['name'] ?>
-						  </label>
-						</div>
-					</div>
-
-				<?php } ?>
-			</div>
-			</ul>
 	      </li>
 		 </ul>
 	 	</div>
 		<?php endif;?>
 	<?php endforeach; ?>
+
 	<div class="WFfilter-filters">
 		<ul class="nav nav-pills" role="tablist">
 	      <li class="dropdown mega-dropdown">
@@ -270,15 +300,28 @@ if (count($filtersData) > 0):?>
 		}
 
 		echo ' <span class="category-filter-title">' . $filtersData[$category]['name'] . ' : </span>';
-		foreach ($values as $id => $value) {
-			$inputId = "wf-expl-$category-" . $id;
-			$pattern = '/[^0-9a-zA-Z\-_]/i';
-			$replacement = '-';
-			$inputId = preg_replace($pattern, $replacement, $inputId);
-			echo ' <span class="tag label label-default">'
-				. $value['valueName']
-				. ' <span class="remove" data-role="remove" data-inputId="' . $inputId . '"> '
-				. 'x</span></span> ';
+		if($filtersData[$category]['name'] == 'Catégories'){
+			foreach ($values as $id => $value) {
+				$inputId = "wf-expl-$category-" . $id;
+				$pattern = '/[^0-9a-zA-Z\-_]/i';
+				$replacement = '-';
+				$inputId = preg_replace($pattern, $replacement, $inputId);
+				echo ' <span class="tag label label-default">'
+					. $value['valueName']
+					. ' <span class="remove" data-role="categoryRemove" data-inputId="' . $inputId . '"> '
+					. 'x</span></span> ';
+			}
+        } else {
+			foreach ($values as $id => $value) {
+				$inputId = "wf-expl-$category-" . $id;
+				$pattern = '/[^0-9a-zA-Z\-_]/i';
+				$replacement = '-';
+				$inputId = preg_replace($pattern, $replacement, $inputId);
+				echo ' <span class="tag label label-default">'
+					. $value['valueName']
+					. ' <span class="remove" data-role="remove" data-inputId="' . $inputId . '"> '
+					. 'x</span></span> ';
+			}
 		}
 	}?>
 <span></span>
