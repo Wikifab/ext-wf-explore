@@ -190,6 +190,12 @@ Explore.prototype.setHandlerOnRemoveTags = function() {
 				form.find('#Label' + inputID).button('toggle');
 				break;
 
+			case 'categoryRemove':
+				var input = form.find('#' + inputID);
+				input.attr('checked', false);
+				input.parents('.dynatree-selected').removeClass('dynatree-selected');
+				break;
+
 			case 'dateRemove':
 				form.find('#'+inputID).val('');
 				break;

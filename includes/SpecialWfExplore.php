@@ -99,7 +99,7 @@ class SpecialWfExplore extends SpecialPage {
 			'mediawiki.special', 'mediawiki.special.search', 'mediawiki.ui', 'mediawiki.ui.button',
 			'mediawiki.ui.input',
 		) );
-		$out->addModuleScripts( 'ext.wikifab.wfExplore.js' );
+		$out->addModules( ['ext.wikifab.wfexplore.dynatree.js', 'ext.wikifab.wfExplore.js'] );
 
 		// Strip underscores from title parameter; most of the time we'll want
 		// text form here. But don't strip underscores from actual text params!
