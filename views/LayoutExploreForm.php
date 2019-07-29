@@ -133,18 +133,8 @@ if (count($filtersData) > 0):?>
 						  }
 						  ?>
                           <div class="col-sm-<?php echo $nbBootstrap; ?> col-xs-12">
-                              <div class="btn-group" data-toggle="buttons">
-                                  <label id='Label<?php echo $inputId; ?>'
-                                         class="btn btn-primary <?php echo isset($selectedOptions[$category][$value['id']]) ? 'active' : ''; ?>">
-                                      <input id='<?php echo $inputId; ?>' name="<?php echo $inputName; ?>"
-                                             type="checkbox"
-										  <?php echo isset($selectedOptions[$category][$value['id']]) ? 'checked="checked"' : ''; ?>
-                                             autocomplete="off">
-									  <?php echo $value['name'] ?>
-                                  </label>
-                              </div>
+                              <div class="btn-group" data-toggle="buttons"><label id="Label<?php echo $inputId; ?>" class="btn btn-primary <?php echo isset($selectedOptions[$category][$value['id']]) ? 'active' : ''; ?>"><input id="<?php echo $inputId; ?>" name="<?php echo $inputName; ?>" type="checkbox" <?php echo isset($selectedOptions[$category][$value['id']]) ? 'checked="checked"' : ''; ?> autocomplete="off"><?php echo $value['name'] ?></label></div>
                           </div>
-
 					  <?php } ?>
                   </div>
               </ul>
