@@ -96,19 +96,16 @@ if (count($filtersData) > 0):?>
                   <div class="ExploreTreeInput">
                       <ul class="dynatree-container">
                           <?php
-                            foreach ($categoryDetails['values'] as $key => $value){
-                          $inputName = "wf-expl-$category-" . $value['id'];
-                          $pattern = '/[^0-9a-zA-Z\-_]/i';
-                          $replacement = '-';
-                          $inputId = preg_replace($pattern, $replacement, $inputName);
-                          ?>
-                          <li id="<?php echo $inputId ?>" data="'expand': true">
-                              <input id='<?php echo $inputId; ?>' name="<?php echo $inputName; ?>"
-                                                                 type="checkbox"
-                                  <?php echo isset($selectedOptions[$category][$value['id']]) ? 'checked="checked"' : ''; ?>
-                                                                 autocomplete="off"><?php echo $value['name']; ?>
-                          </li>
-                          <?php
+                          	$categoriesSub = CategoryTreeCore::getSubCategories('Categories');
+                            if(class_exists('CategoryManagerCore')) {
+								foreach ($categoriesSub as $key => $categorySub) {
+                                    $categoriesSub[$key] = CategoryManagerCore::clean($categorySub);
+								}
+							}
+                            foreach ($categoryDetails['values'] as $key => $value) {
+                                if(array_search($value['id'], $categoriesSub) !== false){
+                                    echo WfExploreCore::categoryToHtml($category, $value['id'], $value['name'], $selectedOptions);
+                                }
                             }
                           ?>
                       </ul>

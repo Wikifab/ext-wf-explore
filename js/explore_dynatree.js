@@ -45,9 +45,8 @@
 				} else if ( targetType === "checkbox" ||
 					targetType === "title" ) {
 					dtNode.toggleSelect();
+					$(this.$tree).parents('#Category-form').removeClass('open');
 				}
-				$(this.$tree).parents('#Category-form').removeClass('open');
-
 				return false;
 			},
 
