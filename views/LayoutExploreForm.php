@@ -97,10 +97,8 @@ if (count($filtersData) > 0):?>
                       <ul class="dynatree-container">
                           <?php
                           	$categoriesSub = CategoryTreeCore::getSubCategories('Categories');
-                            if(class_exists('CategoryManagerCore')) {
-								foreach ($categoriesSub as $key => $categorySub) {
-                                    $categoriesSub[$key] = CategoryManagerCore::clean($categorySub);
-								}
+							foreach ($categoriesSub as $key => $categorySub) {
+                                $categoriesSub[$key] = $categorySub);
 							}
                             foreach ($categoryDetails['values'] as $key => $value) {
                                 if(array_search($value['id'], $categoriesSub) !== false){
