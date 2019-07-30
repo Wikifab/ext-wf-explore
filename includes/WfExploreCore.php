@@ -241,6 +241,11 @@ class WfExploreCore {
 				$values = $filter['values'];
 				if(isset($filter ['translate_prefix'])) {
 					foreach ($values as $key => $value) {
+						if($filterName === "Category"){
+							if(class_exists('CategoryManagerCore')){
+								$value = CategoryManagerCore::clean($value);
+							}
+						}
 						$values [$key] = wfMessage($filter ['translate_prefix'] . $value)->text();
 					}
 				}
