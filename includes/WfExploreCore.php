@@ -782,7 +782,7 @@ class WfExploreCore {
 
 
 		foreach ($results as $result){
-			if(isset($result->getTitle())){
+			if($result->getTitle() !== null){
 				$page = WikiPage::factory( $result->getTitle() );
 			}
 			
