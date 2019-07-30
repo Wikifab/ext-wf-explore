@@ -98,7 +98,7 @@ if (count($filtersData) > 0):?>
                           <?php
                           	$categoriesSub = CategoryTreeCore::getSubCategories('Categories');
 							foreach ($categoriesSub as $key => $categorySub) {
-                                $categoriesSub[$key] = $categorySub);
+                                $categoriesSub[$key] = $categorySub;
 							}
                             foreach ($categoryDetails['values'] as $key => $value) {
                                 if(array_search($value['id'], $categoriesSub) !== false){
