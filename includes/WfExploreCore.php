@@ -962,7 +962,6 @@ class WfExploreCore {
 			foreach ($subCategories as $subCategory){
 				if(class_exists('CategoryManagerCore')){
 					$title = Title::newFromText($subCategory);
-					$subCategory = CategoryManagerCore::clean($subCategory);
 					$categoryName = CategoryManagerCore::getTranslatedCategoryTitle($title);
 					$out .= self::categoryToHtml($type, $subCategory, $categoryName, $selectedOptions);
 				} else {
