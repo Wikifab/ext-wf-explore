@@ -90,7 +90,7 @@ if (count($filtersData) > 0):?>
 			$nbPerColone = ceil(count($categoryDetails['values']) / $nbcolone);
 			$nbBootstrap = ceil(12 / $nbcolone);
 			$colCount = 0;
-			if($categoryDetails['name'] == 'Catégories'){
+			if($categoryDetails['id'] == 'Category'){
 			?>
               <ul class="WfFormTree dropdown-menu mega-dropdown-menu dropdown-menu-<?php echo $nbcolone ?>cols">
                   <div class="ExploreTreeInput">
