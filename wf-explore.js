@@ -501,7 +501,8 @@ $( document ).ready(function () {
 	});
 
 	$('.ExploreTreeInput').each(function () {
-		$(this).dynatree({
+		var node = $(this);
+		node.dynatree({
 			checkbox: true,
 			minExpandLevel: 1,
 			classNames: {
@@ -525,7 +526,7 @@ $( document ).ready(function () {
 			// selection.
 			onSelect: function (select, dtNode) {
 				var inputkey = dtNode.data.key;
-				$(this).find("[id='" + inputkey + "']").attr("checked", select);
+				node.find("[id='" + inputkey + "']").attr("checked", select);
 				var form = $(this.$tree).parents('form:first');
 				form.submit();
 			},
@@ -538,12 +539,12 @@ $( document ).ready(function () {
 		});
 
 		// Update real checkboxes according to selections.
-		$.map($(this).dynatree("getTree").getSelectedNodes(),
+		$.map(node.dynatree("getTree").getSelectedNodes(),
 			function (dtNode) {
 				$(dtNode.data.key).attr("checked", true);
 				dtNode.activate();
 			});
-		var activeNode = $(this).dynatree("getTree").getActiveNode();
+		var activeNode = node.dynatree("getTree").getActiveNode();
 		if (activeNode !== null) {
 			activeNode.deactivate();
 		}
