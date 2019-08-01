@@ -43,8 +43,7 @@ $wgResourceModules['ext.wikifab.wfexplore.dynatree.js'] = array(
 	'dependencies' => array('jquery.ui.widget'),
 	'scripts' => array(
 		'js/jquery.dynatree.js',
-		'js/explore_dynatree.js',
-		'js/selectize.js'
+		'js/explore_dynatree.js'
 	),
 	'styles' => 'css/ui.dynatree.css',
 	'localBasePath' => __DIR__,
