@@ -31,7 +31,7 @@ class WfExploreTag {
 			'mediawiki.special', 'mediawiki.special.search', 'mediawiki.ui', 'mediawiki.ui.button',
 			'mediawiki.ui.input',
 		) );
-		$input->getOutput ()->addModules( array('ext.wikifab.wfexplore.dynatree.js', 'ext.wikifab.wfExplore.js') );
+		$input->getOutput ()->addModules( array('ext.wikifab.wfExplore.js') );
 
 		$WfExploreCore = new WfExploreCore();
 

@@ -39,25 +39,15 @@ $wgExploreDefaultsFieldsDisplayValues = [
 
 $wgAPIModules['exploregetpropertyvalues'] = 'ApiGetPropertyValues';
 
-$wgResourceModules['ext.wikifab.wfexplore.dynatree.js'] = array(
-	'dependencies' => array('jquery.ui.widget'),
-	'scripts' => array(
-		'js/jquery.dynatree.js',
-		'js/explore_dynatree.js',
-		'js/selectize.js'
-	),
-	'styles' => 'css/ui.dynatree.css',
-	'localBasePath' => __DIR__,
-	'remoteExtPath' => 'Explore',
-);
-
 $wgResourceModules['ext.wikifab.wfExplore.js'] = array(
 		'scripts' => array(
+			'js/jquery.dynatree.js',
 			'js/selectize.js',
 			'wf-explore.js',
 			'js/form-fulltext-autocompletion.js'
 		),
 		'styles' => array(
+			'css/ui.dynatree.css',
 			'css/normalize.css',
 			'wf-explore.css'
 		),
