@@ -1,7 +1,5 @@
 <?php
 
-use ApiBase;
-
 class ApiGetPropertyValues extends ApiBase {
 
 	public function __construct($query, $moduleName) {
@@ -54,22 +52,24 @@ class ApiGetPropertyValues extends ApiBase {
 
 		$res = [];
 
-		$property = SMWPropertyValue::makeUserProperty( $propname );
-
-		$options = new SMWRequestOptions();
-		$options->limit = $limit;
-		$options->offset = 0;
-		$options->sort = true;
+		$property = SMWDataValueFactory::getInstance()->newPropertyValueByLabel(
+		    str_replace( [ '_' ], [ ' ' ], $propname )
+		);
+		
+		$requestOptions = new SMWRequestOptions();
+		$requestOptions->sort = true;
+		$requestOptions->setLimit( $limit );
+		$requestOptions->setOffset( $offset );
 
 		if ($query) {
-			$options->addStringCondition( $query, SMWStringCondition::STRCOND_MID);
+			$requestOptions->addStringCondition($query, SMWStringCondition::COND_MID);
 		}
 
-		$results = \SMW\StoreFactory::getStore()->getPropertyValues( null, $property->getDataItem(), $options );
+		$results = \SMW\StoreFactory::getStore()->getPropertyValues( null, $property->getDataItem(), $requestOptions );
 
-		foreach ( $results as $di ) {
+		foreach ( $results as $result ) {
 
-			$dv = \SMW\DataValueFactory::getInstance()->newDataValueByItem( $di, $property->getDataItem() );
+			$dv = SMWDataValueFactory::getInstance()->newDataValueByItem( $result, $property->getDataItem() );
 			$res[] = $dv->getLongHTMLText( null );
 		}
 
