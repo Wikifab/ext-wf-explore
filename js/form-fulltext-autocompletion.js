@@ -54,7 +54,7 @@
 						error: function() {
 							callback();
 						}
-					})
+					});
 				}
 		    },
 		    onItemAdd: function(value, $item) {
