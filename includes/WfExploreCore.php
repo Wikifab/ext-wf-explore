@@ -782,7 +782,9 @@ class WfExploreCore {
 
 
 		foreach ($results as $result){
-			$page = WikiPage::factory( $result->getTitle() );
+			if($result->getTitle()){
+				$page = WikiPage::factory( $result->getTitle() );
+			}
 
 			if($page->getContent()) {
 				$preloadContent = $page->getContent()->getWikitextForTransclusion();
