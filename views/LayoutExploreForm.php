@@ -257,7 +257,7 @@ if (count($filtersData) > 0):?>
 			echo ' <span class="category-filter-title">' . $filtersData[$category]['name'] . ' : </span>';
 			echo ' <span class="tag label label-default">'
 					. $values['value']
-					. ' <span class="remove" data-role="dateRemove" data-inputId="' . $inputId . '"> '
+					. ' <span class="remove" data-role="textRemove" data-inputId="' . $inputId . '"> '
 					. 'x</span></span> ';
 			continue;
 		}

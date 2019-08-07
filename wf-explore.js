@@ -153,14 +153,11 @@ Explore.prototype.setHandlerOnRemoveTags = function() {
 				break;
 
 			case 'textRemove':
-				var valueToRemove = $( this ) . attr('data-textValue');
-				var values = form.find('#' + inputID).val().split(',');
-				index = values.indexOf(valueToRemove);
-				if (index > -1) {
-					values.splice(index, 1);
-				}
-				values = values.join();
-				form.find('#' + inputID).val(values);
+				form.find('#'+inputID).val('');
+				var selectizeInput = $('#'+inputID+'-selectized');
+				var press = jQuery.Event("keydown");
+				press.keyCode = 8;
+				selectizeInput.trigger(press);
 				break;
 		}
 
