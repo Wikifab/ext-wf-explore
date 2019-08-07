@@ -68,7 +68,7 @@ class ApiGetPropertyValues extends ApiBase {
 			if($propname === 'Page creator'){
 				$propertyValue = explode(':', $propertyValue)[1];
 			}
-			if(preg_match('/.*'.$query.'.*/i', $propertyValue)) {
+			if(stripos($propertyValue, $query) !== false){
 				$res[] = $propertyValue;
 			}
 		}
