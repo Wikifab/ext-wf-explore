@@ -158,6 +158,11 @@ Explore.prototype.setHandlerOnRemoveTags = function() {
 				var press = jQuery.Event("keydown");
 				press.keyCode = 8;
 				selectizeInput.trigger(press);
+				//The keypress event puts the focus on the input, showing the dropdown
+				//So we trigger the blur event to lose the focus
+				setTimeout(function () {
+					selectizeInput.blur();
+				}, 0);
 				break;
 		}
 
