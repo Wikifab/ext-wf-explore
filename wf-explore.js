@@ -190,6 +190,12 @@ Explore.prototype.setHandlerOnRemoveTags = function() {
 				form.find('#Label' + inputID).button('toggle');
 				break;
 
+			case 'categoryRemove':
+				var input = form.find('#' + inputID);
+				input.attr('checked', false);
+				input.parents('.dynatree-selected').removeClass('dynatree-selected');
+				break;
+
 			case 'dateRemove':
 				form.find('#'+inputID).val('');
 				break;
@@ -492,5 +498,55 @@ $( document ).ready(function () {
 
     $('.searchresults').each(function() {
 		explores.push(new Explore(this));
+	});
+
+	$('.ExploreTreeInput').each(function () {
+		var node = $(this);
+		node.dynatree({
+			checkbox: true,
+			minExpandLevel: 1,
+			classNames: {
+				checkbox: "dynatree-checkbox",
+				selected: "dynatree-selected"
+			},
+			selectMode: 2,
+			onClick: function (dtNode, event) {
+				var targetType = dtNode.getEventTargetType(event);
+				if ( targetType === "expander" ) {
+					dtNode.toggleExpand();
+				} else if ( targetType === "checkbox" ||
+					targetType === "title" ) {
+					dtNode.toggleSelect();
+					$(this.$tree).parents('#Category-form').removeClass('open');
+				}
+				return false;
+			},
+
+			// Un/check checkboxes/radiobuttons recursively after
+			// selection.
+			onSelect: function (select, dtNode) {
+				var inputkey = dtNode.data.key;
+				node.find("[id='" + inputkey + "']").attr("checked", select);
+				var form = $(this.$tree).parents('form:first');
+				form.submit();
+			},
+			// Prevent reappearing of checkbox when node is
+			// collapsed.
+			onExpand: function (select, dtNode) {
+				$(dtNode.data.key).attr("checked",
+					dtNode.isSelected()).addClass("hidden");
+			}
+		});
+
+		// Update real checkboxes according to selections.
+		$.map(node.dynatree("getTree").getSelectedNodes(),
+			function (dtNode) {
+				$(dtNode.data.key).attr("checked", true);
+				dtNode.activate();
+			});
+		var activeNode = node.dynatree("getTree").getActiveNode();
+		if (activeNode !== null) {
+			activeNode.deactivate();
+		}
 	});
 });

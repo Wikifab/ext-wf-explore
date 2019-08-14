@@ -39,14 +39,15 @@ $wgExploreDefaultsFieldsDisplayValues = [
 
 $wgAPIModules['exploregetpropertyvalues'] = 'ApiGetPropertyValues';
 
-
 $wgResourceModules['ext.wikifab.wfExplore.js'] = array(
 		'scripts' => array(
+			'js/jquery.dynatree.js',
 			'js/selectize.js',
 			'wf-explore.js',
 			'js/form-fulltext-autocompletion.js'
 		),
 		'styles' => array(
+			'css/ui.dynatree.css',
 			'css/normalize.css',
 			'wf-explore.css'
 		),

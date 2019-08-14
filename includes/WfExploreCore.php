@@ -241,6 +241,11 @@ class WfExploreCore {
 				$values = $filter['values'];
 				if(isset($filter ['translate_prefix'])) {
 					foreach ($values as $key => $value) {
+						if($filterName === "Category"){
+							if(class_exists('CategoryManagerCore')){
+								$value = CategoryManagerCore::clean($value);
+							}
+						}
 						$values [$key] = wfMessage($filter ['translate_prefix'] . $value)->text();
 					}
 				}
@@ -782,9 +787,11 @@ class WfExploreCore {
 
 
 		foreach ($results as $result){
-			$page = WikiPage::factory( $result->getTitle() );
-
-			if($page->getContent()) {
+			if($result->getTitle() !== null){
+				$page = WikiPage::factory( $result->getTitle() );
+			}
+			
+			if(isset($page) && $page->getContent()) {
 				$preloadContent = $page->getContent()->getWikitextForTransclusion();
 			} else {
 				$preloadContent = '';
@@ -925,6 +932,45 @@ class WfExploreCore {
 
 		$out .= "</div>\n" ;
 
+		return $out;
+	}
+
+	/**
+	 * Get the Html for each category for the category filter
+	 * @param $type
+	 * @param $categoryId
+	 * @param $categoryName
+	 * @param $selectedOptions
+	 * @return string
+	 */
+	public static function categoryToHtml($type, $categoryId, $categoryName, $selectedOptions){
+		$out = '';
+		$inputName = "wf-expl-$type-" . $categoryId;
+		$pattern = '/[^0-9a-zA-Z\-_]/i';
+		$replacement = '-';
+		$inputId = preg_replace($pattern, $replacement, $inputName);
+		$out .= '<li id="'.$inputId.'" data="\'expand\': true">';
+		if(isset($selectedOptions[$type][$categoryId])){
+			$out .= '<input id="'.$inputId.'" name="'.$inputName.'" type="checkbox" checked="checked" autocomplete="off">';
+		} else {
+			$out .= '<input id="'.$inputId.'" name="'.$inputName.'" type="checkbox" autocomplete="off">';
+		}
+		$out .= $categoryName;
+		$out .= '<ul>';
+		$subCategories = CategoryTreeCore::getSubCategories($categoryId);
+		if(sizeof($subCategories) > 0){
+			foreach ($subCategories as $subCategory){
+				if(class_exists('CategoryManagerCore')){
+					$title = Title::newFromText($subCategory);
+					$categoryName = CategoryManagerCore::getTranslatedCategoryTitle($title);
+					$out .= self::categoryToHtml($type, $subCategory, $categoryName, $selectedOptions);
+				} else {
+					$out .= self::categoryToHtml($type, $subCategory, $subCategory, $selectedOptions);
+				}
+			}
+		}
+		$out .= '</ul>';
+		$out .= '</li>';
 		return $out;
 	}
 }
