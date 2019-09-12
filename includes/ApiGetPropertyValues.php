@@ -1,7 +1,5 @@
 <?php
 
-use ApiBase;
-
 class ApiGetPropertyValues extends ApiBase {
 
 	public function __construct($query, $moduleName) {
@@ -37,10 +35,9 @@ class ApiGetPropertyValues extends ApiBase {
 
 		$propname = $this->getMain()->getVal( 'propname' );
 		$offset = $this->getMain()->getVal( 'offset' ) ? $this->getMain()->getVal( 'offset' ) : 0;
-		$limit = $this->getMain()->getVal( 'limit' ) ? $this->getMain()->getVal( 'limit' ) : 5;
 		$query = $this->getMain()->getVal( 'query' ) ? $this->getMain()->getVal( 'query' ) : '';
 
-		$propertyValues = $this->getPropertyValues( $propname, $query, $offset, $limit );
+		$propertyValues = $this->getPropertyValues( $propname, $query, $offset );
 
 
 		$this->getResult()->addValue ( null, $this->getModuleName(), $propertyValues );
@@ -54,23 +51,26 @@ class ApiGetPropertyValues extends ApiBase {
 
 		$res = [];
 
-		$property = SMWPropertyValue::makeUserProperty( $propname );
+		$property = SMWDataValueFactory::getInstance()->newPropertyValueByLabel(
+		    str_replace( [ '_' ], [ ' ' ], $propname )
+		);
+		
+		$requestOptions = new SMWRequestOptions();
+		$requestOptions->sort = true;
+		$requestOptions->setOffset( $offset );
 
-		$options = new SMWRequestOptions();
-		$options->limit = $limit;
-		$options->offset = 0;
-		$options->sort = true;
+		$results = \SMW\StoreFactory::getStore()->getPropertyValues( null, $property->getDataItem(), $requestOptions );
 
-		if ($query) {
-			$options->addStringCondition( $query, SMWStringCondition::STRCOND_MID);
-		}
+		foreach ( $results as $result ) {
 
-		$results = \SMW\StoreFactory::getStore()->getPropertyValues( null, $property->getDataItem(), $options );
-
-		foreach ( $results as $di ) {
-
-			$dv = \SMW\DataValueFactory::getInstance()->newDataValueByItem( $di, $property->getDataItem() );
-			$res[] = $dv->getLongHTMLText( null );
+			$dv = SMWDataValueFactory::getInstance()->newDataValueByItem( $result, $property->getDataItem() );
+			$propertyValue = $dv->getLongHTMLText( null );
+			if($propname === 'Page creator'){
+				$propertyValue = explode(':', $propertyValue)[1];
+			}
+			if(stripos($propertyValue, $query) !== false){
+				$res[] = $propertyValue;
+			}
 		}
 
 		return $res;

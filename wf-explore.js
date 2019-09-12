@@ -1,45 +1,3 @@
-//Page Creator autocompletion
-
-(function() {
-
-	$( document ).ready(function() {
-		$("#wf-expl-Page_creator-fulltext").autocomplete({
-
-		    source : function(requete, reponse){
-
-			    $.ajax({
-
-			    	type: "POST",
-					url: mw.util.wikiScript('api'),
-					data: {
-						action:'pfautocomplete', //PageForms
-						format:'json',
-						namespace: 'User',
-						substr: $("#wf-expl-Page_creator-fulltext").val()
-					},
-				    dataType: 'json',
-
-		            success : function(data){
-		            	reponse($.map(data.pfautocomplete, function(obj){
-		                    return obj.title;
-		                }));
-		            }
-
-			    });
-
-		    },
-		    select: function( event, ui ) {
-		    	$("#wf-expl-Page_creator-fulltext").val(ui.item.value);
-        		var form = $(this).parents('form:first');
-        		form.submit();
-      		}
-
-		});
-
-	});
-
-})();
-
 var explores = [];
 
 function Explore(container) {
@@ -201,14 +159,16 @@ Explore.prototype.setHandlerOnRemoveTags = function() {
 				break;
 
 			case 'textRemove':
-				var valueToRemove = $( this ) . attr('data-textValue');
-				var values = form.find('#' + inputID).val().split(',');
-				index = values.indexOf(valueToRemove);
-				if (index > -1) {
-					values.splice(index, 1);
-				}
-				values = values.join();
-				form.find('#' + inputID).val(values);
+				form.find('#'+inputID).val('');
+				var selectizeInput = $('#'+inputID+'-selectized');
+				var press = jQuery.Event("keydown");
+				press.keyCode = 8;
+				selectizeInput.trigger(press);
+				//The keypress event puts the focus on the input, showing the dropdown
+				//So we trigger the blur event to lose the focus
+				setTimeout(function () {
+					selectizeInput.blur();
+				}, 0);
 				break;
 		}
 

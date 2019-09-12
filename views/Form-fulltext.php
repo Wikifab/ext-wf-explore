@@ -12,20 +12,12 @@ $valueSearch = isset($selectedOptions[$category]['value']) ? $selectedOptions[$c
 ?>
 <div class="WFfilter-property">
 	<ul class="nav nav-pills" role="tablist">
-		<li class="dropdown mega-dropdown dk-text-property" id="<?php echo $category; ?>-form">
-			<a id="drop5" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-			  <?php echo $categoryDetails['name'] ?>
-			  <span class="caret"></span>
-			</a>
-			<ul class="dropdown-menu mega-dropdown-menu dropdown-menu-1cols">
-				<div class="<?php echo htmlspecialchars($bootstrapClass); ?>" >
-					<ul class="nav nav-pills" role="tablist">
-						<li>
-							<input type="text" id="<?php echo htmlspecialchars($inputId); ?>" name="<?php echo htmlspecialchars($inputName); ?>">
-						</li>
-					</ul>
-			 	</div>
-			</ul>
-		</li>
+        <div class="<?php echo htmlspecialchars($bootstrapClass); ?>" >
+            <ul class="nav nav-pills" role="tablist">
+                <li>
+                    <input type="text" id="<?php echo htmlspecialchars($inputId); ?>" name="<?php echo htmlspecialchars($inputName); ?>" placeholder="<?php echo $categoryDetails['name'] ?>">
+                </li>
+            </ul>
+        </div>
 	</ul>
 </div>

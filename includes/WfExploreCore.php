@@ -617,7 +617,7 @@ class WfExploreCore {
 				$searchText = $values['value'];
 				// forbid some special chars :
 				$searchText = str_replace(['[', ']', '*', '~', '%'], [' ',' ',' ',' ','%'], $searchText);
-				$valuesIds = isset($values['category']) && $values['category'] === 'fulltext' ? ["~~" . $searchText . ""] : ["~" . $searchText . ""];
+				$valuesIds = isset($values['category']) && $values['category'] === 'fulltext' ? ["~~" . $searchText . ""] : ["" . $searchText . ""];
 				$andCondition = true;
 				break;
 			case 'date' :
@@ -792,6 +792,7 @@ class WfExploreCore {
 			}
 			
 			if(isset($page) && $page->getContent()) {
+
 				$preloadContent = $page->getContent()->getWikitextForTransclusion();
 			} else {
 				$preloadContent = '';

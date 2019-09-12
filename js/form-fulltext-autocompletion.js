@@ -1,6 +1,6 @@
 ( function ( $, mw ) {
 
-	$(".WFfilter-property [id^='wf-expl-'][id$='-fulltext']").each(function( index ) {
+	$("[id^='wf-expl-'][id$='-fulltext']").not('[type=hidden]').each(function( index ) {
 
 		var regex = RegExp('wf-expl-(.*?)-fulltext');
 
@@ -54,7 +54,7 @@
 						error: function() {
 							callback();
 						}
-					})
+					});
 				}
 		    },
 		    onItemAdd: function(value, $item) {
