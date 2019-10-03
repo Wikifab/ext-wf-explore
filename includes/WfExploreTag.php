@@ -20,7 +20,7 @@ class WfExploreTag {
 
 		// old way to reads params, all params are concatenated in the first one, separated by ','
 		$filters = explode(',', $filters);
-		if(count($filters > 1)) {
+		if( count($filters) > 1 ) {
 			// if only one params, it will set coreclty with the new way to extrct params
 			foreach ($filters as $key) {
 				$options[$key] = true;
