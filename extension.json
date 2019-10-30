@@ -1,0 +1,89 @@
+{
+	"name": "Explore",
+	"author": [
+		"Pierre boutet"
+	],
+	"descriptionmsg": "explore_description",
+	"license-name": "MIT",
+	"type": "other",
+	"callback": "Explore\\Hooks::onExtension",
+	"MessagesDirs": {
+		"WfExplore": [
+			"i18n"
+		]
+	},
+	"ExtensionMessagesFiles": {
+		"ExploreMagic": "WfExplore.magic.php"
+	},
+	"AutoloadClasses": {
+		"Explore\\Hooks": "includes/Hooks.php",
+		"Explore\\InputBox": "includes/InputBox.php",
+		"SpecialWfExplore": "includes/SpecialWfExplore.php",
+		"WfExploreQueryParser": "includes/WfExploreQueryParser.php",
+		"WfExploreTag": "includes/WfExploreTag.php",
+		"WfExploreCore": "includes/WfExploreCore.php",
+		"ApiGetPropertyValues": "includes/ApiGetPropertyValues.php",
+		"WikifabExploreResultFormatter": "includes/WikifabExploreResultFormatter.php",
+		"Skins\\Chameleon\\Components\\ExploreSearchBar": "includes/ChameleonComponents/ExploreSearchBar.php",
+		"WfTutorialUtils": "includes/WfTutorialUtils.php"
+	},
+	"SpecialPages": {
+		"WfExplore": "SpecialWfExplore"
+	},
+	"APIModules": {
+        "exploregetpropertyvalues": "ApiGetPropertyValues"
+    },
+	"ResourceModules": {
+		"ext.wikifab.wfExplore.js": {
+			"scripts": [
+				"js/jquery.dynatree.js",
+				"js/selectize.js",
+				"wf-explore.js",
+				"js/form-fulltext-autocompletion.js"
+			],
+			"styles": [
+				"css/ui.dynatree.css",
+				"css/normalize.css",
+				"wf-explore.css"
+			],
+			"messages": [
+					"wfexplore-load-more-tutorials-previous"
+			],
+			"dependencies": [
+					"jquery.ui.datepicker",
+					"jquery.ui.autocomplete"
+			]
+		},
+		"ext.wikifab.wfExplore.css": {
+			"styles": [
+				"wf-explore.css",
+				"css/normalize.css"
+			]
+		},
+		"ext.wikifab.wfexplore": {
+			"dependencies": [
+					"ext.wikifab.wfExplore.css",
+					"ext.wikifab.wfExplore.js"
+			]
+		}
+	},
+	"ResourceFileModulePaths": {
+		"localBasePath": "",
+		"remoteExtPath": "Explore"
+	},
+	"config": {
+		"egWfExploreLayoutForm": "",
+		"wfexploreExtractTags": true,
+		"wgExploreIsLocalized": false,
+		"wfExploreGlobalParsedFunction": false
+	},
+	"Hooks": {
+		"ParserFirstCallInit": [
+			"Explore\\Hooks::onParserFirstCallInit"
+		],
+		"PageRenderingHash": [
+			"Explore\\Hooks::onPageRenderingHash"
+		]
+	},
+	"manifest_version":1
+}
