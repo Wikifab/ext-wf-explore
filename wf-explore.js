@@ -33,9 +33,11 @@ Explore.prototype.onInit = function () {
         var form = $(this); // L'objet jQuery du formulaire
 
         var exploreId = form.attr('data-exploreId');
-        explorePageNumber = 1;
-    	exploreMinPageNumber = 1;
-        form.find('input[name=page]').val(explorePageNumber);
+
+        // reset page number to 1 :
+        explore.explorePageNumber = 1;
+        explore.exploreMinPageNumber = 1;
+        form.find('input[name=page]').val(explore.explorePageNumber);
 
         $('.exploreLoader').show();
         // Envoi de la requête HTTP en mode asynchrone
@@ -115,6 +117,7 @@ Explore.prototype.initPageParam = function() {
 /* function added to add tag with input */
 Explore.prototype.addTag = function(form, value) {
 
+
 	value = value.trim();
 	if( ! value) {
 		return;
@@ -126,6 +129,7 @@ Explore.prototype.addTag = function(form, value) {
 	} else {
 		fieldValue = value;
 	}
+
 	form.find("#wf-expl-Tags").val(fieldValue);
 	// subit form to apply filters
 	form.submit();
@@ -233,7 +237,7 @@ Explore.prototype.changePageParameter = function(paramName, paramValue) {
 
 Explore.prototype.exploreLoadMore = function (direction, e) {
 
-	if($(e.target).parent().prev().children().length > 0){
+	if(e && $(e.target).parent().prev().children().length > 0){
 		var loadMore = $(e.target);
 		var loadSpinner = loadMore.parent().prev().children('.loader');
 		loadMore.html(loadSpinner.html());
