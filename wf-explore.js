@@ -235,14 +235,19 @@ Explore.prototype.changePageParameter = function(paramName, paramValue) {
 
 /* Load More Button */
 
-Explore.prototype.exploreLoadMore = function (direction, e) {
+Explore.prototype.exploreLoadMore = function (direction) {
 
-	if(e && $(e.target).parent().prev().children().length > 0){
-		var loadMore = $(e.target);
-		var loadSpinner = loadMore.parent().prev().children('.loader');
-		loadMore.html(loadSpinner.html());
-		loadSpinner.show();
+	var loadMore;
+	var loadSpinner = (this.$container).find('.loader');
+
+	if (direction == 'up') {
+		loadMore = (this.$container).find('.load-more-previous');
+	} else {
+		loadMore = (this.$container).find('.load-more');
+
 	}
+	loadMore.html(loadSpinner.html());
+	loadSpinner.show();
 
 	var explore = this;
 
@@ -327,7 +332,7 @@ Explore.prototype.exploreLoadMore = function (direction, e) {
 				if(pagenumber > 1) {
 					//$('.searchresults').prepend('<div class="load-more-previous">' + mw.msg( 'wfexplore-load-more-tutorials-previous' ) + '</div>');
 
-					$container.find('.load-more-previous').on('click', function(evt) {
+					explore.$container.find('.load-more-previous').on('click', function(evt) {
 						explore.loadPreviousClick(evt);
 					});
 				}
@@ -410,7 +415,7 @@ Explore.prototype.loadMoreClick = function(e) {
 		}
 	}
 
-	explore.exploreLoadMore('down', e);
+	explore.exploreLoadMore('down');
 };
 
 Explore.prototype.loadPreviousClick = function(e) {
