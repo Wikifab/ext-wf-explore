@@ -285,7 +285,7 @@ if (count($filtersData) > 0):?>
 		}
 
 		echo ' <span class="category-filter-title">' . $filtersData[$category]['name'] . ' : </span>';
-		if($filtersData[$category]['name'] == 'Catégories'){
+		if($filtersData[$category]['id'] == 'Category'){
 			foreach ($values as $id => $value) {
 				$inputId = "wf-expl-$category-" . $id;
 				$pattern = '/[^0-9a-zA-Z\-_]/i';
