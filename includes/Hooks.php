@@ -60,6 +60,9 @@ class Hooks {
 			// if parse function has been used, we add query to cache hash key
 			if (isset($wfExploreGlobalParsedFunction) && $wfExploreGlobalParsedFunction) {
 				foreach ($wgRequest->getValues() as $key => $val) {
+					if (is_array($val)) {
+						$val = md5(json_encode($val));
+					}
 					$confstr .= '-' . $key . "-" . $val;
 				}
 			}
