@@ -86,9 +86,16 @@ if (count($filtersData) > 0):?>
 	        </a>
 			<?php
 
-			$nbcolone = ceil(count($categoryDetails['values']) / 7.0);
-			$nbPerColone = ceil(count($categoryDetails['values']) / $nbcolone);
-			$nbBootstrap = ceil(12 / $nbcolone);
+			$nbValues = count($categoryDetails['values']);
+			if ($nbValues > 0) {
+				$nbcolone = ceil($nbValues / 7.0);
+				$nbPerColone = ceil($nbValues / $nbcolone);
+				$nbBootstrap = ceil(12 / $nbcolone);
+			} else {
+				$nbcolone = 1;
+				$nbPerColone = 1;
+				$nbBootstrap = 1;
+			}
 			$colCount = 0;
 			if($categoryDetails['id'] == 'Category'){
 			?>
@@ -134,7 +141,7 @@ if (count($filtersData) > 0):?>
                   </div>
               </ul>
             <?php
-                  }
+            }
             ?>
 
 	      </li>
