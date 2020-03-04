@@ -7,7 +7,13 @@ class WikifabExploreResultFormatter {
 
 	private $template;
 
+	// overload template enable to change template for one entry
+	private $overloadTemplate;
+
 	private function getTemplate() {
+		if ($this->overloadTemplate) {
+			return $this->overloadTemplate;
+		}
 		if( ! $this->template) {
 			$this->template = $GLOBALS['egChameleonLayoutFileSearchResult'];
 		}
@@ -16,6 +22,10 @@ class WikifabExploreResultFormatter {
 
 	public function setTemplate($template) {
 		$this->template = $template;
+	}
+
+	public function setOverloadTemplate($template) {
+		$this->overloadTemplate = $template;
 	}
 
 	public function setResults(&$results) {
@@ -175,6 +185,7 @@ class WikifabExploreResultFormatter {
 		if( ! $data ) {
 			return '';
 		}
+
 		$pageLang = $mTitle->getPageLanguage()->getCode();
 
 		$data['title'] = $displayTitle;
@@ -195,6 +206,12 @@ class WikifabExploreResultFormatter {
 			$data['creator'] = $creator->getName();
 		}
 		$data['url'] = $mTitle->getLinkURL();
+
+		$template = false;
+
+		Hooks::run( 'Explore-beforeFormatResult', [ $page, &$data, &$template ] );
+
+		$this->setOverloadTemplate($template);
 
 		return $this->formatResult($data);
 
