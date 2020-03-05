@@ -218,31 +218,36 @@ class WikifabExploreResultFormatter {
 	}
 
 	public static function getImageUrl($filename, $annotation = null) {
-			$file = wfFindFile( $filename );
-			$fileUrl = '';
-			if($file) {
-				if ($annotation) {
-					$annotatedImage = new \ImageAnnotator\AnnotatedImage("[[File:$filename]]", $annotation);
+		$file = wfFindFile( $filename );
+		$fileUrl = '';
+		if($file) {
+			if ($annotation) {
+				$annotatedImage = new \ImageAnnotator\AnnotatedImage("[[File:$filename]]", $annotation);
 
-					if ($annotatedImage->exists() && $annotatedImage->hasCroppedImage()) {
-						return $annotatedImage->getImgUrl();
-					}
-				}
-
-				$fileUrl = $file->getUrl();
-				if ( isset($GLOBALS['wgExploreUseThumbs']) &&  $GLOBALS['wgExploreUseThumbs']) {
-					// if possible, we use thumbnail
-					$params = ['width' => 400];
-
-					$mto = $file->transform( $params );
-					if ( $mto && !$mto->isError() ) {
-						// thumb Ok, change the URL to point to a thumbnail.
-						$fileUrl = wfExpandUrl( $mto->getUrl(), PROTO_RELATIVE );
-					}
+				if ($annotatedImage->exists() && $annotatedImage->hasCroppedImage()) {
+					return $annotatedImage->getImgUrl();
 				}
 			}
-			return $fileUrl;
+
+			$fileUrl = $file->getUrl();
+			if ( isset($GLOBALS['wgExploreUseThumbs']) &&  $GLOBALS['wgExploreUseThumbs']) {
+				// if possible, we use thumbnail
+				$params = ['width' => 400];
+
+				$mto = $file->transform( $params );
+				if ( $mto && !$mto->isError() ) {
+					// thumb Ok, change the URL to point to a thumbnail.
+					$fileUrl = wfExpandUrl( $mto->getUrl(), PROTO_RELATIVE );
+				}
+			}
 		}
+		return $fileUrl;
+	}
+
+	public function getUser() {
+		global $wgUser;
+		return $wgUser;
+	}
 
 	public function formatResultPhpTemplate($content) {
 
@@ -255,6 +260,8 @@ class WikifabExploreResultFormatter {
 				}
 			}
 		}
+
+		$user = $this->getUser();
 
 		extract($content);
 		ob_start();
