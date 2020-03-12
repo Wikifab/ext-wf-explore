@@ -188,6 +188,7 @@ class WikifabExploreResultFormatter {
 
 		$pageLang = $mTitle->getPageLanguage()->getCode();
 
+		$data['title_dbkey'] = $mTitle->getPrefixedDbKey();
 		$data['title'] = $displayTitle;
 		$data['codeLang'] = $pageLang == $wgLang->getCode() ? '' : $pageLang ;
 		$data['translatedCodeLang'] = $translatedLang;
