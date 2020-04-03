@@ -261,7 +261,7 @@ class WfExploreCore {
 	 * @return unknown|string[][]|string[][]|Message[][]|unknown[]
 	 */
 	private function getFilters() {
-		global $wfexploreCategoriesByLayout, $wfexploreCategories, $wfexploreDynamicsFilters;
+		global $wfexploreCategoriesByLayout, $wfexploreCategories, $wfexploreDynamicsFilters, $wfexploreDynamicsFiltersByLayout;
 
 		if ($this->filters !== null) {
 			return $this->filters;
@@ -270,6 +270,11 @@ class WfExploreCore {
 		if ( isset($wfexploreCategoriesByLayout) &&  isset($this->params['layout'])
 				&& isset($wfexploreCategoriesByLayout[$this->params['layout']])) {
 			return $wfexploreCategoriesByLayout[$this->params['layout']];
+		}
+
+		if ( isset($wfexploreDynamicsFiltersByLayout) &&  isset($this->params['layout'])
+				&& isset($wfexploreDynamicsFiltersByLayout[$this->params['layout']])) {
+			return $this->getDynamicsFilters($wfexploreDynamicsFiltersByLayout[$this->params['layout']]);
 		}
 
 		// new way do define Filters : use table $wfexploreDynamicsFilters
@@ -790,7 +795,7 @@ class WfExploreCore {
 			if($result->getTitle() !== null){
 				$page = WikiPage::factory( $result->getTitle() );
 			}
-			
+
 			if(isset($page) && $page->getContent()) {
 
 				$preloadContent = $page->getContent()->getWikitextForTransclusion();
