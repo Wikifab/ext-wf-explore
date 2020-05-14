@@ -130,8 +130,8 @@ if (count($filtersData) > 0):?>
 
 						  $colCount++;
 						  if($colCount > $nbcolone) {
-							  echo '</div><div class="row">';
-							  $colCount = 1;
+							  //echo '</div><div class="row">';
+							  $colCount = 0;
 						  }
 						  ?>
                           <div class="col-sm-<?php echo $nbBootstrap; ?> col-xs-12">
