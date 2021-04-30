@@ -847,7 +847,9 @@ class WfExploreCore {
 			$rawQueryArray['sort'] = $wfeSortField;
 			$rawQueryArray['order'] = $order;
 		}
-		SMWQueryProcessor::processFunctionParams( $rawQueryArray, $queryString, $processedParams, $printouts );
+
+		list( $queryString, $processedParams, $printouts ) = SMWQueryProcessor::getComponentsFromFunctionParams( $rawQueryArray, false );
+
 		SMWQueryProcessor::addThisPrintout( $printouts, $processedParams );
 		$processedParams = SMWQueryProcessor::getProcessedParams( $processedParams, $printouts );
 		$queryCount = SMWQueryProcessor::createQuery( $queryString,
